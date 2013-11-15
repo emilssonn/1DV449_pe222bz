@@ -10,6 +10,9 @@ class Producer {
 
 	private $link404;
 
+	/**
+	 * @var \model\Url
+	 */
 	private $url;
 
 	private $city;
@@ -31,14 +34,28 @@ class Producer {
 		$this->lastScraped = $lastScraped;
 	}
 
-	public static function createSimple($id, $name, $link404) {
-		return new \model\Producer($id, $name, $link404);
+	public static function createSimple($id, $name, $url, $city) {
+		return new \model\Producer($id, $name, false, $url, $city);
 	}
 
-	public static function createFull($id, $name, $link404, $url, $city, $imageUrl, $timesScraped, $lastScraped) {
+	public static function createWithError($id, $name) {
+		return new \model\Producer($id, $name, true);
+	}
+
+	public static function createFull($id, $name, $link404, \model\Url $url, $city, $imageUrl, $timesScraped, $lastScraped) {
 		return new \model\Producer($id, $name, $link404, $url, $city, $imageUrl, $timesScraped, $lastScraped);
 	}
 
+	public function setUrl(\model\Url $url) {
+		$this->url = $url;
+	}
 
+	public function setCity($city) {
+		$this->city = $city;
+	}
+
+	public function setImageUrl($imageUrl) {
+		$this->imageUrl = $imageUrl;
+	}
 
 }
