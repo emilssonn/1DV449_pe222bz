@@ -2,8 +2,10 @@
 
 namespace model;
 
-require_once("./Producer.php");
-require_once("./Url.php");
+require_once("./model/Producer.php");
+require_once("./model/Url.php");
+require_once("./model/Image.php");
+require_once("./model/ScrapeDAL.php");
 
 class Scrape {
 
@@ -15,7 +17,7 @@ class Scrape {
 	/**
 	 * @var cURL handle
 	 */
-	private $ch;
+	private $ch = null;
 
 	/**
 	 * @var string
@@ -26,16 +28,12 @@ class Scrape {
 	 * @param string $baseUrl
 	 */
 	public function __construct($baseUrl) {
-		$this->ch = curl_init();
-		if ($this->ch === false)
-			exit("Fatal error, stopping script");
+		$this->initCurl();
 		$this->baseUrl = $baseUrl;
-		$this->cookieFilePath = dirname(__FILE__) . "/data/temp/cookie.txt";
+		$this->cookieFilePath = dirname(__FILE__) . "/../data/temp/cookie.txt";
 	}
 
 	public function run() {
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 2);
 		$locationUrl;
 
 		try {
@@ -47,24 +45,25 @@ class Scrape {
 		
 		try {
 			$producers = $this->getProducers($locationUrl);
-			/**
-			 * Debug code
-			 */
+			/*
+			 Debug code
+			 
 			foreach ($producers as $value) {
 				var_dump($value);
+			}*/
+			curl_close($this->ch);
+
+			/*
+			Commented for dev
+			if(file_exists($this->cookieFilePath)) {
+			    unlink($this->cookieFilePath);
 			}
+			*/
+			$scrapeDAL = new \model\ScrapeDAL();
+			$scrapeDAL->saveProducers($producers);
 		} catch (\Exception $e) {
 			
 		}
-
-		curl_close($this->ch);
-
-		/*
-		Commented for dev
-		if(file_exists($this->cookieFilePath)) {
-		    unlink($this->cookieFilePath);
-		}
-		*/
 	}
 
 	/**
@@ -97,9 +96,10 @@ class Scrape {
 	 */
 	private function getProducer($link) {
 		curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->cookieFilePath);
-		$xpath;
+		curl_setopt($this->ch, CURLOPT_NOBODY, false);
 		$city = null;
 		$url = null;
+		$image = null;
 		
 		$producerId = (int)preg_replace('/\D/', '', $link->getAttribute("href"));
 		$producerName = $link->nodeValue;
@@ -107,20 +107,54 @@ class Scrape {
 		$link = $this->baseUrl . "secure/" . $link->getAttribute("href");
 		curl_setopt($this->ch, CURLOPT_URL, $link);
 		
-		try {
-			$xpath = $this->curlExec(false);
-		} catch (\Exception $e) {
+		$xpath = $this->curlExec(false);
+		
+		if (curl_getinfo($this->ch, CURLINFO_HTTP_CODE) === 404)
 			return \model\Producer::createWithError($producerId, $producerName); 
-		}
 
 		try {
 			$city = $this->getCity($xpath);	
 		} catch (\Exception $e) {}
 		try {
+			$image = $this->getImage($xpath);
+		} catch (\Exception $e) {}
+		try {
 			$url = $this->getUrl($xpath);
 		} catch (\Exception $e) {}
+		
+		return \model\Producer::createSimple($producerId, $producerName, $url, $city, $image); 
+	}
 
-		return \model\Producer::createSimple($producerId, $producerName, $url, $city); 
+	/**
+	 * @param  \DomXPath $xpath 
+	 * @return \model\Image
+	 * @throws \Exception        
+	 */
+	private function getImage($xpath) {
+		$items = $xpath->query('//div[@class = "hero-unit"]/img');
+		if ($items === false || $items->length === 0 ||
+			 $items->item(0)->getAttribute("src") === "") {
+			throw new \Exception();
+		}
+
+		$imageSrc = $items->item(0)->getAttribute("src");
+		$imageName = trim(substr($imageSrc, strrpos($imageSrc, "/") + 1));
+		$url = $this->baseUrl . "secure/" . $imageSrc;
+		$internalUrl = "./data/images/$imageName";
+		$fp = fopen($internalUrl, 'wb');
+
+		curl_setopt($this->ch, CURLOPT_URL, $url);
+		curl_setopt($this->ch, CURLOPT_FILE, $fp);
+		curl_setopt($this->ch, CURLOPT_HEADER, false);
+		curl_exec($this->ch);
+		fclose($fp);
+		$httpResponse = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+		$this->initCurl();
+
+		if ($httpResponse === 0 || $httpResponse >= 400) {
+			return new \model\Image($url);
+		}
+		return new \model\Image($url, $imageName);
 	}
 
 	/**
@@ -130,16 +164,14 @@ class Scrape {
 	 */
 	private function getUrl($xpath) {
 		$items = $xpath->query('//div[@class = "hero-unit"]//p[last()]//a');
-
 		if ($items === false || $items->length === 0 ||
 			 $items->item(0)->getAttribute("href") === "#") {
 			throw new \Exception();
 		}
 		$url = $items->item(0)->getAttribute("href");
-
 		curl_setopt($this->ch, CURLOPT_COOKIEFILE, "");
 		curl_setopt($this->ch, CURLOPT_URL, $url);
-
+		curl_setopt($this->ch, CURLOPT_NOBODY, true);
 		$data = curl_exec($this->ch);
 		$httpResponse = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 
@@ -235,7 +267,6 @@ class Scrape {
 	private function curlExec($throw = true) {
 		$data = curl_exec($this->ch);
 		$dom = new \DOMDocument();
-
 		if (!$throw) {
 			libxml_use_internal_errors(true);
 			$dom->loadHTML('<?xml encoding="UTF-8">' . $data);
@@ -245,9 +276,17 @@ class Scrape {
 		}
 		return new \DOMXPath($dom);
 	}
-}
 
-/*
-curl_setopt($this->ch, CURLOPT_HEADER, true);
-curl_setopt($this->ch, CURLINFO_HEADER_OUT, true);
- */
+	/**
+	 * Reset cURL
+	 */
+	private function initCurl() {
+		if ($this->ch !== null)
+			curl_close($this->ch);
+		$this->ch = curl_init();
+		if ($this->ch === false)
+			exit("Fatal error, stopping script");
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, 2);
+	}
+}
