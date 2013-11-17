@@ -20,9 +20,9 @@ class Producer {
 	private $name;
 
 	/**
-	 * @var bool
+	 * @var \model\Url
 	 */
-	private $link404;
+	private $linkError;
 
 	/**
 	 * @var \model\Url
@@ -49,10 +49,10 @@ class Producer {
 	 */
 	private $lastScraped;
 
-	private function __construct($pId, $name, $link404, \model\Url $url = null, $city = null, \model\Image $image = null, $timesScraped = null, $lastScraped = null, $id = null) {
+	private function __construct($pId, $name, $linkError = null, \model\Url $url = null, $city = null, \model\Image $image = null, $timesScraped = null, $lastScraped = null, $id = null) {
 		$this->pId = $pId;
 		$this->name = $name;
-		$this->link404 = $link404;
+		$this->linkError = $linkError;
 		$this->url = $url;
 		$this->city = $city;
 		$this->image = $image;
@@ -62,15 +62,15 @@ class Producer {
 	}
 
 	public static function createSimple($pId, $name, \model\Url $url = null, $city, \model\Image $image = null) {
-		return new \model\Producer($pId, $name, false, $url, $city, $image);
+		return new \model\Producer($pId, $name, null, $url, $city, $image);
 	}
 
-	public static function createWithError($pId, $name) {
-		return new \model\Producer($pId, $name, true);
+	public static function createWithError($pId, $name, \model\Url $linkError) {
+		return new \model\Producer($pId, $name, $linkError);
 	}
 
-	public static function createFull($id, $pId, $name, $link404, \model\Url $url = null, $city, \model\Image $image = null, $timesScraped, $lastScraped) {
-		return new \model\Producer($pId, $name, $link404, $url, $city, $image, $timesScraped, $lastScraped, $id);
+	public static function createFull($id, $pId, $name, $linkError, \model\Url $url = null, $city, \model\Image $image = null, $timesScraped, $lastScraped) {
+		return new \model\Producer($pId, $name, $linkError, $url, $city, $image, $timesScraped, $lastScraped, $id);
 	}
 
 	public function getId() {
@@ -85,8 +85,8 @@ class Producer {
 		return $this->name;
 	}
 
-	public function getLink404() {
-		return $this->link404;
+	public function getLinkError() {
+		return $this->linkError;
 	}
 
 	public function getUrl() {

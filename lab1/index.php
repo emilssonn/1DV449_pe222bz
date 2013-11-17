@@ -1,8 +1,8 @@
 <?php
 
 require_once(dirname(__FILE__)."/../config/lab1.php");
-require_once("./model/Scrape.php");
-require_once("./model/DbConnection.php");
+require_once("./src/model/DbConnection.php");
+require_once("./src/controller/Scrape.php");
 
 $dbConnection = \model\DbConnection::getInstance();
 try {
@@ -12,8 +12,10 @@ try {
 	exit();
 }
 
-$scrape = new \model\Scrape("http://vhost3.lnu.se:20080/~1dv449/scrape/");
+$scrapeController = new \controller\Scrape();
 
-$scrape->run();
+$html = $scrapeController->run();
 
 $dbConnection->close();
+
+echo $html;

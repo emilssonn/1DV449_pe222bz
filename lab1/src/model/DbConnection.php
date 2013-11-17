@@ -59,6 +59,7 @@ final class DbConnection {
 		if ($this->mysqli->connect_errno) {
    			throw new \Exception("Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 		}
+		$this->mysqli->set_charset("utf8");
 	}
 
 	/**

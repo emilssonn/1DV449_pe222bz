@@ -2,6 +2,10 @@
 
 namespace model;
 
+require_once("./src/model/Producer.php");
+require_once("./src/model/Url.php");
+require_once("./src/model/Image.php");
+
 class ScrapeDAL {
 	
 	/**
@@ -23,7 +27,7 @@ class ScrapeDAL {
 	private static $urlTable = "url";
 
 	/**
-	 * @var \common\model\DbConnection
+	 * @var \model\DbConnection
 	 */
 	private $dbConnection;
 
@@ -40,7 +44,6 @@ class ScrapeDAL {
 				id,
 				pId,
 				name,
-				link404,
 				city,
 				timesScraped,
 				lastScraped
@@ -54,12 +57,13 @@ class ScrapeDAL {
         	try {
         		$image = $this->getImage($object["id"]);
 	        	$url = $this->getUrl($object["id"]);
+	        	$linkError = $this->getLinkError($object["id"]);
 
 	            $producersArray[] = \model\Producer::createFull(
 	            	$object["id"],
 	            	$object["pId"],
 	            	$object["name"],
-	            	(bool)$object["link404"],
+	            	$linkError,
 	            	$url,
 	            	$object["city"],
 	            	$image,
@@ -71,6 +75,32 @@ class ScrapeDAL {
         }
         $statement->free_result();
         return $producersArray;
+	}
+
+	/**
+	 * @param  int $id 
+	 * @return \model\Url or null //bad     
+	 */
+	private function getLinkError($id) {
+		$sql = "SELECT
+				url,
+				errorNr
+				FROM " . self::$urlTable . "
+				WHERE pId = ? 
+				AND absolutePath = 0";
+
+		$statement = $this->dbConnection->runSql($sql, array($id), "i");
+
+		$result = $statement->bind_result($url, $errorNr);
+		if ($result == FALSE) {
+			throw new \Exception("bind of [$sql] failed " . $statement->error);
+		}
+
+		if ($statement->fetch()) {
+			return new \model\Url($url, $errorNr);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -107,7 +137,8 @@ class ScrapeDAL {
 				url,
 				errorNr
 				FROM " . self::$urlTable . "
-				WHERE pId = ?";
+				WHERE pId = ? 
+				AND absolutePath = 1";
 
 		$statement = $this->dbConnection->runSql($sql, array($id), "i");
 
@@ -181,23 +212,47 @@ class ScrapeDAL {
 					(
 						pId,
 						name,
-						link404,
 						city
 					)
-					VALUES(?, ?, ?, ?)";
+					VALUES(?, ?, ?)";
 
 			$statement = $this->dbConnection->runSql($sql, 
-				array($producer->getpId(), $producer->getName(), $producer->getLink404(), $producer->getCity()), 
-				"isss");
+				array($producer->getpId(), $producer->getName(), $producer->getCity()), 
+				"iss");
 
 			$statement->free_result();
 
 			$id = $this->dbConnection->getLastInsertedId();
 			$this->insertImage($producer->getImage(), $id);
 			$this->insertUrl($producer->getUrl(), $id);
+			$this->insertLinkError($producer->getLinkError(), $id);
 		} catch (\Exception $e) {
-				
+			
 		}	
+	}
+
+	/**
+	 * @param  \model\Url $url 
+	 * @param  int $id       
+	 */
+	private function insertLinkError(\model\Url $url = null, $id) {
+		var_dump($url);
+		if ($url !== null) {
+			$sql = "INSERT INTO " . self::$urlTable . "
+					(
+						pId,
+						url,
+						errorNr,
+						absolutePath
+					)
+					VALUES(?, ?, ?, ?)";
+
+			$statement = $this->dbConnection->runSql($sql, 
+				array($id, $url->getUrl(), $url->getErrorNr(), 0), 
+				"isii");
+			
+			$statement->free_result();
+		}
 	}
 
 	/**
@@ -252,22 +307,54 @@ class ScrapeDAL {
 			$sql = "UPDATE " . self::$producerTable . "
 					SET
 						name = ?,
-						link404 = ?,
 						city = ?,
 						timesScraped = timesScraped + 1
 					WHERE id = ?";
 
 			$statement = $this->dbConnection->runSql($sql, 
-				array($producer->getName(), $producer->getLink404(), $producer->getCity(), $producer->getId()), 
-				"sisi");
+				array($producer->getName(), $producer->getCity(), $producer->getId()), 
+				"ssi");
 			
 			$statement->free_result();
 
 			$this->updateImage($producer->getImage(), $producer->getId());
 			$this->updateUrl($producer->getUrl(), $producer->getId());
+			$this->updateLinkError($producer->getUrl(), $producer->getId());
 		} catch (\Exception $e) {
 				
 		}	
+	}
+
+	/**
+	 * @param  \model\Url $url 
+	 * @param  int $id     
+	 */
+	private function updateLinkError(\model\Url $url = null, $id) {
+		if ($url !== null) {
+			$sql = "UPDATE " . self::$urlTable . "
+					SET
+						url = ?,
+						errorNr = ?
+					WHERE pId = ? 
+					AND absoultePath = 0";
+
+			$statement = $this->dbConnection->runSql($sql, 
+				array($url->getUrl(), $url->getErrorNr(), $id), 
+				"sii");
+			
+			$statement->free_result();
+		} else {
+			$sql = "DELETE
+				FROM " . self::$urlTable . " 
+				WHERE pId = ? 
+				AND absoultePath = 0";
+
+			try {
+				$this->dbConnection->runSql($sql, array($id), "i");
+			} catch (\Exception $e) {
+				
+			}		
+		}
 	}
 
 	/**
@@ -319,5 +406,7 @@ class ScrapeDAL {
 				WHERE id = ?";
 
 		$this->dbConnection->runSql($sql, array($producer->getId()), "i");
+
+		//Delete Image
 	}
 }
