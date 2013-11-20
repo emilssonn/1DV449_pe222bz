@@ -5,7 +5,7 @@ namespace model;
 require_once("./src/model/Producer.php");
 require_once("./src/model/Url.php");
 require_once("./src/model/Image.php");
-require_once("./src/model/ScrapeDAL.php");
+require_once("./src/model/ProducerDAL.php");
 
 class Scrape {
 
@@ -27,16 +27,16 @@ class Scrape {
 	/**
 	 * @var string
 	 */
-	private $imagesFilePath = "./src/data/images/";
+	CONST ImagesFilePath = "./src/data/images/";
 
-	/**
-	 * @param string $baseUrl
-	 */
 	public function __construct() {
 		$this->initCurl();
 		$this->cookieFilePath = dirname(__FILE__) . "/../data/temp/cookie.txt";
 	}
 
+	/**
+	 * @param string $baseUrl
+	 */
 	public function run($baseUrl) {
 		$this->baseUrl = $baseUrl;
 		$locationUrl;
@@ -48,42 +48,34 @@ class Scrape {
 			exit("Login Failed");
 		}
 		
-		try {
-			$producers = $this->getProducers($locationUrl);
+		$producers = $this->getProducers($locationUrl);
 			
-			curl_close($this->ch);
-			if(file_exists($this->cookieFilePath)) {
-			    unlink($this->cookieFilePath);
-			}
-			$scrapeDAL = new \model\ScrapeDAL();
-			$scrapeDAL->saveProducers($producers);
-		} catch (\Exception $e) {
-			
+		curl_close($this->ch);
+		if(file_exists($this->cookieFilePath)) {
+		    unlink($this->cookieFilePath);
 		}
+		$producerDAL = new \model\ProducerDAL();
+		$producerDAL->saveProducers($producers);
 	}
 
 	/**
 	 * @param  string $locationUrl
 	 * @return array of \model\Producer
-	 * @throws \Exception If                
+	 * @throws \Exception               
 	 */
 	private function getProducers($locationUrl) {
 		curl_setopt($this->ch, CURLOPT_HTTPGET, true);
-		try {
-			$producersArray = array();
-			$producersItems = $this->getProducersLinks($locationUrl);
+		$producersArray = array();
+		$producersItems = $this->getProducersLinks($locationUrl);
 			
-			foreach ($producersItems as $item) {
-				try {
-					$producersArray[] = $this->getProducer($item);
-				} catch (\Exception $e) {
-					//Do nothing
-				}	
-			}
-			return $producersArray;
-		} catch (\Exception $e) {
-			throw $e;
+		foreach ($producersItems as $item) {
+			try {
+				$producersArray[] = $this->getProducer($item);
+			} catch (\Exception $e) {
+				//Do nothing
+			}	
 		}
+		return $producersArray;
 	}
 
 	/**
@@ -139,7 +131,7 @@ class Scrape {
 		$imageSrc = $items->item(0)->getAttribute("src");
 		$imageName = $this->sanitizeString(substr($imageSrc, strrpos($imageSrc, "/") + 1));
 		$url = $this->baseUrl . "secure/" . $imageSrc;
-		$internalUrl = "$this->imagesFilePath$imageName";
+		$internalUrl = self::ImagesFilePath . "$imageName";
 		$fp = fopen($internalUrl, 'wb');
 
 		curl_setopt($this->ch, CURLOPT_URL, $url);
@@ -236,17 +228,13 @@ class Scrape {
 	 */
 	private function getLoginLink() {
 		curl_setopt($this->ch, CURLOPT_URL, $this->baseUrl);
-		try {
-			$xpath = $this->curlExec();
-			$items = $xpath->query('//form[@class = "form-signin"]/@action');
+		$xpath = $this->curlExec();
+		$items = $xpath->query('//form[@class = "form-signin"]/@action');
 
-			if (count($items) === 1)
-				return $items->item(0)->nodeValue;
-			else
-				throw new \Exception("Error getting login post link");
-		} catch (\Exception $e) {
-			throw $e;
-		}
+		if (count($items) === 1)
+			return $items->item(0)->nodeValue;
+		else
+			throw new \Exception("Error getting login post link");
 	}
 
 	/**
@@ -286,7 +274,6 @@ class Scrape {
 	 */
 	private function sanitizeString($string) {
 		$string = strip_tags($string);
-		$string = trim($string);
-		return $string;
+		return trim($string);
 	}
 }

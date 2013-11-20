@@ -4,27 +4,44 @@ namespace controller;
 
 require_once("./src/model/Scrape.php");
 require_once("./src/view/Scrape.php");
-require_once("./src/model/ScrapeDAL.php");
+require_once("./src/model/ProducerDAL.php");
 
 class Scrape {
 
+	/**
+	 * @var \view\Scrape
+	 */
 	private $scrapeView;
 
-	private $scrapeDAL;
+	/**
+	 * @var \model\ProducerDAL
+	 */
+	private $producerDAL;
 
 	public function __construct() {
 		$this->scrapeView = new \view\Scrape();
-		$this->scrapeDAL = new \model\ScrapeDAL();
+		$this->producerDAL = new \model\ProducerDAL();
 	}
 
+	/**
+	 * @return string HTML
+	 */
 	public function run() {
 		if ($this->scrapeView->scrape()) {
-			$scrapeModel = new \model\Scrape();
-			$scrapeModel->run("http://vhost3.lnu.se:20080/~1dv449/scrape/");
+			try {
+				$scrapeModel = new \model\Scrape();
+				$scrapeModel->run("http://vhost3.lnu.se:20080/~1dv449/scrape/");
+			} catch (\Exception $e) {
+				
+			}	
 			$this->scrapeView->goToIndex();
 		} else {
-			$producers = $this->scrapeDAL->getProducers();
-			return $this->scrapeView->getHTML($producers);
+			try {
+				$producers = $this->producerDAL->getProducers();
+				return $this->scrapeView->getHTML($producers);
+			} catch (\Exception $e) {
+				return $this->scrapeView->getErrorHTML();
+			}	
 		}
 	}
 }

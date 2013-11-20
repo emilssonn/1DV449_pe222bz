@@ -8,8 +8,7 @@ $dbConnection = \model\DbConnection::getInstance();
 try {
 	$dbConnection->connect($dbServer, $dbUser, $dbPassword, $db);
 } catch (\Exception $e) {
-	echo "Fatal database error.";
-	exit();
+	exit("Fatal database error.");
 }
 
 $scrapeController = new \controller\Scrape();

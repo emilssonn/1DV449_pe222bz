@@ -12,6 +12,10 @@ class Scrape {
 		header("Location: .");
 	}
 
+	/**
+	 * @param  array of \model\Producers $producersArray
+	 * @return string HTML                 
+	 */
 	public function getHTML($producersArray) {
 		$html = "";
 
@@ -28,6 +32,29 @@ class Scrape {
 		return $html;
 	}
 
+	/**
+	 * @return string HTML
+	 */
+	public function getErrorHTML() {
+		$html = "";
+
+		$html .= $this->getTopHTML();
+
+		$html .= '<div class="container">';
+
+		$html .= '<h2>Failed to retrieve scraped producers</h2>';
+
+    	$html .= '</div> <!-- /container -->';
+
+    	$html .= $this->getBottomHTML();
+
+		return $html;
+	}
+
+	/**
+	 * @param  array of \model\Producer $producersArray
+	 * @return string HTML                 
+	 */
 	private function getProducersHTML($producersArray) {
 		$html = "<ul class='list-unstyled'>";
 
@@ -81,8 +108,8 @@ class Scrape {
 
 	 			//Image
 	 			if ($image !== null && $image->getName() !== null) {
-	 				$imageName = $image->getName();
-	 				$html .= "<img src='./src/data/images/$imageName'>";
+	 				$imageName = \model\Scrape::ImagesFilePath . $image->getName();
+	 				$html .= "<img src='$imageName'>";
 	 			} else if ($image !== null && $image->getName() === null) {
 	 				$externalSrc = $image->getExternalSrc();
 	 				$html .= "<h5><span class='label label-danger'>Error</span></h5>
@@ -103,6 +130,9 @@ class Scrape {
 		return $html;
 	}
 
+	/**
+	 * @return string HTML 
+	 */
 	private function getBottomHTML() {
 		return '<!-- Bootstrap core JavaScript
 						================================================== -->
@@ -120,6 +150,9 @@ class Scrape {
 				</html>';
 	}
 
+	/**
+	 * @return string HTML 
+	 */
 	private function getTopHTML() {
 		return 	'<!DOCTYPE html>
 				<html lang="en">
