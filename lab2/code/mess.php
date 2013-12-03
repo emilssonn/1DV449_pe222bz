@@ -12,67 +12,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="favicon.png">
+    <title>Messy Labbage</title>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Karla:400,700">
 	<link href='http://fonts.googleapis.com/css?family=Wellfleet' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="css/screen.css" media="screen"/>
     <link rel="stylesheet" href="css/lightbox.css" media="screen"/>
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/longpoll.js"></script>
 	
-	<style type="text/css">
 	
-	.message_container {
-		border: 1px solid black;
-		padding: 8px;
-		background-color: #DDD;
-	}
-	</style>
-	
-	<script src="js/lightbox.js"></script>
-    
-	<title>Messy Labbage</title>
-
-	<script>
-		$( document ).ready( 
-			function() {
-				$("#logout").bind( "click", function() {
-  				  	window.location = "index.php";
-			 	});
-			}
-		)
-		
-		$( document ).ready( 
-					
-			function() {
-				
-				$('#mess_container').hide();
-				
-				$("#add_btn").bind( "click", function() {
-  				  	
-					var name_val = $('#name_txt').val();
-					var message_val = $('#message_ta').val();
-					var pid =  $('#mess_inputs').val();
-					// make ajax call to logout
-					$.ajax({
-						type: "GET",
-					  	url: "functions.php",
-					  	data: {function: "add", name: name_val, message: message_val, pid: pid}
-					}).done(function(data) {
-					  alert(data);
-					});
-				  
-			  });
-			}
-		)
-	</script>
-
-
 	<!-- Bootstrap core CSS -->
-	    <link href="css/bootstrap.css" rel="stylesheet">
-
-	    <!-- Custom styles for this template -->
-	    <link href="http://vhost3.lnu.se:20080/~1dv449/scrape/css.php?css=grid1" rel="stylesheet">
-		<link href="http://vhost3.lnu.se:20080/~1dv449/scrape/css.php?css=grid2" rel="stylesheet">
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="http://vhost3.lnu.se:20080/~1dv449/scrape/css.php?css=grid1" rel="stylesheet">
+	<link href="http://vhost3.lnu.se:20080/~1dv449/scrape/css.php?css=grid2" rel="stylesheet">
+	<link href="css/mess.css" rel="stylesheet">
 	    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	    <!--[if lt IE 9]>
 	      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -98,87 +51,6 @@
 	      	 </div>
 		  
 			<div class="image-row">
-			
-			<!-- This script is running to get the data for the producers -->
-			<script>
-				// Called when we click on a producer link - gets the id for the producer 
-				function changeProducer(pid) {
-				
-				//console.log("pid --> " +pid);
-								
-				// Clear and update the hidden stuff
-				$( "#mess_inputs").val(pid);
-				$( "#mess_p_mess").text("");
-				
-				// get all the stuff for the producers
-				// make ajax call to functions.php with teh data
-				$.ajax({
-					type: "GET",
-				  	url: "functions.php",
-				  	data: {function: "producers", pid: pid}
-				}).done(function(data) { // called when the AJAX call is ready
-					console.log(data);
-					var j = JSON.parse(data);
-					
-					$("#mess_p_headline").text("Meddelande till " +j.name +", " +j.city);
-					
-					
-					if(j.url !== "") {
-						
-						$("#mess_p_kontakt").text("Länk till deras hemsida " +j.url);
-					}
-					else {
-						$("#mess_p_kontakt").text("Producenten har ingen webbsida");
-					}
-					
-					if(j.imageURL !== "") {
-						$("#p_img_link").attr("href", j.imageURL); 
-						$("#p_img").attr("src", j.imageURL); 
-					}
-					else {
-						$("#p_img_link").attr("href", "#"); 
-						$("#p_img").attr("src", "img/noimg.jpg"); 
-					}
-				});
-				
-				// Get all the messages for the producers through functions.php
-				$.ajax({
-					type: "GET",
-				  	url: "functions.php",
-				  	data: {function: "getIdsOfMessages", pid: pid}
-					
-				}).done(function(data) {
-					
-					// all the id:s for the messages for this producer
-					var ids = JSON.parse(data);
-					//console.log(ids);
-					
-					// Loop through all the ids and make calls for the messages
-					if(ids !== false){
-					 ids.forEach(function(entry) {
-						// problems with the messages not coming in the right order :/
-						$.ajax({
-							type: "GET",
-						  	url: "functions.php",
-						  	data: {function: "getMessage", serial: entry.serial},
-							timeout: 2000
-						}).done(function(data) {
-							var j = JSON.parse(data);
-						//	console.log(j);
-							$( "#mess_p_mess" ).append( "<p class='message_container'>" +j.message +"<br />Skrivet av: " +j.name +"</p>");
-					
-						});
-					});
-					}
-					
-				});
-				
-				// show the div if its unvisible
-				$("#mess_container").show("slow");
-				
-			}
-			</script>
-			
 					
 			<!-- This holds all the links -->
 			<div class="row">
@@ -195,11 +67,10 @@
 			?>
 			</div>
 			<div class="col-md-6">
-				<img src="pics/food.jpg" height="220px"/>
+				<a href="pics/food.jpg" title="Öppna bilden i ett nytt fönster/flik" target="_blank"><img src="pics/food_small.jpg" /></a>
 			</div>
 			</div>
-			<div style="clear: both;"></div>
-
+			
 			<!-- This is the part that will be populated with data from AJAX -->	
 			<div id="mess_anchor"></div>	
 			<div id="mess_container">
@@ -230,17 +101,15 @@
 	  	</div><!-- mess_container -->
 
 	    </div> <!-- /container -->
+
+	    <script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/longpoll.js"></script>
+		<script src="js/lightbox.js"></script>
+		<script src="js/producers.js"></script>
+
+
 		<script type="text/javascript" src="js/modernizr.custom.js"></script>
 		<script type="text/javascript" src="js/ajax_minified.js"></script>
-		<style type="text/css">
-			#mess_p_mess {
-				width: 100%; height: 250px; overflow-y: scroll !important; border: solid 3px black; padding: 5px;
-			}
-			
-			#mess_p_headline {
-				font-family: 'Wellfleet', cursive;
-			}
-			
-		</style>
+		
 	  </body>
 	</html>
