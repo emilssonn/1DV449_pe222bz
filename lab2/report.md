@@ -159,3 +159,78 @@ Om man har css/js i externa filer kan dessa cachas av webbläsaren. Detta gör a
 
 Laddningstiderna för båda sidorna förbättrades lite även om de fick fler HTTP anrop, detta beror antagligen återigen mest på servers olika responstider.
 Jag valde att lägga css:en för index.php i en extern fil även om (High performance websites, s. 58) säger att startsidor kan vara bra att ha css:en direkt på sidan. Detta därför att jag föredrar att skilja på olika sorters kod genom att lägga dessa i olika filer (php, html, css osv). 
+
+#### 5: Färre HTTP anrop
+
+En liten del av tiden det tar att ladda ner en sida går oftast åt att ladda ner dokumentet med HTML. Den större delen av tiden går åt till att ladda ner alla de olika komponenterna som tillhör sidan. Varje komponent är ett nytt HTTP anrop som måste göras. Om man minskar ner på antalet komponenter så blir det också mindre HTTP anrop vilket gör att laddningstiden blir mindre. (High performance websites, s. 10).
+
+##### CSS Sprites
+
+Att använda CSS sprites för bilder som används som bakgrunder, ikoner osv minskar på antalet HTTP anrop och ibland också på den sammanlagda storleken på bilderna. (High performance websites, s. 13)
+
+Flyttade bilderna next, prev och close till en fil, icons.png
+
+###### Innan förändring av 
+
+* Antal HTTP anrop: 20
+
+* Total data: 239 kB
+
+###### Efter förändring
+
+* Antal HTTP anrop: 18
+
+* Total data: 239 kB
+
+##### Kombinera icke ramverk/biblioteks css/js till en fil.
+
+Just nu så ligger css:en utsprid i 4 olika filer, 2 av dem är till och med från en annan host. Detta gör att det är onödigt många HTTP anrop.
+
+Kombinerade screen.css och de 2 externa css filerna till mess.css
+
+###### Innan förändring av 
+
+* Antal HTTP anrop: 18
+
+* Total data: 239 kB
+
+* Medel laddningstid: 2,588 s
+
+###### Efter förändring
+
+* Antal HTTP anrop: 15
+
+* Total data: 236 kB
+
+* Medel laddningstid: 1,27 s
+
+Den stora bromsen för laddningstiden var de 2 externa css filerna från en annan host. Dessa tog en mycket stor del av tiden vid inladdning.
+
+##### Ta bort döda/oanvända resurs länkar
+
+Tog bort 3 js filer och en font länk.
+Tog bort modinizer eftersom den just nu inte används på något sätt.
+Tog även bort länken till favicon eftersom denna inte används.
+
+###### Innan förändring av 
+
+* Antal HTTP anrop: 15
+
+* Total data: 236 kB
+
+* Medel laddningstid: 1,27 s
+
+###### Efter förändring
+
+* Antal HTTP anrop: 11
+
+* Total data: 225 kB
+
+* Medel laddningstid: 0,964 s
+
+Här var bromsen de 2 js filerna som inte fanns.
+
+När | Antal HTTP Anrop | Total data | Medel laddningstid
+--- | --- | --- | ---
+Innan | 15 | 236 kB | 1,27 s
+Efter | 11 | 225 kB | 0,964 s
