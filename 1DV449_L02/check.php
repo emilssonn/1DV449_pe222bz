@@ -11,7 +11,7 @@ if(isUser($u, $p)) {
 	sec_session_start();
 	$_SESSION['login_string'] = hash('sha512', "Come_On_You_Spurs" +$u); 
 	$_SESSION['user'] = $u;
-	header("Location: mess.php");
+	header("Location: img/middle.php");
 }
 else {
 	// To bad

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Just som simple scripts for session handling
+Just som simple scripts for session handling
 */
 function sec_session_start() {
         $session_name = 'sec_session_id'; // Set a custom session name
@@ -52,7 +52,7 @@ function isUser($u, $p) {
 	try {
 		$stm = $db->prepare($q);
 		$stm->execute();
-		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		$result = $stm->fetchAll();
 	}
 	catch(PDOException $e) {
 		echo("Error creating query: " .$e->getMessage());
@@ -83,7 +83,7 @@ function getUser($user) {
 	try {
 		$stm = $db->prepare($q);
 		$stm->execute();
-		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		$result = $stm->fetchAll();
 	}
 	catch(PDOException $e) {
 		echo("Error creating query: " .$e->getMessage());

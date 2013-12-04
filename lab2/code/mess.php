@@ -32,7 +32,7 @@
 	    <div class="container">
 			<div class="header">
 			    <ul class="nav nav-pills pull-right">
-			        <li><button class="btn" id="logout">Logga ut</button></li>
+			        <li><button class="btn">Logga ut</button></li>
 			    </ul>
 				<h3 class="text-muted">Messy Labbage</h3>
 			</div>
@@ -49,7 +49,6 @@
 					<div class="col-md-6">
 						<?php
 						/* Produces all the links to the producers */
-							require_once("get.php");
 							$ps = getProducers();
 							
 							foreach($ps as $p) {
@@ -65,7 +64,7 @@
 			
 				<!-- This is the part that will be populated with data from AJAX -->	
 				<div id="mess_anchor"></div>	
-				<div id="mess_container">
+				<div id="mess_container" style="display:none">
 					<div class="row">
 						<!-- Headline will be updated here -->
 			  	     	<div class="col-md-6" height="250px">
@@ -96,9 +95,9 @@
 	  		</div>
 	    </div> <!-- /container -->
 
-	    <script type="text/javascript" src="js/jquery.js"></script>
+	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 		<script src="js/lightbox.js"></script>
-		<script src="js/producers.js"></script>
+		<script src="js/producers.min.js"></script>
 		
 	  </body>
 	</html>
