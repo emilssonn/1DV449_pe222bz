@@ -28,10 +28,11 @@ $( document ).ready(
 
 // Called when we click on a producer link - gets the id for the producer 
 function changeProducer(pid) {
-					
+				
+	var messContainer = $("#mess_container");	
 	// Clear and update the hidden stuff
-	$( "#mess_inputs").val(pid);
-	$( "#mess_p_mess").empty();
+	messContainer.find( "#mess_inputs").val(pid);
+	messContainer.find( "#mess_p_mess").empty();
 	
 	// get all the stuff for the producers
 	// make ajax call to functions.php with the data
@@ -42,43 +43,36 @@ function changeProducer(pid) {
 	}).done(function(data) { // called when the AJAX call is ready
 		var j = JSON.parse(data);
 		
-		$("#mess_p_headline").text("Meddelande till " +j.name +", " +j.city);
+		messContainer.find("#mess_p_headline").text("Meddelande till " +j.name +", " +j.city);
 		
 		
 		if(j.url !== "") {
 			
-			$("#mess_p_kontakt").text("Länk till deras hemsida " +j.url);
+			messContainer.find("#mess_p_kontakt").text("Länk till deras hemsida " +j.url);
 		}
 		else {
-			$("#mess_p_kontakt").text("Producenten har ingen webbsida");
+			messContainer.find("#mess_p_kontakt").text("Producenten har ingen webbsida");
 		}
 		
 		if(j.imageURL !== "") {
-			$("#p_img_link").attr("href", j.imageURL); 
-			$("#p_img").attr("src", j.imageURL); 
+			messContainer.find("#p_img_link").attr("href", j.imageURL); 
+			messContainer.find("#p_img").attr("src", j.imageURL); 
 		}
 		else {
-			$("#p_img_link").attr("href", "#"); 
-			$("#p_img").attr("src", "img/noimg.jpg"); 
+			messContainer.find("#p_img_link").attr("href", "#"); 
+			messContainer.find("#p_img").attr("src", "img/noimg.jpg"); 
 		}
-	});
-	
-	// Get all the messages for the producers through functions.php
-	$.ajax({
-		type: "GET",
-	  	url: "functions.php",
-	  	data: {function: "getMessages", pid: pid}	
-	}).done(function(data) {
-		var j = JSON.parse(data);
-		
-		if (j.length > 0) {
-			j.reverse().forEach(function(entry) {
-				$( "#mess_p_mess" ).append( "<p class='message_container'>" +entry.message +"<br />Skrivet av: " +entry.name +"</p>");
+
+		if (j.messages !== null) {
+			j.messages.reverse().forEach(function(entry) {
+				messContainer.find( "#mess_p_mess" ).append( "<p class='message_container'>" +entry.message +"<br />Skrivet av: " +entry.name +"</p>");
 			});
 		}
 	});
 	
+	
+	
 	// show the div if its unvisible
-	$("#mess_container").show("slow");
+	messContainer.show("slow");
 	
 }

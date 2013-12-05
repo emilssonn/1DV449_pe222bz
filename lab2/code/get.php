@@ -26,8 +26,11 @@ function getFullProducer($id) {
 		return false;
 	}
 	
-	if($result)
+	if($result) {
+		$messages = getMessagesByProducer($id);
+		$result[0]['messages'] = $messages;
 		return $result[0];
+	}
 	else
 	 	return false;
 }
@@ -54,13 +57,13 @@ function getMessagesByProducer($pid) {
 	}
 	catch(PDOException $e) {
 		echo("Error creating query: " .$e->getMessage());
-		return false;
+		return null;
 	}
 	
 	if($result)
 		return $result;
 	else
-	 	return false;
+	 	return null;
 }
 
 

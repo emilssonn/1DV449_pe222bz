@@ -11,6 +11,7 @@ if(isset($_GET['function'])) {
 	
 	if($_GET['function'] == 'logout') {
     logout();
+    
   } else if($_GET['function'] == 'add') {
        
     $name = $_GET["name"];
@@ -23,10 +24,5 @@ if(isset($_GET['function'])) {
   else if($_GET['function'] == 'producers') {
   	$pid = $_GET["pid"];
    	echo(json_encode(getFullProducer($pid)));
-  }
-  else if($_GET['function'] == 'getMessages') {
-    $pid = $_GET["pid"];
-   	 echo(json_encode(getMessagesByProducer($pid)));
-  }  
-
+  } 
 }

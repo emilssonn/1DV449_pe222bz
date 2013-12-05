@@ -29,6 +29,7 @@ Att ladda in en bild och sedan skala ned denna i HTML är mycket onödigt. Efter
 #### Referenser
 
 http://www.hongkiat.com/blog/ultimate-guide-to-web-optimization-tips-best-practices/
+
 http://www.shopify.com/blog/7412852-10-must-know-image-optimization-tips
 
 När | Antal HTTP Anrop | Total data | Medel laddningstid
@@ -158,8 +159,7 @@ Om denna applikationen skulle växa och få mer användare så skulle antalet AJ
 
 ##### Efter förändring
 
-* 1 req för att hämta producers
-* 1 req för att hämta alla meddelanden
+* 1 req för att hämta producers och meddelanden
 * 1 req för bilden
 
 #### Total förbättring för punkt 5
@@ -169,13 +169,13 @@ När | Antal HTTP Anrop | Total data | Medel laddningstid
 Innan | 20 | 239 kB | 2,558 s
 Efter | 11 | 225 kB | 0,964 s
 
-45% mindre HTTP anrop
+* 45% mindre HTTP anrop
 
-62% kortare laddningtid
+* 62% kortare laddningtid
 
 #### Reflektion
 
-Dessa åtgärder för att förminska antalet HTTP anrop gjorde mycket för laddningstiden av sidan. Den stora vinsten gjordes när jag tog bort de 2 css filerna som låg på en annan host. När man använder resurser från andra webbservrar så måste man kontrollera hur lång tid dessa tar att ladda in, även om det går att ladda ner dessa paralellt med andra resurser. Det blev även enklare att hålla reda på cssen när alla egenskriven css ligger i en egen fil. Jag valde att ha 2 AJAX anrop för att hämta all data tillhörandes en producent. Detta eftersom jag inte ville lägga tid på att slå samman resulteten från de olika databaserna. Jag måste erkänna att jag blev överaskad över hur stor skillnad de sakerna jag gjorde på denna punkten förbättrade laddningtiderna.
+Dessa åtgärder för att förminska antalet HTTP anrop gjorde mycket för laddningstiden av sidan. Den stora vinsten gjordes när jag tog bort de 2 css filerna som låg på en annan host. När man använder resurser från andra webbservrar så måste man kontrollera hur lång tid dessa tar att ladda in, även om det går att ladda ner dessa paralellt med andra resurser. Det blev även enklare att hålla reda på cssen när alla egenskriven css ligger i en egen fil. Genom ändringarna som jag gjorde med AJAX anropen så är det alltid samma antal anrop, men med olika mängd data som svar. Jag måste erkänna att jag blev överaskad över hur stor skillnad de sakerna jag gjorde på denna punkt förbättrade laddningtiderna.
 
 ### 6: Unvika onödiga redirects
 
@@ -205,6 +205,8 @@ Jag kan inte hitta några referenser till varför man ska göra det jag har gjor
 
 * Ändrade koden för att tömma noden för meddelanden, från .text("") till .empty().
 
+* "Cachade" noden "#mess_container" för att slippa leta igenom hela DOM trädet varje gång något ska ändras när meddelanden läggs till.
+
 #### Server
 
 * Tog bort onödig require_once i mess.php
@@ -226,7 +228,7 @@ Vad | När | Total data | Medel laddningstid
 jQuery | Innan | 76,6 kB | 662 ms
 jQuery | Efter | 32,4 kB | 420 ms
 producers | Innan | 1,2 kB | 224 ms
-producers | Efter | 936 B | 220 ms
+producers | Efter | 928 B | 220 ms
 
 När | Antal HTTP Anrop | Total data | Medel laddningstid
 --- | --- | --- | ---
