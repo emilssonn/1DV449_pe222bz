@@ -5,11 +5,18 @@ require_once("sec.php");
 $u = $_POST['username'];
 $p = $_POST['password'];
 
+$u = trim($u);
+$u = strip_tags($u);
+
 // Check if user is OK
 if(isUser($u, $p)) {
 	// set the session
 	sec_session_start();
-	$_SESSION['login_string'] = hash('sha512', "Come_On_You_Spurs" +$u); 
+
+	//Added to prevent session hijacking
+	$_SESSION["remoteAddr"] = $_SERVER["REMOTE_ADDR"];
+	$_SESSION["httpUserAgent"] = $_SERVER["HTTP_USER_AGENT"];
+
 	$_SESSION['user'] = $u;
 	header("Location: mess.php");
 }

@@ -32,7 +32,7 @@
 	    <div class="container">
 			<div class="header">
 			    <ul class="nav nav-pills pull-right">
-			        <li><button class="btn">Logga ut</button></li>
+			        <li><button class="btn" id="logout">Logga ut</button></li>
 			    </ul>
 				<h3 class="text-muted">Messy Labbage</h3>
 			</div>

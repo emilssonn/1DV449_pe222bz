@@ -5,6 +5,10 @@
 */
 function addToDB($name, $message, $pid) {
 	$db = null;
+
+	$name = sanitizeString($name);
+	$message = sanitizeString($message);
+	$pid = sanitizeString($pid);
 	
 	try {
 		$db = new PDO("sqlite:db.db");
@@ -13,14 +17,22 @@ function addToDB($name, $message, $pid) {
 	catch(PDOEception $e) {
 		die("Something went wrong -> " .$e->getMessage());
 	}
-	$q = "INSERT INTO messages (message, name, pid) VALUES('$message', '$name', '$pid')";
+	$q = "INSERT INTO messages (message, name, pid) VALUES(?, ?, ?)";
 	
 	try {
-		if(!$db->query($q)) {
-			die("Fel vid insert");
-		}
+		$stm = $db->prepare($q);
+		$stm->bindParam(1, $message, PDO::PARAM_STR);
+		$stm->bindParam(2, $name, PDO::PARAM_STR);
+		$stm->bindParam(3, $pid, PDO::PARAM_INT);
+		$stm->execute();
 	}
 	catch(PDOException $e) {
 		die("Something went wrong -> " .$e->getMessage());
 	}
+}
+
+function sanitizeString($string) {
+	$string = trim($string);
+	$string = strip_tags($string);
+	return $string;
 }

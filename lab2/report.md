@@ -255,3 +255,70 @@ Efter | 11 | 178 kB | 0,890 s
 * Resurser för mess.php
 
 ![Alt text](resources_end.PNG)
+
+Del 2 - Säkerhetsproblem
+------------------
+
+* Url: http://1dv449-lab2.peteremilsson.se/
+
+### 1: SQL injection
+
+* Webbplatsens databas operationer är inte säkra mot SQL injections. Det går att föra in egen SQL kod när man utför något som sker mot en databas.
+
+* Vid inloggning går det tex att att skriva `' OR '' = '' --` som användarnamn och valfritt lösenord, man kommer då bli bli inloggad.
+
+* Vem som helst kan logga in oberoende om man har några inloggningsuppgifter eller inte. 
+
+* För att motverka SQL injections har jag ändrat alla databas operationer till att inte bara använda "prepared statements" utan även också "parameterized queries". Detta gör då att de parametrar som använder i SQL-satsen aldrig tolkas som SQL kod.
+
+### 2: Input filtrering
+
+* All input som sker på webbplats tolkas som den är skriven, inga taggar filtreras bort. Detta gör att webbsidan är sårbar för XSS attacker. (http://en.wikipedia.org/wiki/Cross-site_scripting)
+
+* Genom att inte filtrera input så kan man skriva in vad som helst, text en script tag med `<script>alert("Hej")</script>` eller andra valfria taggar/JavaScript kod.
+
+* Varje gång någon laddar sidan som innehåller koden från föregående punkt så kommer en alert ruta att komma upp. Detta är ett enkelt exempel, det går att göra mer avancerade saker så som att skicka privat innehåll med ett AJAX anrop till sin egen server för att sedan avända detta.
+
+* All input som användaren görs filtreras med `trim($string)` och `strip_tags($string)` så att överflödigt whitespace och taggar tas bort. Detta sker för all input förutom lösenord. Eftersom ett lösenord aldrig skrivs ut och ska inte ändras på server så behöver inte detta filtreras, det räcker med att stopp SQL injection.
+
+### 3: Session hijacking
+
+* Det går att göra en "stjäla" en sessions cookie så att man blir inloggad som den användaren.
+
+* Det går att kopiera en sessions cookies värde och sedan skapa en egen cookie med det värdet, då blir man inloggad som den användaren. Att få reda på en cookies värde kan ske genom att man tex sitter på ett okrypterat nätverk och avlyssnar nätverkstrafiken. Då är det bara att leta upp kakan och sedan kopiera värdet.
+
+* Om en någon får tag på en sessions cookie och loggar in som den användaren så kan den göra allt som den användaren kan och det ser ut som att det är den vanliga användaren som gör det. I fallet för denna sidan kan då personen som tagit över session kakan posta meddelanden.
+
+* För att förbättra skyddet lite så har jag gjort så att användarens IP och user agent sparas i sessionen också. Detta förhindrar inte alla sorters sessions stölder, men get ett litet extra skydd. Jag tog även bort koden som lagrade en "slumpad" sträng i session, denna lagrades bara i sessionen och funktionen för att få fram ett värde generarade alltid samma värde.
+
+### 4: Utloggning
+
+* När man trycker på knappen "Logga ut" så är det ända som händer att man skickas till index.php, ingen utloggning sker. Det ända sättet att logga ut just nu är att själv ta bort kakan.
+
+* Om man inte loggas ut när man tror att man gör det så kan någon som tex använder samma dator efter fortsätta att surfa på samma webbsida som man själv gjorde.
+
+* Jag la till sidan logout.php. När man trycker på knappen "Logga ut" så kommer man till sidan logout.php, som förstör sessionen och skickar en till index.php. Ändrade även `session_end` till `session_destroy`.
+
+### 5: Output text som ren text
+
+* Meddelanden som skrivs ut skrivs ut som HTML och inte som ren text.
+
+* I denna applikationen går det inte för någon utomstående att utnyttja detta. Men man ska aldrig lita på data som ska skrivas ut. Om denna applikationen växer och meddelanden läggs till på något annat ställe så kan man inte vara säker på att dessa är säkra. Ska man tillåta HTML så är det bättre att isåfall göra en vitlista de taggar som man vill ska gå att använda.
+
+* För att det ska gå att utnyttja detta säkerhetshål så måste man just nu ha direkt tillgång till databasen. Då kan man föra in tex `<script>alert("Hej")</script>` som då kommer renderas som HTML.
+
+* När meddelanden skrivs ut så har jag seperarerat skapandet av taggar och där texten läggs till. Texten läggs nu till med `document.createTextNode(text)`.
+
+### 6: Användarnamn och lösenord är ifyllt från början.
+
+* På sidan index.php där man loggar in är användarnamet admin och lösenordet admin ifyllt från början. 
+
+* Vem som helst kan logga in som admin, vilket motverkar hela meningen med att ha inloggning.
+
+* Tagit bort `value="admin"` för input fälten för användarnamn och lösenord.
+
+### 7: Lösenord är inte krypterade i databasen.
+
+* Om databasen skulle bli hackad så skulle vem som helst kunna logga in på de användarkonton som finns utan att behöva göra något. Lösenord ska heller aldrig lagras i klartext eftersom de som administrerar databasen då kan se dem. I nästan alla fall så är de personer som har tillgång till databasen inte några som skulle använda den informationen för att göra något, men man ska ändå aldrig lagra lösenord så att de gå att få fram dem i klartext på något sätt.
+
+* För att lösa detta krypterade jag lösenorden i databasen med BCRYPT. Inloggning sker ju genom att `password_verify($p, $result[0]['password'])` körs. Jag inkluderade biblioteket password_compat (https://github.com/ircmaxell/password_compat) för att kunna få en syntax som används i PHP 5.5+.

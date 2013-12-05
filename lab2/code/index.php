@@ -6,16 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" href="ico/favicon.png">
 
     <title>Närproducerat 2.0 - Logga in</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/index.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -31,8 +27,8 @@
       <form class="form-signin" action="check.php" method="POST">
         <h2 class="form-signin-heading">Logga in
 		</h2>
-        <input value="admin" name="username" type="text" class="form-control" placeholder="Användarnamn" required autofocus>
-        <input value="admin" name="password" type="password" class="form-control" placeholder="Password" required>
+        <input name="username" type="text" class="form-control" placeholder="Användarnamn" required autofocus>
+        <input name="password" type="password" class="form-control" placeholder="Password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Logga in</button>
       </form>
     </div> <!-- /container -->

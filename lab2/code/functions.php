@@ -9,10 +9,7 @@ sec_session_start();
 */ 
 if(isset($_GET['function'])) {
 	
-	if($_GET['function'] == 'logout') {
-    logout();
-    
-  } else if($_GET['function'] == 'add') {
+  if($_GET['function'] == 'add') {
        
     $name = $_GET["name"];
 		$message = $_GET["message"];

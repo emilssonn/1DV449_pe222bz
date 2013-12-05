@@ -1,5 +1,7 @@
 <?php
 
+require_once("password.php");
+
 /**
  * Just som simple scripts for session handling
 */
@@ -19,18 +21,15 @@ function checkUser() {
 	if(!session_id()) {
 		sec_session_start();
 	}
-	//var_dump($_SESSION);
+
 	if(!isset($_SESSION["user"])) {header('HTTP/1.1 401 Unauthorized'); die();}
 	
 	$user = getUser($_SESSION["user"]);
 	$un = $user[0]["username"];
 	
-	if(isset($_SESSION['login_string'])) {
-		if($_SESSION['login_string'] !== hash('sha512', "Come_On_You_Spurs" + $un) ) {
-			header('HTTP/1.1 401 Unauthorized'); die(); // Yey!
-		}
-	}
-	else {
+	//Prevent session hijacking
+	if ($_SESSION["remoteAddr"] != $_SERVER["REMOTE_ADDR"] || 
+		$_SESSION["httpUserAgent"] != $_SERVER["HTTP_USER_AGENT"]) {
 		header('HTTP/1.1 401 Unauthorized'); die();
 	}
 }
@@ -45,12 +44,14 @@ function isUser($u, $p) {
 	catch(PDOEception $e) {
 		die("Del -> " .$e->getMessage());
 	}
-	$q = "SELECT id FROM users WHERE username = '$u' AND password = '$p'";
+
+	$q = "SELECT id, password FROM users WHERE username = ?";
 
 	$result;
 	$stm;	
 	try {
 		$stm = $db->prepare($q);
+		$stm->bindParam(1, $u, PDO::PARAM_STR);
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -58,11 +59,13 @@ function isUser($u, $p) {
 		echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
-	
-	if($result)
-		return true;
-	else
-	 	return false;
+
+	if($result) {
+		if (password_verify($p, $result[0]['password'])) {
+    		return true;
+		} 
+	}
+	return false;
 	
 }
 
@@ -76,12 +79,13 @@ function getUser($user) {
 	catch(PDOEception $e) {
 		die("Del -> " .$e->getMessage());
 	}
-	$q = "SELECT * FROM users WHERE username = '$user'";
+	$q = "SELECT * FROM users WHERE username = ?";
 	
 	$result;
 	$stm;	
 	try {
 		$stm = $db->prepare($q);
+		$stm->bindParam(1, $user, PDO::PARAM_STR);
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -94,11 +98,9 @@ function getUser($user) {
 }
 
 function logout() {
-	
 	if(!session_id()) {
 		sec_session_start();
 	}
-	session_end();
+	session_destroy();
 	header('Location: index.php');
 }
-

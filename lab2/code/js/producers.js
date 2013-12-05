@@ -2,7 +2,7 @@ $( document ).ready(
 	function() {
 
 		$("#logout").bind( "click", function() {
-			  	window.location = "index.php";
+			  	window.location = "logout.php";
 	 	});
 	
 		
@@ -65,7 +65,11 @@ function changeProducer(pid) {
 
 		if (j.messages !== null) {
 			j.messages.reverse().forEach(function(entry) {
-				messContainer.find( "#mess_p_mess" ).append( "<p class='message_container'>" +entry.message +"<br />Skrivet av: " +entry.name +"</p>");
+				var p = $("<p class='message_container'></p>");
+				p.append(document.createTextNode(entry.message)).append(
+					"<br />Skrivet av: ").append(
+					document.createTextNode(entry.name));
+				messContainer.find( "#mess_p_mess" ).append(p);
 			});
 		}
 	});
