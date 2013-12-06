@@ -3,7 +3,7 @@ require_once("get.php");
 require_once("add.php");
 require_once("sec.php");
 sec_session_start();
-
+checkUser();
 /*
 * It's here all the ajax calls goes
 */ 

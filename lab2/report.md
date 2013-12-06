@@ -285,7 +285,7 @@ Del 2 - Säkerhetsproblem
 
 * Det går att göra en "stjäla" en sessions cookie så att man blir inloggad som den användaren.
 
-* Det går att kopiera en sessions cookies värde och sedan skapa en egen cookie med det värdet, då blir man inloggad som den användaren. Att få reda på en cookies värde kan ske genom att man tex sitter på ett okrypterat nätverk och avlyssnar nätverkstrafiken. Då är det bara att leta upp kakan och sedan kopiera värdet.
+* Det går att kopiera en sessions cookies värde och sedan skapa en egen cookie med det värdet, då blir man inloggad som den användaren. Att få reda på en cookies värde kan ske genom att man tex sitter på ett okrypterat nätverk och avlyssnar nätverkstrafiken. Då är det bara att leta upp kakan och sedan kopiera värdet. Eftersom sessions kakans värde genereras om vid varje request så måste detta ske innan användaren gör en ny request.
 
 * Om en någon får tag på en sessions cookie och loggar in som den användaren så kan den göra allt som den användaren kan och det ser ut som att det är den vanliga användaren som gör det. I fallet för denna sidan kan då personen som tagit över session kakan posta meddelanden.
 
@@ -299,7 +299,7 @@ Del 2 - Säkerhetsproblem
 
 * Jag la till sidan logout.php. När man trycker på knappen "Logga ut" så kommer man till sidan logout.php, som förstör sessionen och skickar en till index.php. Ändrade även `session_end` till `session_destroy`.
 
-### 5: Output text som ren text
+### 5: Output text som ren text (Inte så allvarligt)
 
 * Meddelanden som skrivs ut skrivs ut som HTML och inte som ren text.
 
@@ -321,4 +321,18 @@ Del 2 - Säkerhetsproblem
 
 * Om databasen skulle bli hackad så skulle vem som helst kunna logga in på de användarkonton som finns utan att behöva göra något. Lösenord ska heller aldrig lagras i klartext eftersom de som administrerar databasen då kan se dem. I nästan alla fall så är de personer som har tillgång till databasen inte några som skulle använda den informationen för att göra något, men man ska ändå aldrig lagra lösenord så att de gå att få fram dem i klartext på något sätt.
 
-* För att lösa detta krypterade jag lösenorden i databasen med BCRYPT. Inloggning sker ju genom att `password_verify($p, $result[0]['password'])` körs. Jag inkluderade biblioteket password_compat (https://github.com/ircmaxell/password_compat) för att kunna få en syntax som används i PHP 5.5+.
+* För att lösa detta krypterade jag lösenorden i databasen med BCRYPT. Inloggning sker nu genom att `password_verify($p, $result[0]['password'])` körs. Jag inkluderade biblioteket password_compat (https://github.com/ircmaxell/password_compat) för att kunna få en syntax som används i PHP 5.5+.
+
+### 8: AJAX anrop kräver inte att man är inloggad
+
+* Alla AJAX anrop som görs har ingen kontroll om den som gör anropen är inloggad eller inte.
+
+* Bara man vet vilka URL som används så kan man posta meddelanden, hämta meddelanden och hämta producenterna.
+
+* Vem som helst kan få tag i data om producenter och meddelanden, vilket motverkar hela meningen med att ha inloggning.
+
+* Innan koden `if(isset($_GET['function']))` körs i functions.php la jag till en funktions anrop till funktionen `checkUser()` som finns i sec.php.
+
+### Kommentar
+
+Jag valde att inte ändra på att man själv kan skriva in vem som skickar meddelandet. Eftersom det står som namn och inte användarnamn. Även om det är en tveksam lösning att för ifylla det med användarnamn som man sedan kan ändra.
