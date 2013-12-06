@@ -257,7 +257,7 @@ Efter | 11 | 178 kB | 0,890 s
 ![Alt text](resources_end.PNG)
 
 Del 2 - Säkerhetsproblem
-------------------
+------------------------
 
 * Url: http://1dv449-lab2.peteremilsson.se/
 
@@ -336,3 +336,7 @@ Del 2 - Säkerhetsproblem
 ### Kommentar
 
 Jag valde att inte ändra på att man själv kan skriva in vem som skickar meddelandet. Eftersom det står som namn och inte användarnamn. Även om det är en tveksam lösning att för ifylla det med användarnamn som man sedan kan ändra.
+
+Del 4 - Long Polling - Extrauppgift 1
+-------------------------------------
+

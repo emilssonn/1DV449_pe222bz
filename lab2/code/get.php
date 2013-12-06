@@ -12,12 +12,13 @@ function getFullProducer($id) {
 		die("Del -> " .$e->getMessage());
 	}
 	
-	$q = "SELECT * FROM Producers WHERE producerID = '$id'";
+	$q = "SELECT * FROM Producers WHERE producerID = ?";
 	
 	$result;
 	$stm;	
 	try {
 		$stm = $db->prepare($q);
+		$stm->bindParam(1, $id, PDO::PARAM_INT);
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -46,12 +47,13 @@ function getMessagesByProducer($pid) {
 		die("Del -> " .$e->getMessage());
 	}
 	
-	$q = "SELECT * FROM messages WHERE pid = '$pid'";
+	$q = "SELECT * FROM messages WHERE pid = ?";
 	
 	$result;
 	$stm;	
 	try {
 		$stm = $db->prepare($q);
+		$stm->bindParam(1, $pid, PDO::PARAM_INT);
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -79,12 +81,13 @@ function getProducer($id) {
 		die("Del -> " .$e->getMessage());
 	}
 	
-	$q = "SELECT name, city, url, imageUrl FROM Producers WHERE producerID = '$id'";
+	$q = "SELECT name, city, url, imageUrl FROM Producers WHERE producerID = ?";
 	
 	$result;
 	$stm;	
 	try {
 		$stm = $db->prepare($q);
+		$stm->bindParam(1, $id, PDO::PARAM_INT);
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
