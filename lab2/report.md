@@ -195,7 +195,7 @@ Det som orsakade den långa laddningstiden var inte antalet redirects utan att d
 
 ### 7: Övrigt
 
-Jag kan inte hitta några referenser till varför man ska göra det jag har gjort här. Det är väl mer "common sense". Jag har valt att inkludera det även om det inte räknas som en optimering för uppgiften.
+Jag kan inte hitta några referenser till varför man ska göra det jag har gjort här. Jag har valt att inkludera det även om det inte räknas som en optimering för uppgiften.
 
 #### Rendering
 
@@ -333,9 +333,19 @@ Del 2 - Säkerhetsproblem
 
 * Innan koden `if(isset($_GET['function']))` körs i functions.php la jag till en funktions anrop till funktionen `checkUser()` som finns i sec.php.
 
+### 9: CSRF
+
+* När ett meddelande ska postas så är det möjligt att göra Cross Site Request Forgery (http://en.wikipedia.org/wiki/Cross-site_request_forgery). 
+
+* Om användaren går in på en annan sida och fortfarande är inloggad på denna sidan så kan den sidan göra requests till vår server. Eftersom vi är inloggade så kommer webbläsaren se det och skicka med sessions kakan. Den "dåliga" webbsidan kan göra requests men kan inte tolka svaren som ges eftersom webbläsaren förhindrar det.
+
+* Den "dåliga" sidan kan obehindrat posta meddelanden som kommer att sparas. Dessa meddelanden kan innehålla vilken text som helst, vilket kan förstöra hela meddelande tjänsten.
+
+* För att förhinda att den "dåliga" sidan kan posta meddelande använde jag design mönstret "Synchronizer Token Pattern" (https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet). Genom att ha ett gömt fält med en slumpad sträng som skickas med vid varje POST och som sedan jämförs med den som lagras på servern så måste klienten som ska posta meddelande vara på vår sida. Detta eftersom det gömda fältet ligger i HTML, vilket andra öppna sidor i webbläsaren inte har tillgång till.
+
 ### Kommentar
 
-Jag valde att inte ändra på att man själv kan skriva in vem som skickar meddelandet. Eftersom det står som namn och inte användarnamn. Även om det är en tveksam lösning att för ifylla det med användarnamn som man sedan kan ändra.
+Jag valde att inte ändra på att man själv kan skriva in vem som skickar meddelandet. Eftersom det står som namn och inte användarnamn. Även om det är en tveksam lösning att ha användarnamn ifyllt som man sedan kan ändra.
 
 Del 4 - Long Polling - Extrauppgift 1
 -------------------------------------

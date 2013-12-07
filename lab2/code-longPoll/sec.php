@@ -104,17 +104,3 @@ function logout() {
 	session_destroy();
 	header('Location: index.php');
 }
-
-//Generate a random token to insert in HTML
-function generateToken() {
-	$token = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 40);
-	$_SESSION["postToken"] = $token;
-	return $token;
-}
-
-//Validate the random token on POST
-function checkToken($token) {
-	if ($token != $_SESSION["postToken"]) {
-		header('HTTP/1.1 401 Unauthorized'); die();
-	}
-}

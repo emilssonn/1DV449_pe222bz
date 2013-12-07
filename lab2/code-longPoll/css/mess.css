@@ -1,0 +1,111 @@
+.message_container {
+	border: 1px solid black;
+	padding: 8px;
+	background-color: #DDD;
+}
+
+#mess_p_mess {
+	width: 100%; 
+	height: 250px; 
+	overflow-y: scroll !important; 
+	border: solid 3px black; 
+	padding: 5px;
+}
+			
+#mess_p_headline {
+	font-family: 'Wellfleet', cursive;
+}
+
+
+/* From screen.css */
+
+h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+li {
+  padding-bottom: 0.8em;
+  margin-bottom: 0.8em;
+  border-bottom: 2px solid #515151;
+  line-height: 1.3em;
+}
+
+.row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+p {
+    line-height: 1.4em;
+}
+
+.example-image-link {
+    border: 4px solid #5E5E5E;
+    border-radius: 4px;
+    display: inline-block;
+    line-height: 0;
+    margin: 0 10px 20px;
+    transition: all 0.1s ease-out 0s;
+}
+
+.example-image {
+    border-radius: 2px;
+}
+
+a img {
+    border: medium none;
+}
+
+input, textarea {
+    color: #CCCCCC;
+}
+
+.image-row {
+    margin-bottom: 40px;
+}
+
+/* From 2 external css */
+
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+h4 {
+  margin-top: 25px;
+}
+.row {
+  margin-bottom: 20px;
+}
+.row .row {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.right {
+	text-align: right;
+}
+
+.nobg {
+	background: 0;
+}
+
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid rgba(86,61,124,.2);
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.message_container {
+	border: 1px solid black;
+}

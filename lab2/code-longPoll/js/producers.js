@@ -11,14 +11,13 @@ $( document ).ready(
 			var name_val = $('#name_txt').val();
 			var message_val = $('#message_ta').val();
 			var pid =  $('#mess_inputs').val();
-			var postToken = $("#postToken").val();
 			// make ajax call to logout
 			$.ajax({
-				type: "POST",
+				type: "GET",
 			  	url: "functions.php",
-			  	data: {function: "add", name: name_val, message: message_val, pid: pid, postToken: postToken}
+			  	data: {function: "add", name: name_val, message: message_val, pid: pid}
 			}).done(function(data) {
-			  alert(data);
+				$('#message_ta').val("");
 			});
 		  
 	  });
@@ -80,4 +79,27 @@ function changeProducer(pid) {
 	// show the div if its unvisible
 	messContainer.show("slow");
 	
+	getNewMessages(pid);
+}
+
+function getNewMessages(pid) {
+	$.ajax({
+		type: "GET",
+	  	url: "functions.php",
+	  	data: {function: "newMessages", pid: pid}
+	}).done(function(data) {
+		if (data != "false") {
+			var messContainer = $("#mess_container");
+			var j = JSON.parse(data);
+
+			j.reverse().forEach(function(entry) {
+				var p = $("<p class='message_container'></p>");
+				p.append(document.createTextNode(entry.message)).append(
+					"<br />Skrivet av: ").append(
+					document.createTextNode(entry.name));
+				messContainer.find( "#mess_p_mess" ).prepend(p);
+			});
+		}
+		getNewMessages(pid);
+	});
 }

@@ -78,9 +78,7 @@
 	        			<div class="col-md-6">
 							
 							<p>Skriv ditt meddelande så dyker det upp i listan</p>
-							<?php
-								echo ('<input type="hidden" value="' . generateToken() . '" id="postToken"/>');
-							?>
+							
 							<input id="mess_inputs" type="hidden" value="" />
 							Namn: <br /><input id="name_txt" type="text" name="name" value="<?php echo $_SESSION['user']; ?>" /><br />
 							Meddelande: <br /><textarea id="message_ta" cols="50" rows="5" name="message"></textarea><br /><br />
@@ -99,7 +97,7 @@
 
 	    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 		<script src="js/lightbox.js"></script>
-		<script src="js/producers.min.js"></script>
+		<script src="js/producers.js"></script>
 		
 	  </body>
 	</html>
