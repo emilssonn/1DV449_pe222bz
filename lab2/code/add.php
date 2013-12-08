@@ -14,8 +14,10 @@ function addToDB($name, $message, $pid) {
 		$db = new PDO("sqlite:db.db");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Something went wrong -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " . $e->getMessage());
 	}
 	$q = "INSERT INTO messages (message, name, pid) VALUES(?, ?, ?)";
 	
@@ -27,7 +29,9 @@ function addToDB($name, $message, $pid) {
 		$stm->execute();
 	}
 	catch(PDOException $e) {
-		die("Something went wrong -> " .$e->getMessage());
+		die("Database error");
+		//Debug
+		//die("Something went wrong -> " .$e->getMessage());
 	}
 }
 

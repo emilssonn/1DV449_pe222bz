@@ -4,7 +4,7 @@ Laboration 02
 Del 1 - Optimering
 ------------------
 
-* Url: http://1dv449-lab2.peteremilsson.se/
+* Url: http://1dv449-lab2.peteremilsson.se/1/
 
 * Webbläsare: Google Chrome 31.0.1650.57 m
 
@@ -259,7 +259,7 @@ Efter | 11 | 178 kB | 0,890 s
 Del 2 - Säkerhetsproblem
 ------------------------
 
-* Url: http://1dv449-lab2.peteremilsson.se/
+* Url: http://1dv449-lab2.peteremilsson.se/1/
 
 ### 1: SQL injection
 
@@ -307,7 +307,7 @@ Del 2 - Säkerhetsproblem
 
 * För att det ska gå att utnyttja detta säkerhetshål så måste man just nu ha direkt tillgång till databasen. Då kan man föra in tex `<script>alert("Hej")</script>` som då kommer renderas som HTML.
 
-* När meddelanden skrivs ut så har jag seperarerat skapandet av taggar och där texten läggs till. Texten läggs nu till med `document.createTextNode(text)`.
+* När meddelanden skrivs ut så har jag seperarerat skapandet av taggar och där texten läggs till. Texten läggs nu till med `document.createTextNode(text)`. Detta gör att det inte själv går att skapa nya rader.
 
 ### 6: Användarnamn och lösenord är ifyllt från början.
 
@@ -331,7 +331,7 @@ Del 2 - Säkerhetsproblem
 
 * Vem som helst kan få tag i data om producenter och meddelanden, vilket motverkar hela meningen med att ha inloggning.
 
-* Innan koden `if(isset($_GET['function']))` körs i functions.php la jag till en funktions anrop till funktionen `checkUser()` som finns i sec.php.
+* Innan koden `if(isset($_GET['function']))` körs i functions.php la jag till ett funktions anrop till funktionen `checkUser()` som finns i sec.php.
 
 ### 9: CSRF
 
@@ -343,6 +343,14 @@ Del 2 - Säkerhetsproblem
 
 * För att förhinda att den "dåliga" sidan kan posta meddelande använde jag design mönstret "Synchronizer Token Pattern" (https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet). Genom att ha ett gömt fält med en slumpad sträng som skickas med vid varje POST och som sedan jämförs med den som lagras på servern så måste klienten som ska posta meddelande vara på vår sida. Detta eftersom det gömda fältet ligger i HTML, vilket andra öppna sidor i webbläsaren inte har tillgång till.
 
+### 10: Databas felhantering
+
+* Felhanteringen vid databas operationen exponerar databas information som inte borde visas för en slutanvändare. När en databas anslutning skapas och något får fel så ska `catch` blocket fånga undantaget som kastas. Efter som undantaget är felstavat (`PDOEception`) så kommer inte undantaget att fångas och det kommer att komma till klienten där databas information exponeras. I `catch` blocket för felhantering både vid skapande och operationer så exponeras för mycket information när väl ett fel har fångats. En slutanvändare behöver inte få veta på exakt vad som gick fel.
+
+* Om ett fel uppstår och en databas som använder inloggnings uppgifter används så kommer dessa att exponeras genom back backtrace. Detta kan sedan användas för att försöka ansluta till databasen. Om man exponerar exakt vad som gick fel vid tex en query så hjälper man personer som vill skada ens databas/webbsida. 
+
+* För att åtgärda detta ändrade jag `PDOEception` till `PDOException`. I varje `catch` block så kommenterade jag ut debug informationen och returnerar bara "Database error".
+
 ### Kommentar
 
 Jag valde att inte ändra på att man själv kan skriva in vem som skickar meddelandet. Eftersom det står som namn och inte användarnamn. Även om det är en tveksam lösning att ha användarnamn ifyllt som man sedan kan ändra.
@@ -350,3 +358,17 @@ Jag valde att inte ändra på att man själv kan skriva in vem som skickar medde
 Del 4 - Long Polling - Extrauppgift 1
 -------------------------------------
 
+* Url: http://1dv449-lab2.peteremilsson.se/2/
+
+### Implementation
+
+När en producent har hämtats så anropas funktionen `getNewMessages`. Denna funktionen gör att AJAX anrop till server och frågar om det har kommit några nya meddelanden. I AJAX anropet skickas producentens id och ett timestamp med den tiden man vill ha meddelande efter. Server kontrollerar om det har kommit några nya meddelande och stoppar sen exekveringen av scripted i 4 sekunder. Sedan kontrollerar den om det har kommit några nya meddelanden igen. Detta sker i max 20 sekunder och sedan returnerar server oavsett om några nya meddelanden har kommit in eller inte. När klienten får ett svar från server kontrolleras om det var några nya meddelanden. Om det var det så skrivs dessa ut och sedan skickas ett nytt AJAX anrop och allt börjar om. Om klienten väljer att titta på en annan producent under tiden ett AJAX anrop pågår så avbryts detta innan en ny "long poll request" görs.
+Jag valde att begränsa varje request till 20 sekunder på grund av hur webbplatsen är uppbyggd. Eftersom det inte finns så mycket information om varje producent så kommer de flesta användare bara läsa det som finns och sedan klicka vidare till nästa producent. Om man då skulle ha en begränsning på text 2 minuter och användaren byter producent efter 25 sekunder så skulle server jobba i onödan efter de 25 sekunder efterom klienten inte lyssnar efter ett svar längre.
+
+### Reflektion
+
+Fördelen med long polling är att det stöds i många gamla webbläsare. Det går då att göra enkla realtids applikationer som fungerar i många webbläsare. En uppenbar fördel är också att användaren inte behöver ladda om hela sidan för att se nya meddelanden.
+
+Nackdelarna med denna lösning är att man gör något som webbservern inte är skapad för att göra. Eftersom serverns processes själv måste fråga databasen efter nya meddelanden och anslutningen måste hållas öppen så används server resurser till onödiga saker. I varje HTTP request skickas också onödig header data med. Om webbsidan har många användare kan det också bli många samtida anslutningar till servern, vilket kan göra webbsidan långsam att hämta.
+
+Det är då bättre att använda tekniken som är skapade för att streama data, som tex websockets. Om webbsidan ska hantera många requests kan det också vara bra att helt gå ifrån servrar som fungerar som apache och tex använda en node.js server som är händelse styrd. Nackdelen med tex websockets är att alla webbläsare inte stödjer det. Det är då bra att använda bibliotekt som har inbyggd bakåtkompatibilitet för äldre webbläsare. (tex socket.io)

@@ -11,7 +11,7 @@ function sec_session_start() {
         $httponly = true; // This stops javascript being able to access the session id. 
         ini_set('session.use_only_cookies', 1); // Forces sessions to only use cookies. 
         $cookieParams = session_get_cookie_params(); // Gets current cookies params.
-        session_set_cookie_params(3600, $cookieParams["path"], $cookieParams["domain"], $secure, $httponly); 
+        session_set_cookie_params(3600, $cookieParams["path"] . "1DV449/lab2/code", $cookieParams["domain"], $secure, $httponly); 
         session_name($session_name); // Sets the session name to the one set above.
         session_start(); // Start the php session
         session_regenerate_id(); // regenerated the session, delete the old one.  
@@ -41,8 +41,10 @@ function isUser($u, $p) {
 		$db = new PDO("sqlite:db.db");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " . $e->getMessage());
 	}
 
 	$q = "SELECT id, password FROM users WHERE username = ?";
@@ -56,7 +58,9 @@ function isUser($u, $p) {
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+		echo("Database error");
+		//Debug
+		//echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 
@@ -76,8 +80,10 @@ function getUser($user) {
 		$db = new PDO("sqlite:db.db");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " .$e->getMessage());
 	}
 	$q = "SELECT * FROM users WHERE username = ?";
 	
@@ -90,7 +96,9 @@ function getUser($user) {
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+		echo("Database error");
+		//Debug
+		//echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 	

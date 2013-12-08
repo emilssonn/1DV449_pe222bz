@@ -12,7 +12,6 @@ $( document ).ready(
 			var message_val = $('#message_ta').val();
 			var pid =  $('#mess_inputs').val();
 			var postToken = $("#postToken").val();
-			// make ajax call to logout
 			$.ajax({
 				type: "POST",
 			  	url: "functions.php",

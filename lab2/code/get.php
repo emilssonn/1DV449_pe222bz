@@ -8,8 +8,10 @@ function getFullProducer($id) {
 		$db = new PDO("sqlite:producerDB.sqlite");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " . $e->getMessage());	
 	}
 	
 	$q = "SELECT * FROM Producers WHERE producerID = ?";
@@ -23,7 +25,9 @@ function getFullProducer($id) {
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+		echo("Database error");
+		//Debug
+		//echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 	
@@ -43,8 +47,10 @@ function getMessagesByProducer($pid) {
 		$db = new PDO("sqlite:db.db");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " . $e->getMessage());	
 	}
 	
 	$q = "SELECT * FROM messages WHERE pid = ?";
@@ -58,7 +64,9 @@ function getMessagesByProducer($pid) {
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+		echo("Database error");
+		//Debug
+		//echo("Error creating query: " .$e->getMessage());
 		return null;
 	}
 	
@@ -77,8 +85,10 @@ function getProducer($id) {
 		$db = new PDO("sqlite:producerDB.sqlite");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " . $e->getMessage());	
 	}
 	
 	$q = "SELECT name, city, url, imageUrl FROM Producers WHERE producerID = ?";
@@ -92,7 +102,9 @@ function getProducer($id) {
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+		echo("Database error");
+		//Debug
+		//echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 	
@@ -109,8 +121,10 @@ function getProducers() {
 		$db = new PDO("sqlite:producerDB.sqlite");
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	catch(PDOEception $e) {
-		die("Del -> " .$e->getMessage());
+	catch(PDOException $e) {
+		die("Database error");
+		//Debug
+		//die("Del -> " . $e->getMessage());	
 	}
 	
 	$q = "SELECT producerID, name FROM Producers";
@@ -123,7 +137,9 @@ function getProducers() {
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	}
 	catch(PDOException $e) {
-		echo("Error creating query: " .$e->getMessage());
+		echo("Database error");
+		//Debug
+		//echo("Error creating query: " .$e->getMessage());
 		return false;
 	}
 	
