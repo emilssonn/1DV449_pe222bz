@@ -26,10 +26,56 @@ class AppView {
 	    		</script>
 			  </head>
 			  <body>
+				<nav class="navbar navbar-default" role="navigation">
+				  <!-- Brand and toggle get grouped for better mobile display -->
+				  <div class="navbar-header">
+				    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				      <span class="sr-only">Toggle navigation</span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				    </button>
+				    <a class="navbar-brand" href="#">Test</a>
+				  </div>
+
+				  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				    <form class="navbar-form navbar-left" role="search" id="checkBoxFilter">
+					  <div class="checkbox inline">
+					    <label>
+					      <input type="checkbox" value="0" name="cat"> Vägtrafik
+					    </label>
+					  </div>
+					  <div class="checkbox inline">
+					    <label>
+					      <input type="checkbox" value="1" name="cat"> Kollektivtrafik
+					    </label>
+					  </div>
+					  <div class="checkbox inline">
+					    <label>
+					      <input type="checkbox" value="2" name="cat"> Planerad störning
+					    </label>
+					  </div>
+					  <div class="checkbox inline">
+					    <label>
+					      <input type="checkbox" value="3" name="cat"> Övrigt
+					    </label>
+					  </div>
+					  <a class="btn btn-default" id="filterButton">Filter</a>
+					</form>
+
+				  </div><!-- /.navbar-collapse -->
+				</nav>
+
 			  	<div class="container">
-			    	<h1>Test</h1>
-			    	<button id="test">Test</button>
-			    	<div id="map-canvas" style="min-width: 100%; min-height:500px"></div>
+			  		<div class="row">
+			  			<h1>Test</h1>
+			  			<div class="col-lg-2" id="list-trafic" style="max-height:500px; overflow:scroll;">
+
+			  			</div>
+			  			<div class="col-lg-10">
+			  				<div id="map-canvas" style="min-width: 100%; min-height:500px"></div>
+			  			</div>
+			  		</div>
 			    </div>
 			    <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
 			    <script src="https://code.jquery.com/jquery.js"></script>
