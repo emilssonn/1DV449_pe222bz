@@ -57,3 +57,6 @@ Del 2 - Fallstudie - Exempel på en bra befintlig mashup-applikation
 * Url: http://climendo.com
 
 Climendo kombinerar väderdata från flera olika väderleverantörer. Datan kombineras och en prognos tas fram utifrån de olika källorna. Climendo visar även hur säker deras sammanställning är genom att tex skriva "Ganska Säker". Eftersom väderprognoser ibland kan skilja sig mycket mellan olika källor så går det genom att att flera olika källor förhoppningsvis få en bättre prognos. Climendo ger inte i sig ny funktion om man jämför med andra väderapplikationer, den sammanställer "bara" data från olika källor och räknar ut ett medel.
+
+
+
