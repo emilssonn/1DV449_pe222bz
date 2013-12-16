@@ -1,5 +1,3 @@
-<meta charset="UTF-8">
-
 Projektbeskrivning för 1DV449, 1DV409
 =============
 
@@ -35,4 +33,4 @@ Användare ska kunna logga in genom Facebook eller "vanliga" asp.net inloggninge
 
 ## Databas
 
-![Alt text](database.png)
+![Alt text](database.PNG)
