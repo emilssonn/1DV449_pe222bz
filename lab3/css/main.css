@@ -1,0 +1,96 @@
+body { 
+	padding-top: 50px; 
+	word-wrap: break-word;
+}
+
+.infoWindow {
+	max-width: 300px;
+	max-height: 300px;
+	overflow-y: auto; 
+}
+
+#map-canvas {
+	min-width: 100%; 
+	min-height:670px;
+}
+
+.traficBox {
+	max-height:732px; 
+	min-height: 200px;
+	overflow-y:scroll;
+}
+
+@media (max-width: 767px) {
+	.traficBox {
+		max-height: 300px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .traficBox {
+		max-height: 300px;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	.traficBox {
+		min-height: 732px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.traficBox {
+		min-height: 732px;
+	}
+}
+
+
+.addMargin {
+	margin-top: 5px;
+}
+
+.prio-5 {
+	background-color: #6991fd;
+}
+
+.prio-4 {
+	background-color: #00e64d;
+}
+
+.prio-3 {
+	background-color: #8e67fd;
+}
+
+.prio-2 {
+	background-color: #fdf569;
+	color: black;
+}
+
+.prio-1 {
+	background-color: #fd7567;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 60px;
+  background-color: #222222;
+  color: #999999;

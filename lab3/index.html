@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>1DV449 - Laboration 03</title>
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<!-- Bootstrap -->
+ 	<link href="css/bootstrap.min.css" rel="stylesheet">
+ 	<link href="css/main.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
+
+ 	<script type="text/javascript"
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt7yjVsyTrfUzSWi-8P3FzJKArOfQQQGg&sensor=false">
+ 	</script>
+</head>
+<body>
+	<div id="wrap">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+		 	<div class="navbar-header">
+		 		<a class="navbar-brand" href="#" title="Go To Top">1DV449 - Laboration 03</a>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="panel panel-default">
+		<div class="panel-body container">
+			<form class="form-inline">
+				<label>Visa Kategori: </label>
+				<div class="checkbox inline">
+		 			<label class="filterCheckbox">
+		 				<input type="checkbox" value="0" name="cat"> Vägtrafik
+		 			</label>
+		 		</div>
+				<div class="checkbox inline">
+			 		<label class="filterCheckbox">
+		 				<input type="checkbox" value="1" name="cat"> Kollektivtrafik
+		 			</label>
+		 		</div>
+		 		<div class="checkbox inline">
+		 			<label class="filterCheckbox">
+		 				<input type="checkbox" value="2" name="cat"> Planerad störning
+		 			</label>
+		 		</div>
+		 		<div class="checkbox inline">
+		 			<label class="filterCheckbox">
+		 				<input type="checkbox" value="3" name="cat"> Övrigt
+		 			</label>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row addMargin">
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-12 traficBox panel panel-default">
+				<div class="panel-body">
+					<h3>Trafikmeddelanden</h3>
+					<ul id="list-trafic" class="list-unstyled">
+						<!-- Messages -->
+			 		<ul>
+			 	</div>
+			</div>
+			<div class="col-lg-9 col-md-9 col-sm-12 panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<ul class="list-inline">
+	 						<li><span class="label label-default prio-1">Mycket allvarlig händelse</span></li>
+	 						<li><span class="label label-default prio-2">Stor händelse</span></li>
+	 						<li><span class="label label-default prio-3">Störning</span></li>
+	 						<li><span class="label label-default prio-4">Information</span></li>
+	 						<li><span class="label label-default prio-5">Mindre störning</span></li>
+						</ul>
+					</div>
+					<div class="row">
+						<div id="map-canvas"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+ 	</div>
+	</div>
+ 	<div id="footer">
+    	<div class="container">
+        	<p>Senast Uppdaterad: <span id="lastUpdated"></span>.</p>
+        	<p>Möjlig uppdaterings intervall: <span id="updateFrequency"></span> sekunder.</p>
+    	</div>
+    </div>
+
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/MapApp.js"></script>
+</body>
+</html>        
