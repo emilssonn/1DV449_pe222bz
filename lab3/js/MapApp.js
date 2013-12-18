@@ -32,18 +32,23 @@ var MapApp = {
 
 	getTraficInfo: function() {
 		var that = this;
+
 		$.ajax({
 			type: "GET",
-		  	url: "?traficInfo"
+			cache: true,
+		  	url: "http://api.sr.se/api/v2/traffic/messages",
+		  	dataType: "jsonp",
+		  	data: { 
+		  		format: "json",
+            	size: 100, 
+            	page: 1	
+            }
 		}).done(function(data) {
-			data = JSON.parse(data);
-			
 			if (data.messages !== null) {
 				data.messages.forEach(function(entry) {
 					that.addMarker(entry);
 				});
 			}
-
 		});
 	},
 
@@ -67,9 +72,6 @@ var MapApp = {
 		that.markers.push(marker);
 	},
 
-
-
-	//marker.setVisible(false);list-trafic
 	addInfoWindow: function(marker, message) {
 		var that = this;
 		var content = $('<p></p>').append(
@@ -95,7 +97,8 @@ var MapApp = {
 			"<br />" + that.getCategoryText(message.category)).append(
 			"<br />" + that.getMessageTimeText(message.createddate));
 
-		$("#list-trafic").prepend(mc);
+
+		$("#list-trafic").prepend($('<li></li>').append(mc));
 
 		google.maps.event.addListener(marker, 'click', function() {
 			that.infowindow.setContent(content.get(0));
