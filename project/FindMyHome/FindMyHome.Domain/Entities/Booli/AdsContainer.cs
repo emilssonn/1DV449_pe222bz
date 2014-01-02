@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FindMyHome.Domain.Entities.Booli
 {
-    public class AdsContainer
+    //[Table("BooliCache")]
+    public partial class AdsContainer
     {
-        private List<Ad> _ads = new List<Ad>();
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
-        public List<Ad> Ads 
-        {
-            get
-            {
-                return this._ads;
-            }
-            set
-            {
-                this._ads = value;
-            }
-        }
+        public virtual List<Ad> Ads { get; set; }
 
         public int TotalCount { get; set; }
 
@@ -30,8 +24,15 @@ namespace FindMyHome.Domain.Entities.Booli
 
         public int Offset { get; set; }
 
-        public string Uri { get; set; }
+        public string SearchTerms { get; set; }
+
+        public string ObjectTypes { get; set; }
 
         public DateTime NextUpdate { get; set; }
+
+        public AdsContainer()
+        {
+            this.Ads = new List<Ad>();
+        }
     }
 }

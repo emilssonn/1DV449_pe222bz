@@ -1,6 +1,7 @@
 ﻿using FindMyHome.Domain.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace FindMyHome.Domain.DAL
             this._dbSet = this._dbContext.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> Get(
+        public virtual IEnumerable<TEntity> Get(
             System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, 
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, 
             string includeProps = "")
@@ -39,29 +40,35 @@ namespace FindMyHome.Domain.DAL
             return orderby == null ? query.ToList() : orderby(query).ToList();
         }
 
-        public TEntity GetById(object id)
+        public virtual TEntity GetById(object id)
         {
-            throw new NotImplementedException();
+            return this._dbSet.Find(id);
         }
 
-        public void Insert(TEntity entity)
+        public virtual void Insert(TEntity entity)
         {
-            throw new NotImplementedException();
+            this._dbSet.Add(entity);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            this._dbSet.Attach(entity);
+            this._dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(object id)
+        public virtual void Delete(object id)
         {
-            throw new NotImplementedException();
+            var entity = this._dbSet.Find(id);
+            this.Delete(entity);
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            if (this._dbContext.Entry(entity).State == EntityState.Detached)
+            {
+                this._dbSet.Attach(entity);
+            }
+            this._dbSet.Remove(entity);
         }
     }
 }

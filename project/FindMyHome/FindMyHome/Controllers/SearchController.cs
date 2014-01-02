@@ -11,6 +11,7 @@ using FindMyHome.Filters;
 using FindMyHome.ViewModels;
 using FindMyHome.Domain.Abstract;
 using FindMyHome.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace FindMyHome.Controllers
 {
@@ -26,7 +27,7 @@ namespace FindMyHome.Controllers
         }
 
         // GET api/search
-        public IEnumerable<Ad> Get([FromUri]SearchViewModel viewModel)
+        public AdsContainer Get([FromUri]SearchViewModel viewModel)
         {
             try
             {
@@ -41,8 +42,8 @@ namespace FindMyHome.Controllers
                 }
 
 
-
-                return viewModel.Ads;
+                return viewModel.AdsContainer;
+                
             }
             catch (Exception ex)
             {

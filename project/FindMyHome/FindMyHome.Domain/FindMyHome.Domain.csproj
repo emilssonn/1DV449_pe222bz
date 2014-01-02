@@ -7,8 +7,8 @@
     <ProjectGuid>{8744AA7D-7802-4064-9D68-35A846F343B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HittaMittHem.Domain</RootNamespace>
-    <AssemblyName>HittaMittHem.Domain</AssemblyName>
+    <RootNamespace>FindMyHome.Domain</RootNamespace>
+    <AssemblyName>FindMyHome.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,11 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\FindMyHomeServiceBase.cs" />
+    <Compile Include="Abstract\IFindMyHomeContext.cs" />
     <Compile Include="Abstract\IFindMyHomeService.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="AccountModels.cs" />
+    <Compile Include="DAL\FindMyHomeContext.cs" />
     <Compile Include="DAL\Repository.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Entities\Booli\Ad.cs" />
     <Compile Include="Entities\Booli\AdsContainer.cs" />
     <Compile Include="FindMyHomeService.cs" />

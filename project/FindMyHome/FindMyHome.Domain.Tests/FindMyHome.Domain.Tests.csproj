@@ -7,8 +7,8 @@
     <ProjectGuid>{AE53AEE6-D011-45F8-847D-EBB40E00EC07}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HittaMittHem.Domain.Tests</RootNamespace>
-    <AssemblyName>HittaMittHem.Domain.Tests</AssemblyName>
+    <RootNamespace>FindMyHome.Domain.Tests</RootNamespace>
+    <AssemblyName>FindMyHome.Domain.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

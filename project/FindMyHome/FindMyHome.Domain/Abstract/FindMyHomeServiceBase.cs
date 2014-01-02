@@ -9,7 +9,7 @@ namespace FindMyHome.Domain.Abstract
 {
     public abstract class FindMyHomeServiceBase : IFindMyHomeService
     {
-        public abstract AdsContainer Search(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 500);
+        public abstract AdsContainer Search(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 30);
 
         #region IDisposable Members
 

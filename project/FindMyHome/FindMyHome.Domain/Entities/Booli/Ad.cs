@@ -1,14 +1,28 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FindMyHome.Domain.Entities.Booli
 {
+    //[Table("BooliAd", Schema="dbo")]
     public partial class Ad
     {
+        [Key, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Key, Column(Order = 1)]
+        [ForeignKey("AdsContainer")]
+        [JsonIgnore]
+        public int AdsContainerId { get; set; }
+
+        [JsonIgnore]
+        public virtual AdsContainer AdsContainer { get; set; }
+
         public int BooliId { get; set; }
 
         public int? ListPrice { get; set; }

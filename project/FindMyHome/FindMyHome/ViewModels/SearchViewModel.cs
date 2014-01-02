@@ -17,10 +17,9 @@ namespace FindMyHome.ViewModels
         [Required(ErrorMessage = "A search term is required")]
         public string SearchTerms { get; set; }
 
-        [Range(0, 100)]
         public int? Page { get; set; }
 
-        [Range(1, 100)]
+        [Range(1, 30)]
         public int? Size { get; set; }
 
         //[villa, lägenhet, gård, tomt-mark, fritidshus, parhus,radhus,kedjehus]
@@ -54,7 +53,7 @@ namespace FindMyHome.ViewModels
         {
             get
             {
-                return this._adsContainer.Ads.AsReadOnly();
+                return this._adsContainer.Ads.ToList().AsReadOnly();
             }
         }
 

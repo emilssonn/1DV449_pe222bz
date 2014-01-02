@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FindMyHome.Domain.Abstract
 {
-    internal interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : class
     {
         IEnumerable<TEntity> Get(
             System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null,

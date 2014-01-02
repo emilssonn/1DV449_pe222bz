@@ -14,7 +14,7 @@ namespace FindMyHome.Domain.Webservices
     internal class BooliWebservice
     {
 
-        public AdsContainer SearchRaw(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 500)
+        public AdsContainer SearchRaw(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 30)
         {
             StringBuilder filters = new StringBuilder();
             if (objectTypes != null)
@@ -58,7 +58,8 @@ namespace FindMyHome.Domain.Webservices
 
                 var adsContainer = new AdsContainer();
 
-                adsContainer.Uri = searchString;
+                adsContainer.SearchTerms = searchTerms;
+                adsContainer.ObjectTypes = filters;
                 adsContainer.Ads.AddRange(jsonRes["listings"].Select(a => new Ad(a)).ToList());
                 adsContainer.CurrentCount = (int)jsonRes["count"];
                 adsContainer.TotalCount = (int)jsonRes["totalCount"];
