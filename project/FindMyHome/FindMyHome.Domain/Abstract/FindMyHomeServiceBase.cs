@@ -11,6 +11,8 @@ namespace FindMyHome.Domain.Abstract
     {
         public abstract AdsContainer Search(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 30);
 
+        public abstract IEnumerable<string> GetSearchTerms(string term);
+
         #region IDisposable Members
 
         protected virtual void Dispose(bool disposing)

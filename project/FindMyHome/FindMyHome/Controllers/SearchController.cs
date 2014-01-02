@@ -12,23 +12,25 @@ using FindMyHome.ViewModels;
 using FindMyHome.Domain.Abstract;
 using FindMyHome.Domain;
 using Newtonsoft.Json.Linq;
+using System.Web.Security;
 
 namespace FindMyHome.Controllers
 {
     //[ValidateHttpAntiForgeryTokenAttribute]
-    
+    [InitializeSimpleMembership]
     public class SearchController : ApiController
     {
         private IFindMyHomeService _service;
 
         public SearchController(IFindMyHomeService service)
         {
-            _service = service;
+            this._service = service;
         }
 
         // GET api/search
-        public AdsContainer Get([FromUri]SearchViewModel viewModel)
+        public AdsContainer Get([FromUri]SearchViewModel viewModel, [FromUri]TagSearchViewModel tagSearch)
         {
+            var test = Membership.GetUser().ProviderUserKey;
             try
             {
                 if (viewModel.Paging)
@@ -50,6 +52,8 @@ namespace FindMyHome.Controllers
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message));
             }    
         }
+
+        
 
         #region Dispose
 

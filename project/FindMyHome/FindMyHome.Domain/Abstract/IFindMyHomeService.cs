@@ -10,5 +10,7 @@ namespace FindMyHome.Domain.Abstract
     public interface IFindMyHomeService : IDisposable
     {
         AdsContainer Search(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 30);
+
+        IEnumerable<string> GetSearchTerms(string term);
     }
 }

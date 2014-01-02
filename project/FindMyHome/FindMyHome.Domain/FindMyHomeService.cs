@@ -25,6 +25,15 @@ namespace FindMyHome.Domain
             this._unitOfWork = unitOfWork;
         }
 
+        public override IEnumerable<string> GetSearchTerms(string term)
+        {
+            var searchTerms = this._unitOfWork.AdsContainerRepository.Get(a => a.SearchTerms.Contains(term));
+            return searchTerms
+                .Select(a => a.SearchTerms)
+                .OrderBy(a => a)
+                .ToList();
+        }
+
         public override AdsContainer Search(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 30)
         {
             var searchTermsArray = searchTerms.Split(',').Select(s => s.Trim()).ToArray();
@@ -58,13 +67,16 @@ namespace FindMyHome.Domain
                     adsContainer = booliWebservice.SearchRaw(searchTerms, objectTypes, offset, limit);
 
                     this._unitOfWork.AdsContainerRepository.Insert(adsContainer);
-                    adsContainer.NextUpdate = DateTime.Now.AddHours(3);
+                    //adsContainer.NextUpdate = DateTime.Now.AddHours(3);
+                    adsContainer.NextUpdate = DateTime.Now.AddMinutes(1);
                     this._unitOfWork.Save();
                 }
             }
 
             return adsContainer;
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {
