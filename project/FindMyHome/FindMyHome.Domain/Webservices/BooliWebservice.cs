@@ -8,13 +8,13 @@ using System.Text;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using FindMyHome.Domain.Exceptions;
 
 namespace FindMyHome.Domain.Webservices
 {
     internal class BooliWebservice
     {
-
-        public AdsContainer SearchRaw(string searchTerms, string objectTypes = null, int? offset = 0, int? limit = 30)
+        public AdsContainer Search(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30)
         {
             StringBuilder filters = new StringBuilder();
             if (objectTypes != null)
@@ -23,11 +23,18 @@ namespace FindMyHome.Domain.Webservices
                 filters.Append(objectTypes);
             }
 
-            return this.Search(searchTerms, filters.ToString(), offset, limit);
-        }
+            if (maxRent > 0)
+            {
+                filters.Append("&maxRent=");
+                filters.Append(maxRent);
+            }
 
-        public AdsContainer Search(string searchTerms, string filters, int? offset, int? limit)
-        {
+            if (maxPrice > 0)
+            {
+                filters.Append("&maxListPrice=");
+                filters.Append(maxPrice);
+            }
+
             var rawJson = string.Empty;
             var callerId = ConfigurationManager.AppSettings["BooliCallerId"];
             var privateKey = ConfigurationManager.AppSettings["BooliPrivateKey"];
@@ -59,7 +66,9 @@ namespace FindMyHome.Domain.Webservices
                 var adsContainer = new AdsContainer();
 
                 adsContainer.SearchTerms = searchTerms;
-                adsContainer.ObjectTypes = filters;
+                adsContainer.ObjectTypes = objectTypes;
+                adsContainer.MaxPrice = maxPrice;
+                adsContainer.MaxRent = maxRent;
                 adsContainer.Ads.AddRange(jsonRes["listings"].Select(a => new Ad(a)).ToList());
                 adsContainer.CurrentCount = (int)jsonRes["count"];
                 adsContainer.TotalCount = (int)jsonRes["totalCount"];
@@ -68,9 +77,19 @@ namespace FindMyHome.Domain.Webservices
 
                 return adsContainer;
             }
-            catch (Exception e)
+            catch (WebException e)
             {
-                throw e;
+                if (e.Status == WebExceptionStatus.ProtocolError &&
+                    e.Response != null)
+                {
+                    var resp = (HttpWebResponse)e.Response;
+                    if (resp.StatusCode == HttpStatusCode.ServiceUnavailable ||
+                        resp.StatusCode == HttpStatusCode.InternalServerError)
+                    {
+                        throw new ExternalDataSourceException(Properties.Resources.BooliApiError, e);
+                    }
+                }
+                throw;
             }
         }
 

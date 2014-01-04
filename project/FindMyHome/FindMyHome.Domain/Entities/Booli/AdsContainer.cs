@@ -30,7 +30,14 @@ namespace FindMyHome.Domain.Entities.Booli
 
         public string ObjectTypes { get; set; }
 
+        public int MaxRent { get; set; }
+
+        public int MaxPrice { get; set; }
+
         public DateTime NextUpdate { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime LastUpdate { get; set; }
 
         public AdsContainer()
         {

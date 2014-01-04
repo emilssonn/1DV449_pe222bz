@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Abstract;
+using FindMyHome.Domain.Exceptions;
 using FindMyHome.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Http;
 
 namespace FindMyHome.Controllers
 {
+    //[ValidateHttpAntiForgeryTokenAttribute]
     public class SearchTermController : ApiController
     {
         private IFindMyHomeService _service;
@@ -23,12 +25,29 @@ namespace FindMyHome.Controllers
         {
             try
             {
-                return this._service.GetSearchTerms(terms.SearchTerm);
+                return this._service.GetSearchTerms(terms.SearchTerms);
             }
-            catch (Exception ex)
+            catch (ExternalDataSourceException e)
             {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message));
+                HttpError err = new HttpError(e.Message);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }
+            catch (Exception e)
+            {
+                var message = string.Format(Properties.Resources.InternalServerError);
+                HttpError err = new HttpError(message);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+            }    
         }
+
+        #region Dispose
+
+        protected override void Dispose(bool disposing)
+        {
+            this._service.Dispose();
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

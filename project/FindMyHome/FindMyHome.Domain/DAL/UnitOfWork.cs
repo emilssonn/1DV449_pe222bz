@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Abstract;
+using FindMyHome.Domain.Entities;
 using FindMyHome.Domain.Entities.Booli;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace FindMyHome.Domain.DAL
 
         private IRepository<AdsContainer> _adsContainerRepository;
 
+        private IRepository<UserAdsSearch> _userAdsSearchRepository;
+
         public IRepository<Ad> AdRepository
         {
             get
@@ -29,6 +32,14 @@ namespace FindMyHome.Domain.DAL
             get
             {
                 return this._adsContainerRepository ?? (this._adsContainerRepository = new Repository<AdsContainer>(this._context));
+            }
+        }
+
+        public IRepository<UserAdsSearch> UserAdsSearchRepository
+        {
+            get
+            {
+                return this._userAdsSearchRepository ?? (this._userAdsSearchRepository = new Repository<UserAdsSearch>(this._context));
             }
         }
 

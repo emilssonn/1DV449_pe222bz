@@ -14,16 +14,30 @@ namespace FindMyHome.ViewModels
 
         #region From Url
 
-        [Required(ErrorMessage = "A search term is required")]
+        [Required(
+            ErrorMessageResourceType = typeof(Properties.Resources),
+            ErrorMessageResourceName = "SearchTermRequired")]
+        [MaxLength(
+            100,
+            ErrorMessageResourceType = typeof(Properties.Resources),
+            ErrorMessageResourceName = "SearchTermLength")]
         public string SearchTerms { get; set; }
 
-        public int? Page { get; set; }
+        [Range(0, Int32.MaxValue)]
+        public int? Offset { get; set; }
 
         [Range(1, 30)]
-        public int? Size { get; set; }
+        public int? Limit { get; set; }
 
         //[villa, lägenhet, gård, tomt-mark, fritidshus, parhus,radhus,kedjehus]
+        [MaxLength(70)]
         public string ObjectTypes { get; set; }
+
+        [Range(0, Int32.MaxValue)]
+        public int MaxRent { get; set; }
+
+        [Range(0, Int32.MaxValue)]
+        public int MaxPrice { get; set; }
 
         #endregion
 
@@ -31,7 +45,7 @@ namespace FindMyHome.ViewModels
         {
             get
             {
-                return this.Page != null && this.Size != null;
+                return this.Offset > 0 && this.Limit > 0;
             }
         }
 
@@ -43,8 +57,6 @@ namespace FindMyHome.ViewModels
             }
             set
             {
-                if (this._adsContainer != null)
-                    throw new Exception("Can only set this once");
                 this._adsContainer = value;
             }
         }
@@ -56,39 +68,6 @@ namespace FindMyHome.ViewModels
                 return this._adsContainer.Ads.ToList().AsReadOnly();
             }
         }
-
-        public int TotalCount 
-        {
-            get
-            {
-                return this._adsContainer.TotalCount;
-            }
-        }
-
-        public int CurrentCount
-        {
-            get
-            {
-                return this._adsContainer.CurrentCount;
-            }
-        }
-
-        public int Limit
-        {
-            get
-            {
-                return this._adsContainer.Limit;
-            }
-        }
-
-        public int Offset
-        {
-            get
-            {
-                return this._adsContainer.Offset;
-            }
-        }
-
-        
+ 
     }
 }

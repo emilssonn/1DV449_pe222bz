@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Abstract;
+using FindMyHome.Domain.Entities;
 using FindMyHome.Domain.Entities.Booli;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -10,6 +11,8 @@ namespace FindMyHome.Domain.DAL
         public IDbSet<Ad> Ads { get; set; }
 
         public IDbSet<AdsContainer> AdsContainers { get; set; }
+
+        public IDbSet<UserAdsSearch> UserAdsSearches { get; set; }
 
 
         static FindMyHomeContext()
@@ -29,6 +32,7 @@ namespace FindMyHome.Domain.DAL
             // Map entity types to tables.
             modelBuilder.Entity<Ad>().ToTable("Ad", "dbo");
             modelBuilder.Entity<AdsContainer>().ToTable("AdsContainer", "dbo");
+            modelBuilder.Entity<UserAdsSearch>().ToTable("UserAdsSearch", "dbo");
 
         }
     }

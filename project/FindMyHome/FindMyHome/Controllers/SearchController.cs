@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using FindMyHome.Domain.Exceptions;
 using FindMyHome.Domain.Webservices;
 using FindMyHome.Domain.Entities.Booli;
 using System.Web.Mvc;
@@ -30,26 +31,42 @@ namespace FindMyHome.Controllers
         // GET api/search
         public AdsContainer Get([FromUri]SearchViewModel viewModel, [FromUri]TagSearchViewModel tagSearch)
         {
-            var test = Membership.GetUser().ProviderUserKey;
             try
             {
+                var userId = 0;
+                if (User.Identity.IsAuthenticated)
+                {
+                    userId = (int)Membership.GetUser().ProviderUserKey;
+                }
                 if (viewModel.Paging)
-                    viewModel.AdsContainer = this._service.Search(viewModel.SearchTerms, viewModel.ObjectTypes, viewModel.Page, viewModel.Size);
+                    viewModel.AdsContainer = this._service.Search(viewModel.SearchTerms, viewModel.ObjectTypes, 
+                                                                    viewModel.MaxRent, viewModel.MaxPrice, 
+                                                                    viewModel.Offset, viewModel.Limit,
+                                                                    userId);
                 else
-                    viewModel.AdsContainer = this._service.Search(viewModel.SearchTerms, viewModel.ObjectTypes);
+                    viewModel.AdsContainer = this._service.Search(viewModel.SearchTerms, viewModel.ObjectTypes, 
+                                                                    viewModel.MaxRent, viewModel.MaxPrice,
+                                                                    userId: userId);
 
                 if (viewModel.Ads.Any())
                 {
-
+                    
                 }
 
 
                 return viewModel.AdsContainer;
-                
+
             }
-            catch (Exception ex)
+            catch (ExternalDataSourceException e)
             {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message));
+                HttpError err = new HttpError(e.Message);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+            }
+            catch (Exception e)
+            {
+                var message = string.Format(Properties.Resources.InternalServerError);
+                HttpError err = new HttpError(message);
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }    
         }
 

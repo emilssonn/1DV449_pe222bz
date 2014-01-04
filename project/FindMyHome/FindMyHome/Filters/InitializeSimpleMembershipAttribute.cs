@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 using FindMyHome.Domain;
+using System.Web.Security;
 
 namespace FindMyHome.Filters
 {
@@ -39,6 +41,23 @@ namespace FindMyHome.Filters
                     }
 
                     WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+
+                    var roles = (SimpleRoleProvider)Roles.Provider;
+                    var membership = (SimpleMembershipProvider)Membership.Provider;
+
+                    // Admin
+                    if (!roles.RoleExists("Administrators"))
+                    {
+                        roles.CreateRole("Administrators");
+                    }
+                    if (membership.GetUser("Admin", false) == null)
+                    {
+                        membership.CreateUserAndAccount("Admin", "qwertyu");
+                    }
+                    if (!roles.GetRolesForUser("Admin").Contains("Administrators"))
+                    {
+                        roles.AddUsersToRoles(new[] { "Admin" }, new[] { "Administrators" });
+                    }
                 }
                 catch (Exception ex)
                 {

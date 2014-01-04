@@ -1,4 +1,5 @@
-﻿using FindMyHome.Domain.Entities.Booli;
+﻿using FindMyHome.Domain.Entities;
+using FindMyHome.Domain.Entities.Booli;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,5 +13,6 @@ namespace FindMyHome.Domain.Abstract
     {
         IDbSet<Ad> Ads { get; set; }
         IDbSet<AdsContainer> AdsContainers { get; set; }
+        IDbSet<UserAdsSearch> UserAdsSearches { get; set; }
     }
 }

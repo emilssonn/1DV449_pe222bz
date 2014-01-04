@@ -8,8 +8,13 @@ namespace FindMyHome.ViewModels
 {
     public class SearchTermViewModel
     {
-        [Required]
-        [MaxLength(100)]
-        public string SearchTerm { get; set; }
+        [Required(
+            ErrorMessageResourceType = typeof(Properties.Resources),
+            ErrorMessageResourceName = "SearchTermRequired")]
+        [MaxLength(
+            100,
+            ErrorMessageResourceType = typeof(Properties.Resources),
+            ErrorMessageResourceName = "SearchTermLength")]
+        public string SearchTerms { get; set; }
     }
 }
