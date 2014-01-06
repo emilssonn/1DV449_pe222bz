@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FindMyHome.Domain.DAL;
 using FindMyHome.Domain.Entities;
+using FindMyHome.Domain.Entities.Foursquare;
 
 namespace FindMyHome.Domain
 {
@@ -79,34 +80,52 @@ namespace FindMyHome.Domain
 
             if (userId != 0)
             {
-                var userAdsSearches = this._unitOfWork.UserAdsSearchRepository.Get(a => a.UserId == userId)
-                    .OrderBy(a => a.SearchTime)
-                    .ToList();
-
-                if (userAdsSearches != null)
-                {
-                    var copy = userAdsSearches.SingleOrDefault(a => a.AdsContainerId == adsContainer.Id);
-                    if (copy != null)
-                    {
-                        this._unitOfWork.UserAdsSearchRepository.Delete(copy);
-                    }
-                    else if (userAdsSearches.Count == 10)
-                    {
-                        this._unitOfWork.UserAdsSearchRepository.Delete(userAdsSearches.Last());
-                    }
-                }
-
-                this._unitOfWork.UserAdsSearchRepository.Insert(
-                    new UserAdsSearch(userId, adsContainer.Id));
-
-                this._unitOfWork.Save();
-
+                this.SaveUserAdsSearch(userId, adsContainer);
             }
 
             return adsContainer;
         }
 
-        
+        private void SaveUserAdsSearch(int userId, AdsContainer adsContainer)
+        {
+            var userAdsSearches = this._unitOfWork.UserAdsSearchRepository
+                    .Get(
+                        a => a.UserId == userId, 
+                        a => a.OrderBy(u => u.SearchTime))
+                    .ToList();
+
+            if (userAdsSearches != null)
+            {
+                var copy = userAdsSearches.SingleOrDefault(a => a.AdsContainerId == adsContainer.Id);
+                if (copy != null)
+                {
+                    this._unitOfWork.UserAdsSearchRepository.Delete(copy);
+                }
+                else if (userAdsSearches.Count == 10)
+                {
+                    this._unitOfWork.UserAdsSearchRepository.Delete(userAdsSearches.Last());
+                }
+            }
+
+            this._unitOfWork.UserAdsSearchRepository.Insert(
+                new UserAdsSearch(userId, adsContainer.Id));
+
+            this._unitOfWork.Save();
+        }
+
+        public override IEnumerable<Category> RefreshCategories()
+        {
+            var foursquareWebservice = new FoursquareWebservice();
+
+            var categories = foursquareWebservice.RefreshCategories();
+
+            categories.ForEach(
+                c => this._unitOfWork.CategoryRepository.Insert(c));
+
+            this._unitOfWork.Save();
+
+            return categories;
+        }
 
         protected override void Dispose(bool disposing)
         {

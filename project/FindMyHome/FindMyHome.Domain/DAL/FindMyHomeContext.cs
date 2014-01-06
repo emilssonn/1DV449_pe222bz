@@ -1,6 +1,7 @@
 ﻿using FindMyHome.Domain.Abstract;
 using FindMyHome.Domain.Entities;
 using FindMyHome.Domain.Entities.Booli;
+using FindMyHome.Domain.Entities.Foursquare;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
@@ -13,6 +14,8 @@ namespace FindMyHome.Domain.DAL
         public IDbSet<AdsContainer> AdsContainers { get; set; }
 
         public IDbSet<UserAdsSearch> UserAdsSearches { get; set; }
+
+        public IDbSet<Category> Categories { get; set; }
 
 
         static FindMyHomeContext()
@@ -33,7 +36,13 @@ namespace FindMyHome.Domain.DAL
             modelBuilder.Entity<Ad>().ToTable("Ad", "dbo");
             modelBuilder.Entity<AdsContainer>().ToTable("AdsContainer", "dbo");
             modelBuilder.Entity<UserAdsSearch>().ToTable("UserAdsSearch", "dbo");
+            modelBuilder.Entity<Category>().ToTable("Category", "dbo");
 
+            //Self relation, one can have many childs, only one parent
+            modelBuilder.Entity<Category>()
+                .HasOptional(c => c.SubCategory)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(c => c.ParentId);
         }
     }
 }

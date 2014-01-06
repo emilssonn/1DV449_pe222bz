@@ -61,11 +61,20 @@ namespace FindMyHome.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Booli API returned an error.
+        ///   Looks up a localized string similar to The Booli API returned an error..
         /// </summary>
         internal static string BooliApiError {
             get {
                 return ResourceManager.GetString("BooliApiError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Foursquare API returned an error..
+        /// </summary>
+        internal static string FoursquareApiError {
+            get {
+                return ResourceManager.GetString("FoursquareApiError", resourceCulture);
             }
         }
     }

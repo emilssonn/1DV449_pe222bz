@@ -21,7 +21,7 @@ namespace FindMyHome.Domain.DAL
 
         public virtual IEnumerable<TEntity> Get(
             System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, 
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
             string includeProps = "")
         {
             IQueryable<TEntity> query = this._dbSet;
@@ -37,7 +37,7 @@ namespace FindMyHome.Domain.DAL
                 query = query.Include(prop);
             }
 
-            return orderby == null ? query.ToList() : orderby(query).ToList();
+            return orderBy == null ? query.ToList() : orderBy(query).ToList();
         }
 
         public virtual TEntity GetById(object id)

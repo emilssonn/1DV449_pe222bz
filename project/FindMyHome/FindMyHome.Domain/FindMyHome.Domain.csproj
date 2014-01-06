@@ -60,6 +60,7 @@
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Entities\Booli\Ad.cs" />
     <Compile Include="Entities\Booli\AdsContainer.cs" />
+    <Compile Include="Entities\Foursquare\Category.cs" />
     <Compile Include="Entities\UserAdsSearch.cs" />
     <Compile Include="Exceptions\ExternalDataSourceException.cs" />
     <Compile Include="FindMyHomeService.cs" />
@@ -70,6 +71,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Webservices\BooliWebservice.cs" />
+    <Compile Include="Webservices\FoursquareWebservice.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

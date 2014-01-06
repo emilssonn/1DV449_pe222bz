@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Entities.Booli;
+using FindMyHome.Domain.Entities.Foursquare;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace FindMyHome.Domain.Abstract
         public abstract AdsContainer Search(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
 
         public abstract IEnumerable<string> GetSearchTerms(string term);
+
+        public abstract IEnumerable<Category> RefreshCategories();
 
         #region IDisposable Members
 

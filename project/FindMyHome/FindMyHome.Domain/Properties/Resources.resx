@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BooliApiError" xml:space="preserve">
-    <value>The Booli API returned an error</value>
+    <value>The Booli API returned an error.</value>
+  </data>
+  <data name="FoursquareApiError" xml:space="preserve">
+    <value>The Foursquare API returned an error.</value>
   </data>
 </root>
