@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using FindMyHome.Domain.DAL;
 using FindMyHome.Domain.Entities;
 using FindMyHome.Domain.Entities.Foursquare;
+using FindMyHome.Domain.Helpers;
 
 namespace FindMyHome.Domain
 {
@@ -36,15 +37,13 @@ namespace FindMyHome.Domain
                 .ToList();
         }
 
-        public override AdsContainer Search(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0)
+        public override AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0)
         {
-            var searchTermsArray = searchTerms.Split(',').Select(s => s.Trim()).ToArray();
-            searchTerms = string.Join(",", searchTermsArray);
+			searchTerms = StringTrim.FullTrim(searchTerms);
 
             if (objectTypes != null)
             {
-                var objectTypesArray = objectTypes.Split(',').Select(s => s.Trim()).ToArray();
-                objectTypes = string.Join(",", objectTypesArray);
+				objectTypes = StringTrim.FullTrim(objectTypes);
             }
             
             var adsContainer = this._unitOfWork.AdsContainerRepository
@@ -113,19 +112,88 @@ namespace FindMyHome.Domain
             this._unitOfWork.Save();
         }
 
+		public override IEnumerable<Venue> SearchVenues(string searchTerms, string categories)
+		{
+			searchTerms = StringTrim.FullTrim(searchTerms);
+			categories = StringTrim.FullTrim(categories);
+
+			return new FoursquareWebservice().Search(searchTerms, categories);
+		}
+
         public override IEnumerable<Category> RefreshCategories()
         {
-            var foursquareWebservice = new FoursquareWebservice();
+            //var foursquareWebservice = new FoursquareWebservice();
 
-            var categories = foursquareWebservice.RefreshCategories();
+            //var newCategories = foursquareWebservice.GetCategories();
 
-            categories.ForEach(
+			
+
+			
+			/*
+            foreach (var item in newCategories)
+            {
+               
+            }
+
+            var cToInsert = new List<Category>();
+            var cToUpdate = new List<Category>();
+            var cToDelete = new List<Category>();
+			
+            
+            newCategories.ForEach(
                 c => this._unitOfWork.CategoryRepository.Insert(c));
 
             this._unitOfWork.Save();
+			*/
 
-            return categories;
+			//this.SetParentCategory(newCategories);
+			var oldCategories = this._unitOfWork.CategoryRepository.Get(c => c.ParentId == null);
+			//var test = newCategories.Except(oldCategories).ToList();
+
+			//var lol1 = this.GetBigList(oldCategories);
+			//var lol2 = this.GetBigList(newCategories);
+
+			//var test2 = lol2.Except(lol1).ToList();
+
+            return oldCategories;
         }
+
+        private List<Category> CompareCategories(Category nC, List<Category> oldCs)
+        {
+			var categories = new List<Category>();
+			var check = false;
+			foreach (var oC in oldCs)
+			{
+				if (nC.Equals(oC))
+					check = true;
+				
+			}
+			if (check)
+				categories.Add(nC);
+			return categories;
+        }
+
+		private IEnumerable<Category> GetBigList(IEnumerable<Category> categories)
+		{
+			var cs = new List<Category>();
+			foreach (var c in categories)
+			{
+				cs.AddRange(this.GetBigList(c.SubCategories));
+				c.SubCategories.Clear();
+			}
+			cs.AddRange(categories);
+			return cs;
+		}
+
+		//Recursive
+		private void SetParentCategory(List<Category> categories, Category parentCategory = null)
+		{
+			foreach (var c in categories)
+			{
+				c.ParentCategory = parentCategory;
+				this.SetParentCategory(c.SubCategories, c);
+			}
+		}
 
         protected override void Dispose(bool disposing)
         {

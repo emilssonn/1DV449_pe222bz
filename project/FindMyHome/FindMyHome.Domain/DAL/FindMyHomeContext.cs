@@ -40,7 +40,7 @@ namespace FindMyHome.Domain.DAL
 
             //Self relation, one can have many childs, only one parent
             modelBuilder.Entity<Category>()
-                .HasOptional(c => c.SubCategory)
+                .HasOptional(c => c.ParentCategory)
                 .WithMany(c => c.SubCategories)
                 .HasForeignKey(c => c.ParentId);
         }

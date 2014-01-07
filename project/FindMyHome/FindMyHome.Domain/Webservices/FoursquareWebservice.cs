@@ -1,5 +1,6 @@
 ﻿using FindMyHome.Domain.Entities.Foursquare;
 using FindMyHome.Domain.Exceptions;
+using FindMyHome.Domain.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -20,17 +21,35 @@ namespace FindMyHome.Domain.Webservices
 
         private string _apiVersionDate = "20140101";
 
-        public void Search(string searchTerms, string categories)
+        public List<Venue> Search(string searchTerms, string categories)
         {
+			var rawJson = string.Empty;
+			var authString = String.Format("&client_id={0}&client_secret={1}&v={2}", this._foursquareClientId, this._foursquareClientSecret, this._apiVersionDate);
+			var requestUriString = String.Format("https://api.foursquare.com/v2/venues/search/?near={0}&categoryId={1}&intent=browse&limit=50{2}",
+				searchTerms, categories, authString);
+			var request = (HttpWebRequest)WebRequest.Create(requestUriString);
+			request.Method = "GET";
+			request.Accept = "application/json";
 
+			try
+			{
+				using (var response = request.GetResponse())
+				using (var reader = new StreamReader(response.GetResponseStream()))
+				{
+					rawJson = reader.ReadToEnd();
+				}
+				var jsonRes = JObject.Parse(rawJson);
+
+				return jsonRes["response"]["venues"].Select(v => new Venue(v)).ToList();
+			}
+			catch (WebException e)
+			{
+				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiError);
+				throw;
+			}
         }
 
-        public void GetCategories()
-        {
-            
-        }
-
-        public List<Category> RefreshCategories()
+        public List<Category> GetCategories()
         {
             var rawJson = string.Empty;
             var authString = String.Format("&client_id={0}&client_secret={1}&v={2}", this._foursquareClientId, this._foursquareClientSecret, this._apiVersionDate);
@@ -48,22 +67,11 @@ namespace FindMyHome.Domain.Webservices
                 }
                 var jsonRes = JObject.Parse(rawJson);
 
-                var test = this.ReadCategories(jsonRes["response"]["categories"]);
-
-                return test;
+                return this.ReadCategories(jsonRes["response"]["categories"]);
             }
             catch (WebException e)
             {
-                if (e.Status == WebExceptionStatus.ProtocolError &&
-                    e.Response != null)
-                {
-                    var resp = (HttpWebResponse)e.Response;
-                    if (resp.StatusCode == HttpStatusCode.ServiceUnavailable ||
-                        resp.StatusCode == HttpStatusCode.InternalServerError)
-                    {
-                        throw new ExternalDataSourceException(Properties.Resources.FoursquareApiError, e);
-                    }
-                }
+				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiError);
                 throw;
             }
         }

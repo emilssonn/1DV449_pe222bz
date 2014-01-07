@@ -14,6 +14,7 @@ using FindMyHome.Domain.Abstract;
 using FindMyHome.Domain;
 using Newtonsoft.Json.Linq;
 using System.Web.Security;
+using FindMyHome.Domain.Entities;
 
 namespace FindMyHome.Controllers
 {
@@ -29,7 +30,7 @@ namespace FindMyHome.Controllers
         }
 
         // GET api/search
-        public AdsContainer Get([FromUri]SearchViewModel viewModel, [FromUri]TagSearchViewModel tagSearch)
+        public SearchResult Get([FromUri]SearchViewModel viewModel, [FromUri]TagSearchViewModel tagSearch)
         {
             try
             {
@@ -39,29 +40,42 @@ namespace FindMyHome.Controllers
                     userId = (int)Membership.GetUser().ProviderUserKey;
                 }
                 if (viewModel.Paging)
-                    viewModel.AdsContainer = this._service.Search(viewModel.SearchTerms, viewModel.ObjectTypes, 
+                    viewModel.AdsContainer = this._service.SearchAds(viewModel.SearchTerms, viewModel.ObjectTypes, 
                                                                     viewModel.MaxRent, viewModel.MaxPrice, 
                                                                     viewModel.Offset, viewModel.Limit,
                                                                     userId);
                 else
-                    viewModel.AdsContainer = this._service.Search(viewModel.SearchTerms, viewModel.ObjectTypes, 
+                    viewModel.AdsContainer = this._service.SearchAds(viewModel.SearchTerms, viewModel.ObjectTypes, 
                                                                     viewModel.MaxRent, viewModel.MaxPrice,
                                                                     userId: userId);
 
-                if (viewModel.Ads.Any())
+				
+                if (viewModel.Ads.Any() &&
+					tagSearch.Categories != null &&
+					tagSearch.Categories != string.Empty)
                 {
-                    
+					var venues = this._service.SearchVenues(viewModel.SearchTerms, tagSearch.Categories);
+					return new SearchResult(viewModel.AdsContainer, venues.ToList());
                 }
 
 
-                return viewModel.AdsContainer;
+				return new SearchResult(viewModel.AdsContainer);
 
             }
             catch (ExternalDataSourceException e)
             {
-                HttpError err = new HttpError(e.Message);
+				HttpError err = new HttpError();
+				err.Add("Message", e.Message);
+				err.Add("DetailedMessage", e.DetailedMessage);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }
+			catch (BadRequestException e)
+			{
+				HttpError err = new HttpError();
+				err.Add("Message", e.Message);
+				err.Add("DetailedMessage", e.DetailedMessage);
+				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+			}
             catch (Exception e)
             {
                 var message = string.Format(Properties.Resources.InternalServerError);

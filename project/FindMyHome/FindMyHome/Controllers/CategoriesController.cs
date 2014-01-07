@@ -24,8 +24,8 @@ namespace FindMyHome.Controllers
         {
             try
             {
-                return this._service.RefreshCategories();
-
+                var list = this._service.RefreshCategories();
+				return list;
 
 
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FindMyHome.Domain.Entities.Foursquare
 {
-    public class Category
+    public class Category : IEquatable<Category>
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CategoryId { get; set; }
@@ -26,9 +26,12 @@ namespace FindMyHome.Domain.Entities.Foursquare
 
         public int? ParentId { get; set; }
 
-        public Category SubCategory { get; set; }
+        public Category ParentCategory { get; set; }
 
         public virtual List<Category> SubCategories { get; set; }
+
+		[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+		public DateTime LastUpdated { get; set; }
 
         public Category()
         {
@@ -42,6 +45,19 @@ namespace FindMyHome.Domain.Entities.Foursquare
             this.EngName = (string)category["name"];
             this.IconPrefix = (string)category["icon"]["prefix"];
             this.IconSuffix = (string)category["icon"]["suffix"];
+        }
+
+        public bool Equals(Category other)
+        {
+			if (Object.ReferenceEquals(this, other)) 
+				return true;
+
+			return
+				this.Id == other.Id &&
+				this.EngName == other.EngName &&
+				this.IconPrefix == other.IconPrefix &&
+				this.IconSuffix == other.IconSuffix &&
+				this.ParentCategory == other.ParentCategory;
         }
     }
 }

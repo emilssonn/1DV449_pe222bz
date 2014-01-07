@@ -8,6 +8,8 @@ namespace FindMyHome.Domain.Exceptions
 {
     public class ExternalDataSourceException : Exception
     {
+		public string DetailedMessage { get; set; }
+
         public ExternalDataSourceException()
         {
         }
@@ -21,5 +23,11 @@ namespace FindMyHome.Domain.Exceptions
             : base(message, inner)
         {
         }
+
+		public ExternalDataSourceException(string message, string detailedMessage, Exception inner)
+			: base(message, inner)
+		{
+			this.DetailedMessage = detailedMessage;
+		}
     }
 }

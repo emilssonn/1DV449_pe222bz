@@ -10,9 +10,11 @@ namespace FindMyHome.Domain.Abstract
 {
     public abstract class FindMyHomeServiceBase : IFindMyHomeService
     {
-        public abstract AdsContainer Search(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
+        public abstract AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
 
         public abstract IEnumerable<string> GetSearchTerms(string term);
+
+		public abstract IEnumerable<Venue> SearchVenues(string searchTerms, string categories);
 
         public abstract IEnumerable<Category> RefreshCategories();
 

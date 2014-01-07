@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using FindMyHome.Domain.Exceptions;
+using FindMyHome.Domain.Helpers;
 
 namespace FindMyHome.Domain.Webservices
 {
@@ -79,17 +80,8 @@ namespace FindMyHome.Domain.Webservices
             }
             catch (WebException e)
             {
-                if (e.Status == WebExceptionStatus.ProtocolError &&
-                    e.Response != null)
-                {
-                    var resp = (HttpWebResponse)e.Response;
-                    if (resp.StatusCode == HttpStatusCode.ServiceUnavailable ||
-                        resp.StatusCode == HttpStatusCode.InternalServerError)
-                    {
-                        throw new ExternalDataSourceException(Properties.Resources.BooliApiError, e);
-                    }
-                }
-                throw;
+				ExceptionHandler.WebException(e, Properties.Resources.BooliApiError);
+				throw;
             }
         }
 
