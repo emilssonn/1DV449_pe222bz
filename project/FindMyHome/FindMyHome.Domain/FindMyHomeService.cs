@@ -51,7 +51,9 @@ namespace FindMyHome.Domain
                 .Get(a => a.SearchTerms == searchTerms && 
                     (a.ObjectTypes == objectTypes || (a.ObjectTypes == null && objectTypes == null)) && 
                     a.MaxRent == maxRent &&
-                    a.MaxPrice == maxPrice)
+                    a.MaxPrice == maxPrice &&
+					a.Limit == limit &&
+					a.Offset == offset)
                 .SingleOrDefault();
 
             if (adsContainer == null)

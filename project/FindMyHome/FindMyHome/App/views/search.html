@@ -5,22 +5,33 @@
             <span ng-show="searchForm.serverError.$error.server">{{ errors.serverError }}</span>
         </div>
 
-        <input type="text" name="SearchTerms" server-error autocomplete="off" typeahead-wait-ms="300" ng-model="SearchTerms" typeahead-min-length="2" required ng-minlength="2" ng-maxlength="100" maxlength="100"
-            typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+        <input type="text" name="MaxPrice" server-error ng-model="Search.maxPrice" />
 
-        <div ng-show="searchForm.SearchTerms.$dirty && searchForm.SearchTerms.$invalid">
-            <span ng-show="searchForm.SearchTerms.$error.required">Måste ange en sökterm.</span>
-            <span ng-show="searchForm.SearchTerms.$error.minlength">Måste vara minst 2 tecken.</span>
-            
-            
+        <input type="text" name="SearchTerms" server-error autocomplete="off" ng-model="Search.searchTerms" required ng-minlength="2" ng-maxlength="100" maxlength="100"
+            typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+
+        <div>
+            <div ng-show="searchForm.SearchTerms.$dirty && searchForm.SearchTerms.$invalid">
+                <span ng-show="searchForm.SearchTerms.$error.required">Måste ange en sökterm.</span>
+                <span ng-show="searchForm.SearchTerms.$error.minlength">Måste vara minst 2 tecken.</span>   
+            </div>
+
+            <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
         </div>
-        <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
-        <button ng-click="search(SearchTerms)" ng-disabled="searchForm.$invalid || isUnchanged(SearchTerms)">Sök</button>
+
+        <button ng-click="search(Search)" ng-disabled="searchForm.$invalid || isUnchanged(Search)">Sök</button>
     </form>
 </div>
+
+
 <div>
+    <div ng-if="searchResult !== undefined">
+        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
+    
+    <a href="" ng-click="predicate = 'ListPrice'; reverse=!reverse">Pris</a>
     <ul>
-        <li ng-repeat="ad in searchResult.AdsContainer.Ads">
+        <li ng-repeat="ad in searchResult.AdsContainer.Ads | orderBy:predicate:reverse">
             <img src="http://api.bcdn.se/cache/primary_{{ad.BooliId}}_140x94.jpg" />
             <div ng-if="ad.ListPrice !== null">{{ad.ListPrice}}</div>
             <div>{{ad.ObjectType}}</div>
@@ -28,6 +39,8 @@
             <div ng-if="ad.Published !== null">{{ad.Published | date:'yyyy-MM-dd'}}</div>
         </li>
     </ul>
-
+        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"></pagination>
+        
+    </div>
     <div ng-include="'app/views/venueSearch.html'"></div>
 </div>

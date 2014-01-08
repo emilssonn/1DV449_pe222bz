@@ -14,9 +14,10 @@ config(['$routeProvider', "$httpProvider", function ($routeProvider, $httpProvid
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
     $routeProvider.
-        when('/search/:searchTerms', {
+        when('/search/:searchTerms/:page?', {
             templateUrl: 'app/views/search.html',
-            controller: 'SearchCtrl'
+            controller: 'SearchCtrl',
+            reloadOnSearch: false
         }).
         when('/', {
             templateUrl: 'app/views/search.html',
