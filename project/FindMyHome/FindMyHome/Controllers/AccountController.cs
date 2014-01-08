@@ -15,6 +15,7 @@ namespace FindMyHome.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
+	[ValidateHttpAntiForgeryTokenAttribute]
     public class AccountController : Controller
     {
         //

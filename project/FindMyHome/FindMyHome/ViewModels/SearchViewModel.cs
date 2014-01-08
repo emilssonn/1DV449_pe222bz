@@ -21,6 +21,10 @@ namespace FindMyHome.ViewModels
             100,
             ErrorMessageResourceType = typeof(Properties.Resources),
             ErrorMessageResourceName = "SearchTermLength")]
+		[MinLength(
+			2,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+            ErrorMessageResourceName = "SearchTermLength")]
         public string SearchTerms { get; set; }
 
         [Range(0, Int32.MaxValue)]

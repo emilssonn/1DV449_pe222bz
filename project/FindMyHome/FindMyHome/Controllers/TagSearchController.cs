@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Abstract;
+using FindMyHome.Filters;
 using FindMyHome.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web.Http;
 
 namespace FindMyHome.Controllers
 {
-    //[ValidateHttpAntiForgeryTokenAttribute]
+    [ValidateHttpAntiForgeryTokenAttribute]
     public class TagSearchController : ApiController
     {
         private IFindMyHomeService _service;

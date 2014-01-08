@@ -30,6 +30,7 @@ namespace FindMyHome.Domain
 
         public override IEnumerable<string> GetSearchTerms(string term)
         {
+			term = StringTrim.FullTrim(term);
             var searchTerms = this._unitOfWork.AdsContainerRepository.Get(a => a.SearchTerms.Contains(term));
             return searchTerms
                 .Select(a => a.SearchTerms)

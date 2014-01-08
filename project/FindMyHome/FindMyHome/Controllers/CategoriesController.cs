@@ -1,6 +1,7 @@
 ﻿using FindMyHome.Domain.Abstract;
 using FindMyHome.Domain.Entities.Foursquare;
 using FindMyHome.Domain.Exceptions;
+using FindMyHome.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Web.Http;
 
 namespace FindMyHome.Controllers
 {
+	[ValidateHttpAntiForgeryTokenAttribute]
     public class CategoriesController : ApiController
     {
         private IFindMyHomeService _service;

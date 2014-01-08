@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@functions{
+    public string GetAntiForgeryToken()
+    {
+        string cookieToken, formToken;
+        AntiForgery.GetTokens(null, out cookieToken, out formToken);
+        return cookieToken + ":" + formToken;                
+    }
+}
+
+<!DOCTYPE html>
 <html lang="sv">
     <head>
         <meta charset="utf-8" />
@@ -56,7 +65,11 @@
             </div>
         </footer>
 
+        <input id="antiForgeryToken" type="hidden" value="@GetAntiForgeryToken()" />
+
         @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/angularjs")
+        @Scripts.Render("~/bundles/app")
         @RenderSection("scripts", required: false)
     </body>
 </html>

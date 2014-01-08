@@ -18,7 +18,7 @@ using FindMyHome.Domain.Entities;
 
 namespace FindMyHome.Controllers
 {
-    //[ValidateHttpAntiForgeryTokenAttribute]
+    [ValidateHttpAntiForgeryTokenAttribute]
     [InitializeSimpleMembership]
     public class SearchController : ApiController
     {
