@@ -3,12 +3,13 @@ angular.module('FindMyHome', [
     'ngRoute',
     'ngResource',
     'ui.bootstrap',
+    'ui.slider',
     'FindMyHome.filters',
     'FindMyHome.services',
     'FindMyHome.directives',
     'FindMyHome.controllers'
 ]).
-config(['$routeProvider', "$httpProvider", function ($routeProvider, $httpProvider) {
+config(['$routeProvider', "$httpProvider", '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
     'use strict';
     $httpProvider.defaults.headers.common['RequestVerificationToken'] = $("#antiForgeryToken").val();
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

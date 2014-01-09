@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Entities.Booli;
+using FindMyHome.Filters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,8 +34,8 @@ namespace FindMyHome.ViewModels
         [Range(1, 30)]
         public int? Limit { get; set; }
 
-        //[villa, lägenhet, gård, tomt-mark, fritidshus, parhus,radhus,kedjehus]
         [MaxLength(70)]
+		[AdsObjectTypesAttribute]
         public string ObjectTypes { get; set; }
 
         [Range(0, Int32.MaxValue)]

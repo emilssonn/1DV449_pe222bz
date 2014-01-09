@@ -31,10 +31,10 @@ namespace FindMyHome.Domain
         public override IEnumerable<string> GetSearchTerms(string term)
         {
 			term = StringTrim.FullTrim(term);
-            var searchTerms = this._unitOfWork.AdsContainerRepository.Get(a => a.SearchTerms.Contains(term));
+            var searchTerms = this._unitOfWork.AdsContainerRepository.Get(a => a.SearchTerms.Contains(term), a => a.OrderBy(u => u.SearchTerms));
             return searchTerms
                 .Select(a => a.SearchTerms)
-                .OrderBy(a => a)
+				.Distinct()
                 .ToList();
         }
 
@@ -69,13 +69,13 @@ namespace FindMyHome.Domain
             {
                 if (adsContainer.NextUpdate < DateTime.Now)
                 {
-                    this._unitOfWork.AdsContainerRepository.Delete(adsContainer);
+                    //this._unitOfWork.AdsContainerRepository.Delete(adsContainer);
                     var booliWebservice = new BooliWebservice();
                     adsContainer = booliWebservice.Search(searchTerms, objectTypes, maxRent, maxPrice, offset, limit);
 
-                    this._unitOfWork.AdsContainerRepository.Insert(adsContainer);
-                    //adsContainer.NextUpdate = DateTime.Now.AddHours(3);
-                    adsContainer.NextUpdate = DateTime.Now.AddMinutes(1);
+                    this._unitOfWork.AdsContainerRepository.Update(adsContainer);
+                    adsContainer.NextUpdate = DateTime.Now.AddHours(10);
+                    //adsContainer.NextUpdate = DateTime.Now.AddMinutes(1);
                     this._unitOfWork.Save();
                 }
             }

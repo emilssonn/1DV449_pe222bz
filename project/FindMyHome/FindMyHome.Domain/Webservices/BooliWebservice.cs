@@ -54,6 +54,7 @@ namespace FindMyHome.Domain.Webservices
             var request = (HttpWebRequest)WebRequest.Create(requestUriString);
             request.Method = "GET";
             request.Accept = "application/json";
+			request.UserAgent = "Universitets projekt (Lnu), utveckling, sista användingsdag: 19/1";
 
             try
             {

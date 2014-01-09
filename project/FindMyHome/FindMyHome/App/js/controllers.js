@@ -7,45 +7,57 @@ angular.module('FindMyHome.controllers', [])
         function ($scope, $routeParams, $location, SearchFactory) {
             'use strict';
 
-            $scope.search = function (searchTerm) {
+            var ctrl = {
+                search2: function (categories) {
 
+                }
             };
+            
         }
     ])
-    .controller('SearchCtrl', ['$scope', '$routeParams', '$location', 'SearchFactory', 'SeachTermAutoCompleteFactory', '$route',
-        function ($scope, $routeParams, $location, SearchFactory, SeachTermAutoCompleteFactory, $route) {
+    .controller('SearchCtrl', ['$scope', '$routeParams', '$location', '$route', 'SearchFactory', 'SeachTermAutoCompleteFactory', '$route',
+        function ($scope, $routeParams, $location, $route, SearchFactory, SeachTermAutoCompleteFactory, ObjectTypesFactory) {
             'use strict';
+            $scope.newSearch = true;
+            var adsPerPage = 30,
+                offset = 0,
+                limit = 0;
+
+            $scope.Search = {};
             $scope.master = {};
 
-            if ($routeParams.searchTerms !== undefined) {
-                searchCall(true);
-            }
-
-            var adsPerPage = 30;
-            var offset = 0;
-            var limit = 0;
-
-            function searchCall(full) {
-                $scope.errors = {};
-
-                if (full) {
-                    var newObject = $.extend({}, $routeParams);
-                    delete newObject.page;
-                    $scope.master = angular.copy(newObject);
-                    $scope.Search = newObject;
+            /*
+            $scope.$on('$routeUpdate', function (event) {
+                
+                console.log($scope.newSearch);
+                if (!$scope.newSearch) {
+                    event.preventDefault();
+                    searchCall();
+                    $scope.newSearch = true;
                 }
+                
+            });*/
 
-                var newObject = $.extend({}, $routeParams, $location.search());
+            var searchCall = function () {
+                $scope.errors = {};
+                $scope.newSearch = false;
+                var searchParams = $.extend({}, $routeParams, $location.search());
+                searchParams.maxPrice = parseInt(searchParams.maxPrice) || 0;
+                searchParams.maxRent = parseInt(searchParams.maxRent) || 0;
+                searchParams.checkedObjectTypes = [];
+                $scope.master = angular.copy(searchParams);
+                $scope.Search = searchParams;
+                
+                var newObject = angular.copy(searchParams);
                 newObject.Offset = 30 * (newObject.page || 1) - 30;
                 newObject.Limit = 30;
-                var page = newObject.page;
                 delete newObject.page;
                 SearchFactory.get(newObject, function (data) {
                     $scope.searchResult = data;
                     $scope.itemsPerPage = adsPerPage;
                     $scope.totalItems = data.AdsContainer.TotalCount;
                     $scope.maxSize = 5;
-                    $scope.currentPage = page || 1;
+                    $scope.currentPage = searchParams.page || 1;
                 }, function (response) {
                     angular.forEach(response.data.ModelState, function (errors, field) {
                         $scope.searchForm[field].$setValidity('server', false);
@@ -54,12 +66,33 @@ angular.module('FindMyHome.controllers', [])
                 });
             };
 
-            /// <summary>
-            /// Copies an object, excluding all properties that do not have a value.
-            /// </summary>
-            /// <param name="object"></param>
-            /// <returns type="object"></returns>
-            function getCleanObject(object) {
+            $scope.getList = function (term) {
+                return SeachTermAutoCompleteFactory.getSearchTermsList(term);
+            };
+
+            $scope.search = function (search) {
+                var newObject = angular.copy(search);
+                var path = '/search/' + newObject.searchTerms;
+                delete newObject.searchTerms;
+                if (newObject.checkedObjectTypes) {
+                    newObject.objectTypes = newObject.checkedObjectTypes.join(",");
+                    delete newObject.checkedObjectTypes;
+                }
+                $scope.newSearch = true;
+                $location.path(path).search(getCleanObject(newObject));
+                $route.reload();
+            };
+
+            $scope.setPage = function (pageNo) {
+                $location.search('page', pageNo);
+                searchCall();
+            };
+
+            $scope.isUnchanged = function (search) {
+                return angular.equals(getCleanObject(search), getCleanObject($scope.master));
+            };
+
+            var getCleanObject = function (object) {
                 var newObject = {};
                 angular.forEach(object, function (value, prop) {
                     if (value && value !== "") {
@@ -67,27 +100,32 @@ angular.module('FindMyHome.controllers', [])
                     }
                 });
                 return newObject;
-            };
+            }
 
-            $scope.getList = function (term) {
-                return SeachTermAutoCompleteFactory.getSearchTermsList(term);
-            };
-
-            $scope.search = function (search) {
-                var newObject = $.extend({}, search);
-                var path = '/search/' + newObject.searchTerms;
-                delete newObject.searchTerms;
-                $location.path(path).search(getCleanObject(newObject));
-                $route.reload();
-            };
-            
-            $scope.setPage = function (pageNo) {
-                $location.search('page', pageNo);
+            if ($routeParams.searchTerms !== undefined) {
                 searchCall();
-            };
+            }
 
-            $scope.isUnchanged = function (search) {
-                return angular.equals(getCleanObject(search), $scope.master);
+        }
+    ])
+    .controller('ObjectTypesCtrl', ['$scope', '$routeParams', 'ObjectTypesFactory',
+        function ($scope, $routeParams, ObjectTypesFactory) {
+            $scope.Search.checkedObjectTypes = [];
+            $scope.master.checkedObjectTypes = [];
+            ObjectTypesFactory.get(function (data) {
+                $scope.objectTypes = data.objectTypes;
+                var objectTypesArray = $routeParams.objectTypes ? $routeParams.objectTypes.split(',') : [];
+                angular.forEach(objectTypesArray, function (value) {
+                    if (data.objectTypes.indexOf(value) !== -1)
+                        addObjectType(value);
+                });
+            });
+
+            function addObjectType(obj) {
+                if ($scope.Search.checkedObjectTypes.indexOf(obj) !== -1)
+                    return;
+                $scope.Search.checkedObjectTypes.push(obj);
+                $scope.master.checkedObjectTypes.push(obj);
             };
         }
     ]);

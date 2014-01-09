@@ -200,6 +200,7 @@
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SearchTermController.cs" />
     <Compile Include="Controllers\TagSearchController.cs" />
+    <Compile Include="Filters\AdsObjectTypesAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\ValidateAttribute.cs" />
     <Compile Include="Filters\ValidateHttpAntiForgeryTokenAttribute.cs" />
@@ -222,6 +223,7 @@
     <Content Include="App\js\directives.js" />
     <Content Include="App\js\filters.js" />
     <Content Include="App\js\services.js" />
+    <Content Include="App\views\adsList.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\venueSearch.html" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -290,6 +292,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\ui-slider.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -17,8 +17,9 @@ namespace FindMyHome
 						"~/Scripts/angular-route.js",
 						"~/Scripts/angular-sanitize.js",
 						"~/Scripts/angular-resource.js",
-						"~/Scripts/ui-bootstrap-tpls-0.9.0.js"));
-
+						"~/Scripts/ui-bootstrap-tpls-0.9.0.js",
+						"~/Scripts/ui-slider.js"));
+			
 			bundles.Add(new ScriptBundle("~/bundles/app").Include(
 						"~/App/js/app.js",
 						"~/App/js/controllers.js",
@@ -40,6 +41,7 @@ namespace FindMyHome
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.css",
+						"~/Content/ui-slider.css",
 						"~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

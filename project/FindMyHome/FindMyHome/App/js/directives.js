@@ -2,25 +2,6 @@
 /* Directives */
 
 angular.module('FindMyHome.directives', []).
-    directive('requiredInput', function () {
-        'use strict';
-        return {
-            require: 'ngModel',
-            link: function (scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function (viewValue) {
-                    if (viewValue.length > 0) {
-                        // it is valid
-                        ctrl.$setValidity('requiredInput', true);
-                        return viewValue;
-                    } else {
-                        // it is invalid, return undefined (no model update)
-                        ctrl.$setValidity('requiredInput', false);
-                        return undefined;
-                    }
-                });
-            }
-        };
-    }).
     directive('serverError', function() {
         'use strict';
         return {
@@ -58,6 +39,50 @@ angular.module('FindMyHome.directives', []).
                         return value;
                     }
                 });
+            }
+        };
+    }).
+    directive("preloadObjectTypes", ["ObjectTypesCache",
+        function (objectTypesCache) {
+            return {
+                link: function (scope, element, attrs) {
+                    objectTypesCache.put(attrs.preloadObjectTypes, element.html());
+                    element.remove();
+                }
+            };
+        }
+    ]).
+    directive('checkList', function() {
+        return {
+            scope: {
+                list: '=checkList',
+                value: '@'
+            },
+            link: function(scope, elem, attrs) {
+                var handler = function(setup) {
+                    var checked = elem.prop('checked');
+                    var index = scope.list.indexOf(scope.value);
+
+                    if (checked && index === -1) {
+                        if (setup)
+                            elem.prop('checked', false);
+                        else
+                            scope.list.push(scope.value);
+                    } else if (!checked && index !== -1) {
+                        if (setup)
+                            elem.prop('checked', true);
+                        else
+                            scope.list.splice(index, 1);
+                    }
+                };
+      
+                var setupHandler = handler.bind(null, true);
+                var changeHandler = handler.bind(null, false);
+            
+                elem.on('change', function() {
+                    scope.$apply(changeHandler);
+                });
+                scope.$watch('list', setupHandler, true); 
             }
         };
     });

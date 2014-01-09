@@ -1,0 +1,9 @@
+﻿<ul>
+    <li ng-repeat="ad in searchResult.AdsContainer.Ads | orderBy:predicate:reverse">
+        
+        <div ng-if="ad.ListPrice !== null">{{ad.ListPrice}}</div>
+        <div>{{ad.ObjectType}}</div>
+
+        <div ng-if="ad.Published !== null">{{ad.Published | date:'yyyy-MM-dd'}}</div>
+    </li>
+</ul>

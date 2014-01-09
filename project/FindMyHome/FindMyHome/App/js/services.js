@@ -26,4 +26,12 @@ angular.module('FindMyHome.services', ['ngResource']).
                 });
             }
         };
-    });
+    }).
+    factory("ObjectTypesCache", function ($cacheFactory) {
+        return $cacheFactory("ObjectTypesCache");
+    }).
+    factory("ObjectTypesFactory", ['$resource', 'ObjectTypesCache', function ($resource, ObjectTypesCache) {
+        return $resource("/api/adObjectTypes", {}, {
+            get: { method: 'GET', cache: ObjectTypesCache }
+        });
+    }]);

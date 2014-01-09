@@ -1,16 +1,12 @@
 ﻿
-<div ng-if="searchResult !== undefined" ng-controller="VenueSearchCtrl">
-    <form name="venueSearchForm" novalidate>
-        <input type="text" ng-model="searchTerm" requiredInput ng-minlength="2" ng-maxlength="100" maxlength="100"  />
-   
-        <div class="errors" ng-show="form.username.$dirty && form.username.$invalid">
-            <span ng-show="form.username.$error.server">{{ errors.username }}</span>
-        </div>
-    </form>
+<div ng-controller="VenueSearchCtrl">
 
-    <div ng-if="searchResult.Venues.length === 0" ng-controller="VenueSearchCtrl">
-        Inga venues hittades.
+    <input type="text" name="SearchCategories" server-error autocomplete="off" ng-model="Search.categories"
+        typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+    <div>
+        <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
     </div>
+    
     <ul>
         <li ng-repeat="venue in searchResult.AdsContainer.Venues">{{venue.Name}}</li>
     </ul>

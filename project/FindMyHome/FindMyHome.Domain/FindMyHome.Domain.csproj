@@ -60,6 +60,7 @@
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Entities\Booli\Ad.cs" />
     <Compile Include="Entities\Booli\AdsContainer.cs" />
+    <Compile Include="Entities\Booli\ObjectType.cs" />
     <Compile Include="Entities\Foursquare\Category.cs" />
     <Compile Include="Entities\Foursquare\Venue.cs" />
     <Compile Include="Entities\SearchResult.cs" />

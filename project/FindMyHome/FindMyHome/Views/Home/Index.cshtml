@@ -13,9 +13,13 @@
 
 <div ng-app="FindMyHome">
     <div ng-view></div>
+    <script preload-Object-Types="/api/adObjectTypes" type="application/json"> 
+        { "objectTypes":["villa", "lägenhet", "gård", "tomt-mark", "fritidshus", "parhus", "radhus", "kedjehus"]}
+    </script>
 </div>
 @if (Request.IsAuthenticated) {
     
 } else {
     
 }
+

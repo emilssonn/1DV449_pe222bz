@@ -1,23 +1,47 @@
 ﻿<div>
     <form name="searchForm" novalidate>
-
         <div class="errors" ng-show="searchForm.serverError.$invalid">
             <span ng-show="searchForm.serverError.$error.server">{{ errors.serverError }}</span>
         </div>
 
-        <input type="text" name="MaxPrice" server-error ng-model="Search.maxPrice" />
-
         <input type="text" name="SearchTerms" server-error autocomplete="off" ng-model="Search.searchTerms" required ng-minlength="2" ng-maxlength="100" maxlength="100"
             typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
-
         <div>
             <div ng-show="searchForm.SearchTerms.$dirty && searchForm.SearchTerms.$invalid">
                 <span ng-show="searchForm.SearchTerms.$error.required">Måste ange en sökterm.</span>
                 <span ng-show="searchForm.SearchTerms.$error.minlength">Måste vara minst 2 tecken.</span>   
             </div>
-
             <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
         </div>
+
+        <ul ng-controller="ObjectTypesCtrl">
+            <li ng-repeat="obj in objectTypes">
+                <input type='checkbox' value="{{obj}}" check-list="Search.checkedObjectTypes" /> {{obj}} 
+            </li>
+        </ul>
+
+        
+        {{Search.maxPrice}}
+        <div ui-slider="" class="ui-slider-default"  step="500000" max="50000000" min="0">
+            <div class="ui-slider-container">
+                <div class="ui-slider-runnable-track">
+                    <div class="ui-slider-range"></div>
+                    <div class="ui-slider-thumb" ng-model="Search.maxPrice"></div>
+                </div>
+            </div>
+        </div>
+
+        {{Search.maxRent}}
+        <div ui-slider="" class="ui-slider-default"  step="500" max="20000" min="0">
+            <div class="ui-slider-container">
+                <div class="ui-slider-runnable-track">
+                    <div class="ui-slider-range"></div>
+                    <div class="ui-slider-thumb" ng-model="Search.maxRent"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div ng-include="'app/views/venueSearch.html'"></div>
 
         <button ng-click="search(Search)" ng-disabled="searchForm.$invalid || isUnchanged(Search)">Sök</button>
     </form>
@@ -29,18 +53,11 @@
         <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
             previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
     
-    <a href="" ng-click="predicate = 'ListPrice'; reverse=!reverse">Pris</a>
-    <ul>
-        <li ng-repeat="ad in searchResult.AdsContainer.Ads | orderBy:predicate:reverse">
-            <img src="http://api.bcdn.se/cache/primary_{{ad.BooliId}}_140x94.jpg" />
-            <div ng-if="ad.ListPrice !== null">{{ad.ListPrice}}</div>
-            <div>{{ad.ObjectType}}</div>
-            
-            <div ng-if="ad.Published !== null">{{ad.Published | date:'yyyy-MM-dd'}}</div>
-        </li>
-    </ul>
-        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"></pagination>
+        <a href="" ng-click="predicate = 'ListPrice'; reverse=!reverse">Pris</a>
+        <div ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adsList.html'"></div>
+        
+        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
         
     </div>
-    <div ng-include="'app/views/venueSearch.html'"></div>
 </div>
