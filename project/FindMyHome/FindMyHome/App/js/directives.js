@@ -2,7 +2,7 @@
 /* Directives */
 
 angular.module('FindMyHome.directives', []).
-    directive('serverError', function() {
+    directive('serverError', function () {
         'use strict';
         return {
             restrict: 'A',
@@ -52,14 +52,14 @@ angular.module('FindMyHome.directives', []).
             };
         }
     ]).
-    directive('checkList', function() {
+    directive('checkList', function () {
         return {
             scope: {
                 list: '=checkList',
                 value: '@'
             },
-            link: function(scope, elem, attrs) {
-                var handler = function(setup) {
+            link: function (scope, elem, attrs) { 
+                var handler = function (setup) {
                     var checked = elem.prop('checked');
                     var index = scope.list.indexOf(scope.value);
 
@@ -75,14 +75,38 @@ angular.module('FindMyHome.directives', []).
                             scope.list.splice(index, 1);
                     }
                 };
-      
+
                 var setupHandler = handler.bind(null, true);
                 var changeHandler = handler.bind(null, false);
-            
-                elem.on('change', function() {
+
+                elem.on('change', function () {
                     scope.$apply(changeHandler);
                 });
-                scope.$watch('list', setupHandler, true); 
+                scope.$watch('list', setupHandler, true);
+            }
+        };
+    }).
+    directive('venueCategoriesTags', function () {
+        return {
+            restrict: 'A',
+            scope: {
+                venues: '=venueCategoriesTags',
+                value: '=ngModel'
+            },
+            link: function (scope, element, attrs) {
+                element.on('keypress', function (event) {
+                    console.log(scope)
+                    if (event.keyCode === 13) {
+                        if (scope.value) {
+                            var index = scope.venues.indexOf(scope.value);
+
+                            if (index === -1) {
+                                scope.venues.push(scope.value);
+                                scope.value = "";
+                            }
+                        }
+                    }
+                });
             }
         };
     });

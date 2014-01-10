@@ -43,7 +43,7 @@
         
         <div ng-include="'app/views/venueSearch.html'"></div>
 
-        <button ng-click="search(Search)" ng-disabled="searchForm.$invalid || isUnchanged(Search)">Sök</button>
+        <button type="button" class="btn btn-primary" ng-click="doSearch(Search)" ng-disabled="searchForm.$invalid || isUnchanged(Search)">Sök</button>
     </form>
 </div>
 

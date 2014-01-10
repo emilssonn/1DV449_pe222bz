@@ -6,11 +6,15 @@ using System.Web;
 
 namespace FindMyHome.ViewModels
 {
-    public class TagSearchViewModel
+    public class VenueSearchViewModel
     {
         #region From Url
 
-        public string Categories { get; set; }
+		[MinLength(
+			2,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "SearchTermLength")]
+		public string Venues { get; set; }
 
         #endregion
     }

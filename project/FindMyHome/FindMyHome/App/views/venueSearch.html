@@ -1,15 +1,18 @@
 ﻿
 <div ng-controller="VenueSearchCtrl">
 
-    <input type="text" name="SearchCategories" server-error autocomplete="off" ng-model="Search.categories"
-        typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+    <input type="text" name="SearchVenues" server-error autocomplete="off" ng-model="currentVenue" venue-Categories-Tags="Search.venues"
+        typeahead-editable="false" typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
     <div>
-        <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
+        <span ng-show="searchForm.SearchVenues.$error.server">{{ errors.SearchVenues }}</span>
     </div>
-    
-    <ul>
-        <li ng-repeat="venue in searchResult.AdsContainer.Venues">{{venue.Name}}</li>
-    </ul>
+
+    <div>
+        Närliggande platser
+        <ul>
+            <li ng-repeat="venue in Search.venues">{{venue}}</li>
+        </ul>
+    </div>
 </div>
 
 

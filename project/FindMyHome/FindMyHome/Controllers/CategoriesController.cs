@@ -11,7 +11,7 @@ using System.Web.Http;
 
 namespace FindMyHome.Controllers
 {
-	[ValidateHttpAntiForgeryTokenAttribute]
+	//[ValidateHttpAntiForgeryTokenAttribute]
     public class CategoriesController : ApiController
     {
         private IFindMyHomeService _service;
@@ -26,11 +26,7 @@ namespace FindMyHome.Controllers
         {
             try
             {
-                var list = this._service.RefreshCategories();
-				return list;
-
-
-
+                return this._service.RefreshCategories();
             }
             catch (ExternalDataSourceException e)
             {
@@ -43,17 +39,6 @@ namespace FindMyHome.Controllers
                 HttpError err = new HttpError(message);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }    
-        }
-
-        // GET api/categories/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/categories
-        public void Post([FromBody]string value)
-        {
         }
 
         // PUT api/categories/5

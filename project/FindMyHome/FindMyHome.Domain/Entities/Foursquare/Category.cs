@@ -20,6 +20,8 @@ namespace FindMyHome.Domain.Entities.Foursquare
 
         public string SweName { get; set; }
 
+		public string DisplayName { get; set; }
+
         public string IconPrefix { get; set; }
 
         public string IconSuffix { get; set; }
@@ -43,6 +45,7 @@ namespace FindMyHome.Domain.Entities.Foursquare
             this.SubCategories = new List<Category>();
             this.Id = (string)category["id"];
             this.EngName = (string)category["name"];
+			this.DisplayName = (string)category["name"];
             this.IconPrefix = (string)category["icon"]["prefix"];
             this.IconSuffix = (string)category["icon"]["suffix"];
         }

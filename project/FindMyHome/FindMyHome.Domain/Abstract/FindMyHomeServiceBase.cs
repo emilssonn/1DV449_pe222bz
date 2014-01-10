@@ -9,18 +9,32 @@ using System.Threading.Tasks;
 namespace FindMyHome.Domain.Abstract
 {
     public abstract class FindMyHomeServiceBase : IFindMyHomeService
-    {
-        public abstract AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
+	{
+		#region Ads
 
-        public abstract IEnumerable<string> GetSearchTerms(string term);
+		public abstract AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
+
+		#endregion
+
+		#region Venues
 
 		public abstract IEnumerable<Venue> SearchVenues(string searchTerms, string categories);
 
         public abstract IEnumerable<Category> RefreshCategories();
 
-        #region IDisposable Members
+		#endregion
 
-        protected virtual void Dispose(bool disposing)
+		#region Autocomplete
+
+		public abstract IEnumerable<string> GetSearchTerms(string term);
+
+		public abstract IEnumerable<string> GetVenueSearchTerms(string term);
+
+		#endregion
+
+		#region IDisposable Members
+
+		protected virtual void Dispose(bool disposing)
         {
         }
 

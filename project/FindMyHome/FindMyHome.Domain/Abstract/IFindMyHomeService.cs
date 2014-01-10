@@ -9,13 +9,27 @@ using System.Threading.Tasks;
 namespace FindMyHome.Domain.Abstract
 {
     public interface IFindMyHomeService : IDisposable
-    {
-        AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
+	{
+		#region Ads
 
-        IEnumerable<string> GetSearchTerms(string term);
+		AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
+
+		#endregion
+
+		#region Venues
 
 		IEnumerable<Venue> SearchVenues(string searchTerms, string categories);
 
-        IEnumerable<Category> RefreshCategories();
-    }
+		IEnumerable<Category> RefreshCategories();
+
+		#endregion
+
+		#region Autocomplete
+
+		IEnumerable<string> GetSearchTerms(string term);
+
+		IEnumerable<string> GetVenueSearchTerms(string term);
+
+		#endregion
+	}
 }

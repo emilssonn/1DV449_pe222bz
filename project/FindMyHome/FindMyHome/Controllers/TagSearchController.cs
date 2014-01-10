@@ -21,7 +21,7 @@ namespace FindMyHome.Controllers
         }
 
         // GET api/search
-        public HttpResponseMessage Get([FromUri]TagSearchViewModel viewModel)
+        public HttpResponseMessage Get([FromUri]VenueSearchViewModel viewModel)
         {
             return null;
         }

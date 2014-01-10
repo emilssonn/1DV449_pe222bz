@@ -30,7 +30,7 @@ namespace FindMyHome.Controllers
         }
 
         // GET api/search
-        public SearchResult Get([FromUri]SearchViewModel viewModel, [FromUri]TagSearchViewModel tagSearch)
+        public SearchResult Get([FromUri]SearchViewModel viewModel, [FromUri]VenueSearchViewModel venue)
         {
             try
             {
@@ -51,10 +51,10 @@ namespace FindMyHome.Controllers
 
 				
                 if (viewModel.Ads.Any() &&
-					tagSearch.Categories != null &&
-					tagSearch.Categories != string.Empty)
+					venue.Venues != null &&
+					venue.Venues != string.Empty)
                 {
-					var venues = this._service.SearchVenues(viewModel.SearchTerms, tagSearch.Categories);
+					var venues = this._service.SearchVenues(viewModel.SearchTerms, venue.Venues);
 					return new SearchResult(viewModel.AdsContainer, venues.ToList());
                 }
 

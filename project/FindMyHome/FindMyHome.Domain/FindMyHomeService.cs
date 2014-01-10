@@ -28,6 +28,18 @@ namespace FindMyHome.Domain
             this._unitOfWork = unitOfWork;
         }
 
+		#region Autocomplete
+
+		public override IEnumerable<string> GetVenueSearchTerms(string term)
+		{
+			term = StringTrim.FullTrim(term);
+			var searchTerms = this._unitOfWork.CategoryRepository.Get(c => c.DisplayName.Contains(term), c => c.OrderBy(s => s.DisplayName));
+			return searchTerms
+				.Select(c => c.DisplayName)
+				.Distinct()
+				.ToList();
+		}
+
         public override IEnumerable<string> GetSearchTerms(string term)
         {
 			term = StringTrim.FullTrim(term);
@@ -38,7 +50,11 @@ namespace FindMyHome.Domain
                 .ToList();
         }
 
-        public override AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0)
+		#endregion
+
+		#region Ads
+
+		public override AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0)
         {
 			searchTerms = StringTrim.FullTrim(searchTerms);
 
@@ -69,9 +85,12 @@ namespace FindMyHome.Domain
             {
                 if (adsContainer.NextUpdate < DateTime.Now)
                 {
-                    //this._unitOfWork.AdsContainerRepository.Delete(adsContainer);
                     var booliWebservice = new BooliWebservice();
-                    adsContainer = booliWebservice.Search(searchTerms, objectTypes, maxRent, maxPrice, offset, limit);
+                    var newAdsContainer = booliWebservice.Search(searchTerms, objectTypes, maxRent, maxPrice, offset, limit);
+
+					adsContainer.Ads = newAdsContainer.Ads;
+					adsContainer.CurrentCount = newAdsContainer.CurrentCount;
+					adsContainer.TotalCount = newAdsContainer.TotalCount;
 
                     this._unitOfWork.AdsContainerRepository.Update(adsContainer);
                     adsContainer.NextUpdate = DateTime.Now.AddHours(10);
@@ -115,6 +134,10 @@ namespace FindMyHome.Domain
             this._unitOfWork.Save();
         }
 
+		#endregion
+
+		#region Venues
+
 		public override IEnumerable<Venue> SearchVenues(string searchTerms, string categories)
 		{
 			searchTerms = StringTrim.FullTrim(searchTerms);
@@ -142,12 +165,12 @@ namespace FindMyHome.Domain
             var cToUpdate = new List<Category>();
             var cToDelete = new List<Category>();
 			
-            
-            newCategories.ForEach(
-                c => this._unitOfWork.CategoryRepository.Insert(c));
+            */
+            //newCategories.ForEach(
+                //c => this._unitOfWork.CategoryRepository.Insert(c));
 
-            this._unitOfWork.Save();
-			*/
+            //this._unitOfWork.Save();
+			
 
 			//this.SetParentCategory(newCategories);
 			var oldCategories = this._unitOfWork.CategoryRepository.Get(c => c.ParentId == null);
@@ -198,7 +221,9 @@ namespace FindMyHome.Domain
 			}
 		}
 
-        protected override void Dispose(bool disposing)
+		#endregion
+
+		protected override void Dispose(bool disposing)
         {
             this._unitOfWork.Dispose();
             base.Dispose(disposing);

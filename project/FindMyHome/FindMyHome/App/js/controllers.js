@@ -3,14 +3,12 @@
 /* Controllers */
 
 angular.module('FindMyHome.controllers', [])
-    .controller('VenueSearchCtrl', ['$scope', '$routeParams', '$location', 'VenueSearchFactory',
-        function ($scope, $routeParams, $location, SearchFactory) {
+    .controller('VenueSearchCtrl', ['$scope', '$routeParams', '$location', 'VenueAutoCompleteFactory',
+        function ($scope, $routeParams, $location, VenueAutoCompleteFactory) {
             'use strict';
 
-            var ctrl = {
-                search2: function (categories) {
-
-                }
+            $scope.getList = function (term) {
+                return VenueAutoCompleteFactory.getVenueList(term);
             };
             
         }
@@ -18,41 +16,48 @@ angular.module('FindMyHome.controllers', [])
     .controller('SearchCtrl', ['$scope', '$routeParams', '$location', '$route', 'SearchFactory', 'SeachTermAutoCompleteFactory', '$route',
         function ($scope, $routeParams, $location, $route, SearchFactory, SeachTermAutoCompleteFactory, ObjectTypesFactory) {
             'use strict';
-            $scope.newSearch = true;
+
             var adsPerPage = 30,
                 offset = 0,
                 limit = 0;
 
+            //Init values
             $scope.Search = {};
-            $scope.master = {};
-
-            /*
-            $scope.$on('$routeUpdate', function (event) {
-                
-                console.log($scope.newSearch);
-                if (!$scope.newSearch) {
-                    event.preventDefault();
-                    searchCall();
-                    $scope.newSearch = true;
-                }
-                
-            });*/
-
+            $scope.Search.venues = []
+            $scope.Search.checkedObjectTypes = [];
+            $scope.master = angular.copy($scope.Search);
+           
             var searchCall = function () {
                 $scope.errors = {};
-                $scope.newSearch = false;
+               
+                var obj = $.extend({}, $routeParams, $location.search());
+                obj.maxPrice = parseInt(obj.maxPrice) || 0;
+                obj.maxRent = parseInt(obj.maxRent) || 0;
+
+                var searchParams = angular.copy(obj);
+
+                obj.checkedObjectTypes = [];
+                obj.venues = obj.venues ? obj.venues.split(',') : [];
+                $scope.Search = obj;
+                $scope.master = angular.copy(obj);
+
+                searchParams.Offset = 30 * (searchParams.page || 1) - 30;
+                searchParams.Limit = 30;
+                delete searchParams.page;
+                /*
                 var searchParams = $.extend({}, $routeParams, $location.search());
                 searchParams.maxPrice = parseInt(searchParams.maxPrice) || 0;
                 searchParams.maxRent = parseInt(searchParams.maxRent) || 0;
-                searchParams.checkedObjectTypes = [];
+
                 $scope.master = angular.copy(searchParams);
                 $scope.Search = searchParams;
-                
+                $scope.Search.checkedObjectTypes = [];
+                $scope.master.checkedObjectTypes = [];
                 var newObject = angular.copy(searchParams);
                 newObject.Offset = 30 * (newObject.page || 1) - 30;
                 newObject.Limit = 30;
-                delete newObject.page;
-                SearchFactory.get(newObject, function (data) {
+                delete newObject.page;*/
+                SearchFactory.get(searchParams, function (data) {
                     $scope.searchResult = data;
                     $scope.itemsPerPage = adsPerPage;
                     $scope.totalItems = data.AdsContainer.TotalCount;
@@ -70,7 +75,7 @@ angular.module('FindMyHome.controllers', [])
                 return SeachTermAutoCompleteFactory.getSearchTermsList(term);
             };
 
-            $scope.search = function (search) {
+            $scope.doSearch = function (search) {
                 var newObject = angular.copy(search);
                 var path = '/search/' + newObject.searchTerms;
                 delete newObject.searchTerms;
@@ -78,7 +83,11 @@ angular.module('FindMyHome.controllers', [])
                     newObject.objectTypes = newObject.checkedObjectTypes.join(",");
                     delete newObject.checkedObjectTypes;
                 }
-                $scope.newSearch = true;
+                
+                if (newObject.venues) {
+                    newObject.venues = newObject.venues.join(",");
+                }
+
                 $location.path(path).search(getCleanObject(newObject));
                 $route.reload();
             };
@@ -95,23 +104,23 @@ angular.module('FindMyHome.controllers', [])
             var getCleanObject = function (object) {
                 var newObject = {};
                 angular.forEach(object, function (value, prop) {
-                    if (value && value !== "") {
+                    if (value) {
                         newObject[prop] = value;
                     }
                 });
                 return newObject;
-            }
+            };
 
             if ($routeParams.searchTerms !== undefined) {
                 searchCall();
             }
-
         }
     ])
     .controller('ObjectTypesCtrl', ['$scope', '$routeParams', 'ObjectTypesFactory',
         function ($scope, $routeParams, ObjectTypesFactory) {
-            $scope.Search.checkedObjectTypes = [];
-            $scope.master.checkedObjectTypes = [];
+            //$scope.Search.checkedObjectTypes = [];
+            //$scope.master.checkedObjectTypes = [];
+            //console.log($scope);
             ObjectTypesFactory.get(function (data) {
                 $scope.objectTypes = data.objectTypes;
                 var objectTypesArray = $routeParams.objectTypes ? $routeParams.objectTypes.split(',') : [];
@@ -126,6 +135,6 @@ angular.module('FindMyHome.controllers', [])
                     return;
                 $scope.Search.checkedObjectTypes.push(obj);
                 $scope.master.checkedObjectTypes.push(obj);
-            };
+            }
         }
     ]);
