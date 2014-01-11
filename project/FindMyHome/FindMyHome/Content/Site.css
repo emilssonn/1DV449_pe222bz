@@ -38,3 +38,9 @@ body {
   padding-right: 15px;
 }
 
+.hideInput {
+    border: none;
+    background:white;
+    color: black;
+}
+

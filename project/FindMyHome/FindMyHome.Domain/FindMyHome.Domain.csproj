@@ -68,6 +68,7 @@
     <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\ExternalDataSourceException.cs" />
     <Compile Include="FindMyHomeService.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\ExceptionHandler.cs" />
     <Compile Include="Helpers\StringTrim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

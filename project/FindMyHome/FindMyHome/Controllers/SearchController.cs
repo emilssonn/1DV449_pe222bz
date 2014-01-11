@@ -49,8 +49,7 @@ namespace FindMyHome.Controllers
                                                                     viewModel.MaxRent, viewModel.MaxPrice,
                                                                     userId: userId);
 
-				
-                if (viewModel.Ads.Any() &&
+                if (viewModel.AdsContainer.Ads.Any() &&
 					venue.Venues != null &&
 					venue.Venues != string.Empty)
                 {
@@ -58,33 +57,29 @@ namespace FindMyHome.Controllers
 					return new SearchResult(viewModel.AdsContainer, venues.ToList());
                 }
 
-
 				return new SearchResult(viewModel.AdsContainer);
-
             }
             catch (ExternalDataSourceException e)
             {
 				HttpError err = new HttpError();
-				err.Add("Message", e.Message);
-				err.Add("DetailedMessage", e.DetailedMessage);
+				err.Add("Error", e.Message);
+				err.Add("DetailedError", e.DetailedMessage);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }
 			catch (BadRequestException e)
 			{
 				HttpError err = new HttpError();
-				err.Add("Message", e.Message);
-				err.Add("DetailedMessage", e.DetailedMessage);
-				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+				err.Add("Error", e.Message);
+				err.Add("DetailedError", e.DetailedMessage);
+				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, err));
 			}
             catch (Exception e)
             {
-                var message = string.Format(Properties.Resources.InternalServerError);
+                var message = string.Format(Properties.Resources.InternalServerErrorSwe);
                 HttpError err = new HttpError(message);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }    
         }
-
-        
 
         #region Dispose
 

@@ -24,7 +24,7 @@ namespace FindMyHome.Domain.Exceptions
 		{
 		}
 
-		public BadRequestException(string message, string detailedMessage, Exception inner)
+		public BadRequestException(string message, string detailedMessage, Exception inner = null)
 			: base(message, inner)
 		{
 			this.DetailedMessage = detailedMessage;

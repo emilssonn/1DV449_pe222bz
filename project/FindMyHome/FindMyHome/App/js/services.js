@@ -3,16 +3,19 @@
 
 angular.module('FindMyHome.services', ['ngResource']).
     factory('SearchFactory', function ($resource, SearchFactoryCache) {
+        'use strict';
         return $resource("/api/search/?searchTerms=:searchTerms", {}, {
             get: { method: 'GET', params: { searchTerms: '@searchTerms' }, cache: SearchFactoryCache }
         });
     }).
     factory("VenueSearchFactory", function ($resource) {
+        'use strict';
         return $resource("/api/tagSearch/?categories=:searchTerms", {}, {
             get: { method: 'GET', params: { searchTerms: '@searchTerms' } }
         });
     }).
     factory("SeachTermAutoCompleteFactory", function ($resource, $http) {
+        'use strict';
         return {
             getSearchTermsList: function (terms) {
                 var request = '/api/searchTerm/?searchTerms=' + terms;
@@ -28,6 +31,7 @@ angular.module('FindMyHome.services', ['ngResource']).
         };
     }).
     factory("VenueAutoCompleteFactory", function ($resource, $http) {
+        'use strict';
         return {
             getVenueList: function (term) {
                 var request = '/api/venueTerm/?VenueTerm=' + term;
@@ -43,22 +47,23 @@ angular.module('FindMyHome.services', ['ngResource']).
         };
     }).
     factory("ObjectTypesCache", function ($cacheFactory) {
+        'use strict';
         return $cacheFactory("ObjectTypesCache");
     }).
     factory("ObjectTypesFactory", ['$resource', 'ObjectTypesCache', function ($resource, ObjectTypesCache) {
+        'use strict';
         return $resource("/api/adObjectTypes", {}, {
             get: { method: 'GET', cache: ObjectTypesCache }
         });
     }]).
     factory("SearchFactoryCache", function ($cacheFactory, $window) {
+        'use strict';
         var cacheFactory = $cacheFactory("SearchFactoryCache");
-        //ÄNDRA, använda nextupdate datum för o kolla om den ska uppdateras.
-
+        if (!checkLocalStorage()) {
+            return cacheFactory;
+        }
 
         cacheFactory.put = function (key, value) {
-            if (!checkLocalStorage()) {
-                return null;
-            }
             if (value !== null && typeof value === "object") {
                 value = JSON.stringify(value);
             }
@@ -73,20 +78,21 @@ angular.module('FindMyHome.services', ['ngResource']).
         };
 
         cacheFactory.get = function (key) {
-            if (!checkLocalStorage()) {
-                return undefined;
-            }
             var value = $window.localStorage.getItem(key);
             if (value !== null) {
-                return JSON.parse(value);
+                var obj = JSON.parse(value);
+
+                //Check when next update will be, if a update have been done, make http call
+                var timestamp = Date.parse(JSON.parse(obj[1]).AdsContainer.NextUpdate);
+                if (timestamp > Date.now())
+                    return obj;
+                else
+                    cacheFactory.remove(key);
             }
             return undefined;
         };
 
         cacheFactory.remove = function (key) {
-            if (!checkLocalStorage()) {
-                return;
-            }
             if (key !== null) {
                 $window.localStorage.removeItem(key);
             }
@@ -97,7 +103,7 @@ angular.module('FindMyHome.services', ['ngResource']).
 	     * @source http://diveintohtml5.info/detect.html#storage
 	     * @return {bool}
 	     */
-        var checkLocalStorage = function() {
+        function checkLocalStorage() {
             try {
                 return 'localStorage' in $window && $window['localStorage'] !== null;
             } catch(e){

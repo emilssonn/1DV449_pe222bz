@@ -28,14 +28,9 @@ namespace FindMyHome.Controllers
             {
                 return this._service.GetSearchTerms(terms.SearchTerms);
             }
-            catch (ExternalDataSourceException e)
-            {
-                HttpError err = new HttpError(e.Message);
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
-            }
             catch (Exception e)
             {
-                var message = string.Format(Properties.Resources.InternalServerError);
+                var message = string.Format(Properties.Resources.InternalServerErrorSwe);
                 HttpError err = new HttpError(message);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }    

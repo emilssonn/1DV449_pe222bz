@@ -36,7 +36,6 @@ namespace FindMyHome.Domain.Entities.Booli
 
         public DateTime NextUpdate { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime LastUpdate { get; set; }
 
         public AdsContainer()

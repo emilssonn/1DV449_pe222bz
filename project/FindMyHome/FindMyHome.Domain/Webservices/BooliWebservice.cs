@@ -81,7 +81,7 @@ namespace FindMyHome.Domain.Webservices
             }
             catch (WebException e)
             {
-				ExceptionHandler.WebException(e, Properties.Resources.BooliApiError);
+				ExceptionHandler.WebException(e, Properties.Resources.BooliApiErrorSwe);
 				throw;
             }
         }

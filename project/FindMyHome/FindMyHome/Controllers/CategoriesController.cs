@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace FindMyHome.Controllers
 {
+	//[Authorize(Roles = "Administrators")]
 	//[ValidateHttpAntiForgeryTokenAttribute]
     public class CategoriesController : ApiController
     {
@@ -28,17 +29,26 @@ namespace FindMyHome.Controllers
             {
                 return this._service.RefreshCategories();
             }
-            catch (ExternalDataSourceException e)
-            {
-                HttpError err = new HttpError(e.Message);
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
-            }
-            catch (Exception e)
-            {
-                var message = string.Format(Properties.Resources.InternalServerError);
-                HttpError err = new HttpError(message);
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
-            }    
+			catch (ExternalDataSourceException e)
+			{
+				HttpError err = new HttpError();
+				err.Add("Error", e.Message);
+				err.Add("DetailedError", e.DetailedMessage);
+				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+			}
+			catch (BadRequestException e)
+			{
+				HttpError err = new HttpError();
+				err.Add("Error", e.Message);
+				err.Add("DetailedError", e.DetailedMessage);
+				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.BadRequest, err));
+			}
+			catch (Exception e)
+			{
+				var message = string.Format(Properties.Resources.InternalServerErrorSwe);
+				HttpError err = new HttpError(message);
+				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+			}    
         }
 
         // PUT api/categories/5

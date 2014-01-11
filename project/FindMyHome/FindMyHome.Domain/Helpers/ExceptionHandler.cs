@@ -23,7 +23,7 @@ namespace FindMyHome.Domain.Helpers
 				}
 				else if (resp.StatusCode == HttpStatusCode.BadRequest)
 				{
-					throw new BadRequestException(message, ((HttpWebResponse)e.Response).StatusDescription, e);
+					throw new ExternalDataSourceException(message, Properties.Resources.GenericApiBadReqSwe, e);
 				}
 			}
 			throw e;

@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Entities.Booli;
+using FindMyHome.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,13 @@ namespace FindMyHome.Filters
 				foreach (var item in objectTypes)
 				{
 					var trimed = item.Trim();
+					try
+					{
+						trimed = EnumHelper.GetEnumValueFromDescription<ObjectType>(trimed).ToString();
+					}
+					catch (ArgumentException)
+					{	
+					}
 					Enum.Parse(typeof(ObjectType), trimed, true);
 				}
 			}

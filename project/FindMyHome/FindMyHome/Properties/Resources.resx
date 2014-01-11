@@ -117,13 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InternalServerError" xml:space="preserve">
+  <data name="InternalServerErrorEng" xml:space="preserve">
     <value>An internal server error occured.</value>
   </data>
-  <data name="SearchTermLength" xml:space="preserve">
+  <data name="InternalServerErrorSwe" xml:space="preserve">
+    <value>Ett internt serverfel uppstod.</value>
+  </data>
+  <data name="LimitLengthSwe" xml:space="preserve">
+    <value>Limit måste vara mellan 1 och 30.</value>
+  </data>
+  <data name="MaxPriceSwe" xml:space="preserve">
+    <value>Max pris måste vara mellan 0 och 2147483647.</value>
+  </data>
+  <data name="MaxRentSwe" xml:space="preserve">
+    <value>Max hyra måsta vara mellan 0 och 2147483647.</value>
+  </data>
+  <data name="ObjectTypesLengthSwe" xml:space="preserve">
+    <value>Objekttyperna måste vara mellan 2 och 70.</value>
+  </data>
+  <data name="ObjectTypesValueSwe" xml:space="preserve">
+    <value>Objekttyperna måste innehålla godkända värden.</value>
+  </data>
+  <data name="OffsetLengthSwe" xml:space="preserve">
+    <value>Offset måste vara mellan 0 och 2147483647.</value>
+  </data>
+  <data name="SearchTermLengthEng" xml:space="preserve">
     <value>The search term must be 1-100 characters.</value>
   </data>
-  <data name="SearchTermRequired" xml:space="preserve">
+  <data name="SearchTermLengthSwe" xml:space="preserve">
+    <value>Söktermen måste vara mellan 1 och 100 tecken.</value>
+  </data>
+  <data name="SearchTermRequiredEng" xml:space="preserve">
     <value>A search term is required.</value>
+  </data>
+  <data name="SearchTermRequiredSwe" xml:space="preserve">
+    <value>En sökterm måste anges.</value>
+  </data>
+  <data name="VenuesLengthSwe" xml:space="preserve">
+    <value>Venues måste vara minst 2 tecken.</value>
+  </data>
+  <data name="VenueTermLengthSwe" xml:space="preserve">
+    <value>Söktermen måste vara minst 2 tecken.</value>
+  </data>
+  <data name="VenueTermRequiredSwe" xml:space="preserve">
+    <value>En sökterm måste anges.</value>
   </data>
 </root>

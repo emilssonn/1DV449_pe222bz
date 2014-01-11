@@ -1,4 +1,5 @@
-﻿<ul>
+﻿<a href="" ng-click="predicate = 'ListPrice'; reverse=!reverse">Pris</a>
+<ul>
     <li ng-repeat="ad in searchResult.AdsContainer.Ads | orderBy:predicate:reverse">
         
         <div ng-if="ad.ListPrice !== null">{{ad.ListPrice}}</div>

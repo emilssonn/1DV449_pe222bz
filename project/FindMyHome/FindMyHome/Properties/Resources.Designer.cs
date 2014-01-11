@@ -63,27 +63,135 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An internal server error occured..
         /// </summary>
-        internal static string InternalServerError {
+        internal static string InternalServerErrorEng {
             get {
-                return ResourceManager.GetString("InternalServerError", resourceCulture);
+                return ResourceManager.GetString("InternalServerErrorEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett internt serverfel uppstod..
+        /// </summary>
+        internal static string InternalServerErrorSwe {
+            get {
+                return ResourceManager.GetString("InternalServerErrorSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limit måste vara mellan 1 och 30..
+        /// </summary>
+        internal static string LimitLengthSwe {
+            get {
+                return ResourceManager.GetString("LimitLengthSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max pris måste vara mellan 0 och 2147483647..
+        /// </summary>
+        internal static string MaxPriceSwe {
+            get {
+                return ResourceManager.GetString("MaxPriceSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max hyra måsta vara mellan 0 och 2147483647..
+        /// </summary>
+        internal static string MaxRentSwe {
+            get {
+                return ResourceManager.GetString("MaxRentSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Objekttyperna måste vara mellan 2 och 70..
+        /// </summary>
+        internal static string ObjectTypesLengthSwe {
+            get {
+                return ResourceManager.GetString("ObjectTypesLengthSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Objekttyperna måste innehålla godkända värden..
+        /// </summary>
+        internal static string ObjectTypesValueSwe {
+            get {
+                return ResourceManager.GetString("ObjectTypesValueSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offset måste vara mellan 0 och 2147483647..
+        /// </summary>
+        internal static string OffsetLengthSwe {
+            get {
+                return ResourceManager.GetString("OffsetLengthSwe", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The search term must be 1-100 characters..
         /// </summary>
-        internal static string SearchTermLength {
+        internal static string SearchTermLengthEng {
             get {
-                return ResourceManager.GetString("SearchTermLength", resourceCulture);
+                return ResourceManager.GetString("SearchTermLengthEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Söktermen måste vara mellan 1 och 100 tecken..
+        /// </summary>
+        internal static string SearchTermLengthSwe {
+            get {
+                return ResourceManager.GetString("SearchTermLengthSwe", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to A search term is required..
         /// </summary>
-        internal static string SearchTermRequired {
+        internal static string SearchTermRequiredEng {
             get {
-                return ResourceManager.GetString("SearchTermRequired", resourceCulture);
+                return ResourceManager.GetString("SearchTermRequiredEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En sökterm måste anges..
+        /// </summary>
+        internal static string SearchTermRequiredSwe {
+            get {
+                return ResourceManager.GetString("SearchTermRequiredSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Venues måste vara minst 2 tecken..
+        /// </summary>
+        internal static string VenuesLengthSwe {
+            get {
+                return ResourceManager.GetString("VenuesLengthSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Söktermen måste vara minst 2 tecken..
+        /// </summary>
+        internal static string VenueTermLengthSwe {
+            get {
+                return ResourceManager.GetString("VenueTermLengthSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En sökterm måste anges..
+        /// </summary>
+        internal static string VenueTermRequiredSwe {
+            get {
+                return ResourceManager.GetString("VenueTermRequiredSwe", resourceCulture);
             }
         }
     }

@@ -8,11 +8,15 @@ angular.module('FindMyHome.directives', []).
             restrict: 'A',
             require: '?ngModel',
             link: function (scope, element, attrs, ctrl) {
+                scope.$watch(attrs.ngModel, function (value) {
+                    ctrl.$setValidity('server', true);
+                });
+                /*
                 return element.on('change keyup paste', function () {
                     return scope.$apply(function () {
                         return ctrl.$setValidity('server', true);
                     });
-                });
+                });*/
             }
         };
     }).
@@ -44,6 +48,7 @@ angular.module('FindMyHome.directives', []).
     }).
     directive("preloadObjectTypes", ["ObjectTypesCache",
         function (objectTypesCache) {
+            'use strict';
             return {
                 link: function (scope, element, attrs) {
                     objectTypesCache.put(attrs.preloadObjectTypes, element.html());
@@ -53,6 +58,7 @@ angular.module('FindMyHome.directives', []).
         }
     ]).
     directive('checkList', function () {
+        'use strict';
         return {
             scope: {
                 list: '=checkList',
@@ -87,6 +93,7 @@ angular.module('FindMyHome.directives', []).
         };
     }).
     directive('venueCategoriesTags', function () {
+        'use strict';
         return {
             restrict: 'A',
             scope: {
@@ -95,7 +102,6 @@ angular.module('FindMyHome.directives', []).
             },
             link: function (scope, element, attrs) {
                 element.on('keypress', function (event) {
-                    console.log(scope)
                     if (event.keyCode === 13) {
                         if (scope.value) {
                             var index = scope.venues.indexOf(scope.value);

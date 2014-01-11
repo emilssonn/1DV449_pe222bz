@@ -14,14 +14,20 @@ using System.Threading.Tasks;
 namespace FindMyHome.Domain.Webservices
 {
     internal class FoursquareWebservice
-    {
-        private string _foursquareClientId;
+	{
+		#region Fields
+
+		private string _foursquareClientId;
 
         private string _foursquareClientSecret;
 
         private string _apiVersionDate = "20140101";
 
-        public List<Venue> Search(string searchTerms, string categories)
+		#endregion
+
+		#region Search
+
+		public List<Venue> Search(string searchTerms, string categories)
         {
 			var rawJson = string.Empty;
 			var authString = String.Format("&client_id={0}&client_secret={1}&v={2}", this._foursquareClientId, this._foursquareClientSecret, this._apiVersionDate);
@@ -44,12 +50,16 @@ namespace FindMyHome.Domain.Webservices
 			}
 			catch (WebException e)
 			{
-				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiError);
+				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiErrorSwe);
 				throw;
 			}
         }
 
-        public List<Category> GetCategories()
+		#endregion
+
+		#region Categories
+
+		public List<Category> GetCategories()
         {
             var rawJson = string.Empty;
             var authString = String.Format("&client_id={0}&client_secret={1}&v={2}", this._foursquareClientId, this._foursquareClientSecret, this._apiVersionDate);
@@ -71,7 +81,7 @@ namespace FindMyHome.Domain.Webservices
             }
             catch (WebException e)
             {
-				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiError);
+				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiErrorSwe);
                 throw;
             }
         }
@@ -103,7 +113,9 @@ namespace FindMyHome.Domain.Webservices
             return c;
         }
 
-        public FoursquareWebservice()
+		#endregion
+
+		public FoursquareWebservice()
         {
             this._foursquareClientId = ConfigurationManager.AppSettings["FoursquareClientId"];
             this._foursquareClientSecret = ConfigurationManager.AppSettings["FoursquareClientSecret"];

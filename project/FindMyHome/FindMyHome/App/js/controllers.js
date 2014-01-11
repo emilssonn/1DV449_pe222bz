@@ -10,7 +10,13 @@ angular.module('FindMyHome.controllers', [])
             $scope.getList = function (term) {
                 return VenueAutoCompleteFactory.getVenueList(term);
             };
-            
+
+            $scope.removeVenue = function (value) {
+                var index = $scope.Search.venues.indexOf(value);
+                if (index > -1) {
+                    $scope.Search.venues.splice(index, 1);
+                }
+            }       
         }
     ])
     .controller('SearchCtrl', ['$scope', '$routeParams', '$location', '$route', 'SearchFactory', 'SeachTermAutoCompleteFactory', '$route',
@@ -44,29 +50,21 @@ angular.module('FindMyHome.controllers', [])
                 searchParams.Offset = 30 * (searchParams.page || 1) - 30;
                 searchParams.Limit = 30;
                 delete searchParams.page;
-                /*
-                var searchParams = $.extend({}, $routeParams, $location.search());
-                searchParams.maxPrice = parseInt(searchParams.maxPrice) || 0;
-                searchParams.maxRent = parseInt(searchParams.maxRent) || 0;
-
-                $scope.master = angular.copy(searchParams);
-                $scope.Search = searchParams;
-                $scope.Search.checkedObjectTypes = [];
-                $scope.master.checkedObjectTypes = [];
-                var newObject = angular.copy(searchParams);
-                newObject.Offset = 30 * (newObject.page || 1) - 30;
-                newObject.Limit = 30;
-                delete newObject.page;*/
+                
                 SearchFactory.get(searchParams, function (data) {
                     $scope.searchResult = data;
                     $scope.itemsPerPage = adsPerPage;
                     $scope.totalItems = data.AdsContainer.TotalCount;
                     $scope.maxSize = 5;
                     $scope.currentPage = searchParams.page || 1;
+
                 }, function (response) {
+                    if (response.data.Error) {
+                        $scope.serverError = response.data.Error;
+                    }
                     angular.forEach(response.data.ModelState, function (errors, field) {
                         $scope.searchForm[field].$setValidity('server', false);
-                        $scope.errors[field] = errors.join(', ');
+                        $scope.errors[field] = errors.join(', ');                     
                     });
                 });
             };
@@ -118,9 +116,7 @@ angular.module('FindMyHome.controllers', [])
     ])
     .controller('ObjectTypesCtrl', ['$scope', '$routeParams', 'ObjectTypesFactory',
         function ($scope, $routeParams, ObjectTypesFactory) {
-            //$scope.Search.checkedObjectTypes = [];
-            //$scope.master.checkedObjectTypes = [];
-            //console.log($scope);
+            'use strict';
             ObjectTypesFactory.get(function (data) {
                 $scope.objectTypes = data.objectTypes;
                 var objectTypesArray = $routeParams.objectTypes ? $routeParams.objectTypes.split(',') : [];

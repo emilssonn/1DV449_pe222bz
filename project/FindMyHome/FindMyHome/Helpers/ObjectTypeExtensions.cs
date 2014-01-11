@@ -1,4 +1,5 @@
 ﻿using FindMyHome.Domain.Entities.Booli;
+using FindMyHome.Domain.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,15 @@ namespace FindMyHome.Helpers
 	{
 		public static MvcHtmlString ObjectTypesJSON(this HtmlHelper helper)
 		{
-			var objectTypes = Enum.GetNames(typeof(ObjectType));
+			var objectTypes = new List<string>();
+
+			foreach (var item in Enum.GetValues(typeof(ObjectType)))
+			{
+				objectTypes.Add(EnumHelper.GetDescriptionOrValue((ObjectType)item));
+			}
 			var obj = new 
 				{
-					objectTypes = objectTypes
+					ObjectTypes = objectTypes.ToArray()
 				};
 			return new MvcHtmlString(JsonConvert.SerializeObject(obj));
 		}

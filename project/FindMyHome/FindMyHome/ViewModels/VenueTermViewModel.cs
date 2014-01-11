@@ -8,13 +8,17 @@ namespace FindMyHome.ViewModels
 {
 	public class VenueTermViewModel
 	{
+		#region From Url
+
 		[Required(
 		   ErrorMessageResourceType = typeof(Properties.Resources),
-		   ErrorMessageResourceName = "SearchTermRequired")]
+		   ErrorMessageResourceName = "VenueTermRequiredSwe")]
 		[MinLength(
 			2,
 			ErrorMessageResourceType = typeof(Properties.Resources),
-			ErrorMessageResourceName = "SearchTermLength")]
+			ErrorMessageResourceName = "VenueTermLengthSwe")]
 		public string VenueTerm { get; set; }
+
+		#endregion
 	}
 }

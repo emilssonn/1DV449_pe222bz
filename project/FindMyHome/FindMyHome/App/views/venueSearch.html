@@ -10,7 +10,11 @@
     <div>
         Närliggande platser
         <ul>
-            <li ng-repeat="venue in Search.venues">{{venue}}</li>
+            <li ng-repeat="venue in Search.venues">
+                <div ng-click="removeVenue(venue)">
+                    {{venue}}
+                </div>
+            </li>
         </ul>
     </div>
 </div>

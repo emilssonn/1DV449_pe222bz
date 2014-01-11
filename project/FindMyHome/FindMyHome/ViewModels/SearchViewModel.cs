@@ -11,37 +11,51 @@ namespace FindMyHome.ViewModels
 
     public class SearchViewModel
     {
-        private AdsContainer _adsContainer = null;
 
         #region From Url
 
         [Required(
             ErrorMessageResourceType = typeof(Properties.Resources),
-            ErrorMessageResourceName = "SearchTermRequired")]
+            ErrorMessageResourceName = "SearchTermRequiredSwe")]
         [MaxLength(
             100,
             ErrorMessageResourceType = typeof(Properties.Resources),
-            ErrorMessageResourceName = "SearchTermLength")]
+            ErrorMessageResourceName = "SearchTermLengthSwe")]
 		[MinLength(
 			2,
 			ErrorMessageResourceType = typeof(Properties.Resources),
-            ErrorMessageResourceName = "SearchTermLength")]
+            ErrorMessageResourceName = "SearchTermLengthSwe")]
         public string SearchTerms { get; set; }
 
-        [Range(0, Int32.MaxValue)]
+        [Range(0, Int32.MaxValue,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "OffsetLengthSwe")]
         public int? Offset { get; set; }
 
-        [Range(1, 30)]
+        [Range(1, 30,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "LimitLengthSwe")]
         public int? Limit { get; set; }
 
-        [MaxLength(70)]
-		[AdsObjectTypesAttribute]
+        [MaxLength(70,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "ObjectTypesLengthSwe")]
+		[MinLength(2,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "ObjectTypesLengthSwe")]
+		[AdsObjectTypesAttribute(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "ObjectTypesValueSwe")]
         public string ObjectTypes { get; set; }
 
-        [Range(0, Int32.MaxValue)]
+        [Range(0, Int32.MaxValue,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "MaxRentSwe")]
         public int MaxRent { get; set; }
 
-        [Range(0, Int32.MaxValue)]
+        [Range(0, Int32.MaxValue,
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "MaxPriceSwe")]
         public int MaxPrice { get; set; }
 
         #endregion
@@ -54,25 +68,11 @@ namespace FindMyHome.ViewModels
             }
         }
 
-        public AdsContainer AdsContainer
-        {
-            get
-            {
-                return this._adsContainer;
-            }
-            set
-            {
-                this._adsContainer = value;
-            }
-        }
-
-        public IList<Ad> Ads 
-        {
-            get
-            {
-                return this._adsContainer.Ads.ToList().AsReadOnly();
-            }
-        }
+		public AdsContainer AdsContainer
+		{
+			get;
+			set;
+		}
  
     }
 }

@@ -63,18 +63,63 @@ namespace FindMyHome.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Booli API returned an error..
         /// </summary>
-        internal static string BooliApiError {
+        internal static string BooliApiErrorEng {
             get {
-                return ResourceManager.GetString("BooliApiError", resourceCulture);
+                return ResourceManager.GetString("BooliApiErrorEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det går i nuläget inte att hämta annonser från Booli..
+        /// </summary>
+        internal static string BooliApiErrorSwe {
+            get {
+                return ResourceManager.GetString("BooliApiErrorSwe", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The Foursquare API returned an error..
         /// </summary>
-        internal static string FoursquareApiError {
+        internal static string FoursquareApiErrorEng {
             get {
-                return ResourceManager.GetString("FoursquareApiError", resourceCulture);
+                return ResourceManager.GetString("FoursquareApiErrorEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det går i nuläget inte att hämta platser från Foursquare..
+        /// </summary>
+        internal static string FoursquareApiErrorSwe {
+            get {
+                return ResourceManager.GetString("FoursquareApiErrorSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Något gick fel vid kommunikation med extern datakälla..
+        /// </summary>
+        internal static string GenericApiBadReqSwe {
+            get {
+                return ResourceManager.GetString("GenericApiBadReqSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ej giltiga platser angavs..
+        /// </summary>
+        internal static string InvalidFoursquareCategoiresDescSwe {
+            get {
+                return ResourceManager.GetString("InvalidFoursquareCategoiresDescSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plats sök.
+        /// </summary>
+        internal static string InvalidFoursquareCategoiresHeadSwe {
+            get {
+                return ResourceManager.GetString("InvalidFoursquareCategoiresHeadSwe", resourceCulture);
             }
         }
     }

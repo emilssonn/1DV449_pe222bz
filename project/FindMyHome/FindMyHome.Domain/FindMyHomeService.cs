@@ -10,14 +10,21 @@ using FindMyHome.Domain.DAL;
 using FindMyHome.Domain.Entities;
 using FindMyHome.Domain.Entities.Foursquare;
 using FindMyHome.Domain.Helpers;
+using FindMyHome.Domain.Exceptions;
 
 namespace FindMyHome.Domain
 {
     public class FindMyHomeService : FindMyHomeServiceBase
-    {
-        private IUnitOfWork _unitOfWork;
+	{
+		#region Fields
 
-        public FindMyHomeService()
+		private IUnitOfWork _unitOfWork;
+
+		#endregion
+
+		#region Properties
+
+		public FindMyHomeService()
             : this(new UnitOfWork())
         {
 
@@ -27,6 +34,8 @@ namespace FindMyHome.Domain
         {
             this._unitOfWork = unitOfWork;
         }
+
+		#endregion
 
 		#region Autocomplete
 
@@ -76,14 +85,14 @@ namespace FindMyHome.Domain
             {
                 var booliWebservice = new BooliWebservice();
                 adsContainer = booliWebservice.Search(searchTerms, objectTypes, maxRent, maxPrice, offset, limit);
-
+				adsContainer.LastUpdate = DateTime.UtcNow;
+				adsContainer.NextUpdate = DateTime.UtcNow.AddHours(3);
                 this._unitOfWork.AdsContainerRepository.Insert(adsContainer);
-                adsContainer.NextUpdate = DateTime.Now.AddHours(3);
                 this._unitOfWork.Save();
             }
             else
             {
-                if (adsContainer.NextUpdate < DateTime.Now)
+				if (adsContainer.NextUpdate < DateTime.UtcNow)
                 {
                     var booliWebservice = new BooliWebservice();
                     var newAdsContainer = booliWebservice.Search(searchTerms, objectTypes, maxRent, maxPrice, offset, limit);
@@ -91,10 +100,10 @@ namespace FindMyHome.Domain
 					adsContainer.Ads = newAdsContainer.Ads;
 					adsContainer.CurrentCount = newAdsContainer.CurrentCount;
 					adsContainer.TotalCount = newAdsContainer.TotalCount;
-
+					adsContainer.LastUpdate = DateTime.UtcNow;
+					adsContainer.NextUpdate = DateTime.UtcNow.AddHours(3);
                     this._unitOfWork.AdsContainerRepository.Update(adsContainer);
-                    adsContainer.NextUpdate = DateTime.Now.AddHours(10);
-                    //adsContainer.NextUpdate = DateTime.Now.AddMinutes(1);
+					
                     this._unitOfWork.Save();
                 }
             }
@@ -142,6 +151,19 @@ namespace FindMyHome.Domain
 		{
 			searchTerms = StringTrim.FullTrim(searchTerms);
 			categories = StringTrim.FullTrim(categories);
+
+			var categoriesArray = categories.Split(',');
+
+			var categoriesIds = this._unitOfWork.CategoryRepository.Get(c => categoriesArray.Contains(c.DisplayName))
+				.Select(c => c.Id)
+				.ToList();
+			
+			if (categoriesArray.Length != categoriesIds.Count())
+			{
+				throw new BadRequestException(Properties.Resources.InvalidFoursquareCategoiresHeadSwe, Properties.Resources.InvalidFoursquareCategoiresDescSwe);
+			}
+
+			categories = String.Join(",", categoriesIds);
 
 			return new FoursquareWebservice().Search(searchTerms, categories);
 		}

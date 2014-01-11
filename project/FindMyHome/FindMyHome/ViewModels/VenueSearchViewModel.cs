@@ -13,7 +13,7 @@ namespace FindMyHome.ViewModels
 		[MinLength(
 			2,
 			ErrorMessageResourceType = typeof(Properties.Resources),
-			ErrorMessageResourceName = "SearchTermLength")]
+			ErrorMessageResourceName = "VenuesLengthSwe")]
 		public string Venues { get; set; }
 
         #endregion
