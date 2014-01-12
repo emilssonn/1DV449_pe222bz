@@ -143,6 +143,11 @@ namespace FindMyHome.Domain
             this._unitOfWork.Save();
         }
 
+		public override IEnumerable<string> GetUserSearches(int userId)
+		{
+			return this._unitOfWork.UserAdsSearchRepository.Get(u => u.UserId == userId).Select(s => s.AdsContainer.SearchTerms).ToList();
+		}
+
 		#endregion
 
 		#region Venues

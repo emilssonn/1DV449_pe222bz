@@ -1,25 +1,27 @@
-﻿@{
+﻿@model FindMyHome.ViewModels.IndexViewModel
+@{
     ViewBag.Title = "Sök";
 }
 
-@functions{
-    public string GetAntiForgeryToken()
-    {
-        string cookieToken, formToken;
-        AntiForgery.GetTokens(null, out cookieToken, out formToken);
-        return cookieToken + ":" + formToken;                
-    }
-}
-
 <div ng-app="FindMyHome">
-    <div ng-view></div>
-    <script preload-Object-Types="/api/adObjectTypes" type="application/json"> 
+    
+    
+    @if (Request.IsAuthenticated) {
+        
+        <div class="row">
+            <div class="col-lg-10" ng-view></div>
+            <div class="col-lg-2" ng-include="'app/views/lastSearches.html'"></div>
+        </div>
+        
+        <script preload-Last-Searches="/cache/api/lastSearches" type="application/json"> 
+            @Html.Raw(Json.Encode(new {Searches = Model.LastSearches}))
+        </script>
+    } else {
+        <div class="row">
+            <div class="col-lg-12" ng-view></div>
+        </div>
+    }
+    <script preload-Object-Types="/cache/api/adObjectTypes" type="application/json"> 
         @Html.ObjectTypesJSON()
     </script>
 </div>
-@if (Request.IsAuthenticated) {
-    
-} else {
-    
-}
-

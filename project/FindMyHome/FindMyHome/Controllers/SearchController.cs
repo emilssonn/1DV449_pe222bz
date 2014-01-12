@@ -75,8 +75,8 @@ namespace FindMyHome.Controllers
 			}
             catch (Exception e)
             {
-                var message = string.Format(Properties.Resources.InternalServerErrorSwe);
-                HttpError err = new HttpError(message);
+				HttpError err = new HttpError();
+				err.Add("Error", Properties.Resources.InternalServerErrorSwe);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }    
         }

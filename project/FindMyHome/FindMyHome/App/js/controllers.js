@@ -16,11 +16,11 @@ angular.module('FindMyHome.controllers', [])
                 if (index > -1) {
                     $scope.Search.venues.splice(index, 1);
                 }
-            }       
+            }
         }
     ])
-    .controller('SearchCtrl', ['$scope', '$routeParams', '$location', '$route', 'SearchFactory', 'SeachTermAutoCompleteFactory', '$route',
-        function ($scope, $routeParams, $location, $route, SearchFactory, SeachTermAutoCompleteFactory, ObjectTypesFactory) {
+    .controller('SearchCtrl', ['$scope', '$routeParams', '$location', '$route', 'SearchFactory', 'SeachTermAutoCompleteFactory', '$route', 'SearchesFactory',
+        function ($scope, $routeParams, $location, $route, SearchFactory, SeachTermAutoCompleteFactory, ObjectTypesFactory, SearchesFactory) {
             'use strict';
 
             var adsPerPage = 30,
@@ -32,10 +32,10 @@ angular.module('FindMyHome.controllers', [])
             $scope.Search.venues = []
             $scope.Search.checkedObjectTypes = [];
             $scope.master = angular.copy($scope.Search);
-           
+
             var searchCall = function () {
                 $scope.errors = {};
-               
+
                 var obj = $.extend({}, $routeParams, $location.search());
                 obj.maxPrice = parseInt(obj.maxPrice) || 0;
                 obj.maxRent = parseInt(obj.maxRent) || 0;
@@ -50,7 +50,7 @@ angular.module('FindMyHome.controllers', [])
                 searchParams.Offset = 30 * (searchParams.page || 1) - 30;
                 searchParams.Limit = 30;
                 delete searchParams.page;
-                
+
                 SearchFactory.get(searchParams, function (data) {
                     $scope.searchResult = data;
                     $scope.itemsPerPage = adsPerPage;
@@ -64,9 +64,13 @@ angular.module('FindMyHome.controllers', [])
                     }
                     angular.forEach(response.data.ModelState, function (errors, field) {
                         $scope.searchForm[field].$setValidity('server', false);
-                        $scope.errors[field] = errors.join(', ');                     
+                        $scope.errors[field] = errors.join(', ');
                     });
                 });
+            };
+
+            $scope.clearErrors = function () {
+                $scope.serverError = undefined;
             };
 
             $scope.getList = function (term) {
@@ -81,12 +85,12 @@ angular.module('FindMyHome.controllers', [])
                     newObject.objectTypes = newObject.checkedObjectTypes.join(",");
                     delete newObject.checkedObjectTypes;
                 }
-                
+
                 if (newObject.venues) {
                     newObject.venues = newObject.venues.join(",");
                 }
-
                 $location.path(path).search(getCleanObject(newObject));
+                SearchesFactory.add($location.url());
                 $route.reload();
             };
 
@@ -118,10 +122,10 @@ angular.module('FindMyHome.controllers', [])
         function ($scope, $routeParams, ObjectTypesFactory) {
             'use strict';
             ObjectTypesFactory.get(function (data) {
-                $scope.objectTypes = data.objectTypes;
+                $scope.objectTypes = data.ObjectTypes;
                 var objectTypesArray = $routeParams.objectTypes ? $routeParams.objectTypes.split(',') : [];
                 angular.forEach(objectTypesArray, function (value) {
-                    if (data.objectTypes.indexOf(value) !== -1)
+                    if (data.ObjectTypes.indexOf(value) !== -1)
                         addObjectType(value);
                 });
             });
@@ -133,4 +137,16 @@ angular.module('FindMyHome.controllers', [])
                 $scope.master.checkedObjectTypes.push(obj);
             }
         }
+    ])
+    .controller('LastSearchesCtrl', ['$scope', 'SearchesFactory', 'LastSearchesFactory',
+        function ($scope, SearchesFactory, LastSearchesFactory) {
+            LastSearchesFactory.get(function (data) {
+                angular.forEach(data.Searches, function (value) {
+                    SearchesFactory.add('/search/' + value);
+                });
+            });
+            $scope.searches = SearchesFactory.searches;
+        }
     ]);
+
+

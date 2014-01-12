@@ -50,6 +50,23 @@ namespace FindMyHome.Domain.Webservices
 			}
 			catch (WebException e)
 			{
+				if (e.Status == WebExceptionStatus.ProtocolError &&
+					e.Response != null)
+				{
+					var resp = (HttpWebResponse)e.Response;
+					if (resp.StatusCode == HttpStatusCode.BadRequest)
+					{
+						var body = String.Empty;
+						using (var reader = new StreamReader(resp.GetResponseStream()))
+						{
+							body = reader.ReadToEnd();
+						}
+						var jsonRes = JObject.Parse(body);
+						if ((string)jsonRes["meta"]["errorType"] == "failed_geocode") {
+							return new List<Venue>();
+						}
+					}
+				}
 				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiErrorSwe);
 				throw;
 			}

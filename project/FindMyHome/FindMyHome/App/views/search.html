@@ -1,54 +1,79 @@
-﻿<div>
+﻿<div class="row">
     <form name="searchForm" novalidate>
         <fieldset>
             <legend>Sök</legend>
 
-            <div class="errors" ng-show="serverError !== undefined">
-                {{ serverError }}
+            <!-- Generic or invalid venues errors from server -->
+            <div class="alert alert-danger" ng-show="serverError !== undefined">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="clearErrors()">&times;</button>
+              <strong>Fel</strong> {{ serverError }}
             </div>
 
-            <input type="text" name="SearchTerms" server-error autocomplete="off" ng-model="Search.searchTerms" required ng-minlength="2" ng-maxlength="100" maxlength="100"
-                typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
-            <div>
-                <div ng-show="searchForm.SearchTerms.$dirty && searchForm.SearchTerms.$invalid">
-                    <span ng-show="searchForm.SearchTerms.$error.required">Måste ange en sökterm.</span>
-                    <span ng-show="searchForm.SearchTerms.$error.minlength">Måste vara minst 2 tecken.</span>
-                    <span ng-show="searchForm.SearchTerms.$error.maxlength">Högst 100 tecken.</span>
-                </div>
-                <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
-            </div>
-
-            <ul ng-controller="ObjectTypesCtrl">
-                <li ng-repeat="obj in objectTypes">
-                    <input type='checkbox' value="{{obj}}" check-list="Search.checkedObjectTypes" />
-                    {{obj}} 
-                </li>
-            </ul>
-
-
-            <input name="MaxPrice" disabled ng-model="Search.maxPrice" ng-show="Search.maxPrice > 0" server-error class="hideInput" />
-            <span ng-show="searchForm.MaxPrice.$error.server && searchForm.MaxPrice.$invalid">{{ errors.MaxPrice }}</span>
-            <div ui-slider="" class="ui-slider-default" step="500000" max="50000000" min="0">
-                <div class="ui-slider-container">
-                    <div class="ui-slider-runnable-track">
-                        <div class="ui-slider-range"></div>
-                        <div class="ui-slider-thumb" ng-model="Search.maxPrice"></div>
+            <div class="row">
+                <div class="form-group col-lg-4">
+                    <label for="SearchTerms">Plats</label>
+                    <input id="SearchTerms" type="text" name="SearchTerms" server-error autocomplete="off" ng-model="Search.searchTerms" required ng-minlength="2" ng-maxlength="100" maxlength="100"
+                        typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+                    <p class="help-block">Tex: Stockholm, nacka</p>
+                    <div>
+                        <div ng-show="searchForm.SearchTerms.$dirty && searchForm.SearchTerms.$invalid">
+                            <span ng-show="searchForm.SearchTerms.$error.required">Måste ange en sökterm.</span>
+                            <span ng-show="searchForm.SearchTerms.$error.minlength">Måste vara minst 2 tecken.</span>
+                            <span ng-show="searchForm.SearchTerms.$error.maxlength">Högst 100 tecken.</span>
+                        </div>
+                        <span ng-show="searchForm.SearchTerms.$error.server">{{ errors.SearchTerms }}</span>
                     </div>
                 </div>
-            </div>
 
-            <input name="MaxRent" disabled ng-model="Search.maxRent" server-error class="hideInput" ng-show="Search.maxRent > 0"/>
-            <span ng-show="searchForm.MaxRent.$error.server && searchForm.MaxRent.$invalid">{{ errors.MaxRent }}</span>
-            <div ui-slider="" class="ui-slider-default" step="500" max="20000" min="0">
-                <div class="ui-slider-container">
-                    <div class="ui-slider-runnable-track">
-                        <div class="ui-slider-range"></div>
-                        <div class="ui-slider-thumb" ng-model="Search.maxRent"></div>
+                <div class="row col-lg-8">
+                    <div class="form-group col-lg-6">
+                        <label>Max pris: </label>
+                        <input name="MaxPrice" disabled ng-model="Search.maxPrice" server-error class="hideInput" />
+                        <span ng-show="Search.maxPrice > 0">{{Search.maxPrice | number}} sek</span>
+                        <span ng-show="Search.maxPrice == 0 || Search.maxPrice == undefined">-</span>
+
+                        <span ng-show="searchForm.MaxPrice.$error.server && searchForm.MaxPrice.$invalid">{{ errors.MaxPrice }}</span>
+                        <div ui-slider="" class="ui-slider-default" step="500000" max="50000000" min="0">
+                            <div class="ui-slider-container">
+                                <div class="ui-slider-runnable-track">
+                                    <div class="ui-slider-range"></div>
+                                    <div class="ui-slider-thumb" ng-model="Search.maxPrice"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="form-group col-lg-6">
+                        <label>Max hyra: </label>
+                        <input name="MaxRent" disabled ng-model="Search.maxRent" server-error class="hideInput" />
+                        <span ng-show="Search.maxRent > 0">{{Search.maxRent | number}} sek</span>
+                        <span ng-show="Search.maxRent == 0 || Search.maxRent == undefined">-</span>
+
+                        <span ng-show="searchForm.MaxRent.$error.server && searchForm.MaxRent.$invalid">{{ errors.MaxRent }}</span>
+                        <div ui-slider="" class="ui-slider-default" step="500" max="20000" min="0">
+                            <div class="ui-slider-container">
+                                <div class="ui-slider-runnable-track">
+                                    <div class="ui-slider-range"></div>
+                                    <div class="ui-slider-thumb" ng-model="Search.maxRent"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div ng-include="'app/views/venueSearch.html'"></div>
+            <div class="row">
+                <div class="form-group col-lg-12" ng-controller="ObjectTypesCtrl">
+                    <label class="checkbox-inline" ng-repeat="obj in objectTypes">
+                        <input type='checkbox' value="{{obj}}" check-list="Search.checkedObjectTypes" />
+                        {{obj}} 
+                    </label>
+                </div>
+            </div>
+
+            <div class="row" ng-include="'app/views/venueSearch.html'"></div>
+
 
             <button type="button" class="btn btn-primary" ng-click="doSearch(Search)" ng-disabled="searchForm.$invalid || isUnchanged(Search)">Sök</button>
         </fieldset>
@@ -56,17 +81,24 @@
 </div>
 
 
-<div>
-    <div ng-if="searchResult !== undefined">
-        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
-            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
-    
-        <div ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adList.html'"></div>
-        
-        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
-            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
-        
-    </div>
-</div>
+    <div class="row addMargin" ng-if="searchResult !== undefined">
+        <div class="col-lg-6 panel panel-default">
+            <h3>Annonser</h3>
 
-<div ng-if="searchResult.Venues.length > 0" ng-include="'app/views/venueList.html'"></div>
+            <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+                previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
+
+            <div class="row" ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adList.html'"></div>
+
+            <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+                previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
+
+        </div>
+
+        <div class="col-lg-6 panel panel-default" ng-if="searchResult.Venues.length > 0">
+            <h3>Platser</h3>
+            <div class="row" ng-include="'app/views/venueList.html'"></div>
+        </div>
+    </div>
+
+

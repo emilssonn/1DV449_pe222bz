@@ -14,6 +14,8 @@ namespace FindMyHome.Domain.Abstract
 
 		AdsContainer SearchAds(string searchTerms, string objectTypes = null, int maxRent = 0, int maxPrice = 0, int? offset = 0, int? limit = 30, int userId = 0);
 
+		IEnumerable<string> GetUserSearches(int userId);
+
 		#endregion
 
 		#region Venues

@@ -214,6 +214,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\SearchTermViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\VenueSearchViewModel.cs" />
@@ -225,7 +226,8 @@
     <Content Include="App\js\directives.js" />
     <Content Include="App\js\filters.js" />
     <Content Include="App\js\services.js" />
-    <Content Include="App\views\adsList.html" />
+    <Content Include="App\views\adList.html" />
+    <Content Include="App\views\lastSearches.html" />
     <Content Include="App\views\search.html" />
     <Content Include="App\views\venueList.html" />
     <Content Include="App\views\venueSearch.html" />
@@ -302,6 +304,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\FB-f-Logo__blue_50.png" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-resource.js" />
@@ -317,6 +320,7 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
     <Content Include="Scripts\angular-resource.min.js.map" />
+    <None Include="Properties\PublishProfiles\Test.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -330,6 +334,7 @@
     <Content Include="Scripts\ui-bootstrap-0.9.0.min.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.9.0.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.9.0.min.js" />
+    <Content Include="Scripts\ui-slider.js" />
     <Content Include="Web_Template.config">
       <SubType>Designer</SubType>
     </Content>

@@ -57,6 +57,17 @@ angular.module('FindMyHome.directives', []).
             };
         }
     ]).
+    directive("preloadLastSearches", ["LastSearchesCache",
+        function (LastSearchesCache) {
+            'use strict';
+            return {
+                link: function (scope, element, attrs) {
+                    LastSearchesCache.put(attrs.preloadLastSearches, element.html());
+                    element.remove();
+                }
+            };
+        }
+    ]).
     directive('checkList', function () {
         'use strict';
         return {
@@ -64,7 +75,7 @@ angular.module('FindMyHome.directives', []).
                 list: '=checkList',
                 value: '@'
             },
-            link: function (scope, elem, attrs) { 
+            link: function (scope, elem, attrs) {
                 var handler = function (setup) {
                     var checked = elem.prop('checked');
                     var index = scope.list.indexOf(scope.value);
@@ -109,6 +120,7 @@ angular.module('FindMyHome.directives', []).
                             if (index === -1) {
                                 scope.venues.push(scope.value);
                                 scope.value = "";
+                                scope.$apply(scope.venues);
                             }
                         }
                     }

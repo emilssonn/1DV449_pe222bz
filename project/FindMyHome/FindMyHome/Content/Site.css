@@ -39,8 +39,29 @@ body {
 }
 
 .hideInput {
-    border: none;
-    background:white;
-    color: black;
+    display: none;
 }
 
+.tag {
+    color: #FFFFFF;
+    margin-right: 2px;
+    margin-top: 2px;
+}
+
+.tag [data-role="remove"]:after {
+    content: "x";
+    padding: 0 2px;
+}
+
+.tag [data-role="remove"] {
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.panel {
+    border-radius: 0;
+}
+
+.addMargin {
+    margin-top: 20px;
+}

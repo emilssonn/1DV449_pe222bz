@@ -1,7 +1,13 @@
-﻿<ul>
-    <li ng-repeat="venue in searchResult.Venues">
-        
-        {{venue || json }}
+﻿
 
-    </li>
-</ul>
+<div class="col-sm-12 col-lg-12" ng-repeat="venue in searchResult.Venues">
+    <div class="panel panel-default">
+        <h4>{{venue.Name}}</h4>
+        <a role="button" class="btn btn-info btn-xs" ng-href="https://foursquare.com/v/{{venue.Id}}"" target="_blank">
+            <span class="glyphicon glyphicon-new-window"></span> Mer Info
+        </a>
+        <div ng-repeat="cat in venue.Categories">
+            {{cat}}
+        </div>
+    </div>
+</div>

@@ -1,23 +1,24 @@
-﻿
-<div ng-controller="VenueSearchCtrl">
+﻿<div ng-controller="VenueSearchCtrl">
+    <div class="form-group col-lg-4">
+        <label for="SearchVenues">Platser</label>
 
-    <input type="text" name="SearchVenues" server-error autocomplete="off" ng-model="currentVenue" venue-Categories-Tags="Search.venues"
-        typeahead-editable="false" typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
-    <div>
-        <span ng-show="searchForm.SearchVenues.$error.server">{{ errors.SearchVenues }}</span>
+        <input type="text" id="SearchVenues" name="SearchVenues" server-error autocomplete="off" ng-model="currentVenue" venue-categories-tags="Search.venues"
+            typeahead-editable="false" typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+        <div>
+            <span ng-show="searchForm.SearchVenues.$error.server">{{ errors.SearchVenues }}</span>
+        </div>
     </div>
 
-    <div>
-        Närliggande platser
-        <ul>
-            <li ng-repeat="venue in Search.venues">
-                <div ng-click="removeVenue(venue)">
-                    {{venue}}
-                </div>
-            </li>
-        </ul>
+    <div class="col-lg-8">
+        <label>Närliggande platser</label>
+        <div>
+            <div class="tag label label-primary pull-left" ng-repeat="venue in Search.venues">
+                {{venue}}
+                <span data-role="remove" ng-click="removeVenue(venue)"></span>
+            </div>
+        </div>
     </div>
+
 </div>
-
 
 
