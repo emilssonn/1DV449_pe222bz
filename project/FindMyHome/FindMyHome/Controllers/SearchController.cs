@@ -46,7 +46,7 @@ namespace FindMyHome.Controllers
                                                                     userId);
                 else
                     viewModel.AdsContainer = this._service.SearchAds(viewModel.SearchTerms, viewModel.ObjectTypes, 
-                                                                    viewModel.MaxRent, viewModel.MaxPrice,
+                                                                    viewModel.MaxRent, viewModel.MaxPrice, 0, 0,
                                                                     userId: userId);
 
                 if (viewModel.AdsContainer.Ads.Any() &&

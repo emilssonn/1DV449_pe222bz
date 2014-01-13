@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -116,8 +119,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CategoriesControllerTest.cs" />
+    <Compile Include="Controllers\SearchControllerTest.cs" />
+    <Compile Include="Controllers\SearchTermControllerTest.cs" />
+    <Compile Include="Controllers\VenueTermControllerTest.cs" />
+    <Compile Include="ViewModels\ViewModelValidationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="ViewModels\SearchViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -126,6 +134,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FindMyHome.Domain\FindMyHome.Domain.csproj">
+      <Project>{8744aa7d-7802-4064-9d68-35a846f343b5}</Project>
+      <Name>FindMyHome.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FindMyHome\FindMyHome.csproj">
       <Project>{410C3AC6-47FF-4C12-9391-670FB3EE8B9D}</Project>
       <Name>FindMyHome</Name>

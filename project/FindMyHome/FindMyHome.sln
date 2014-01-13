@@ -7,10 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMyHome", "FindMyHome\Fi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMyHome.Tests", "FindMyHome.Tests\FindMyHome.Tests.csproj", "{98629DC5-F58F-453B-8606-2A8038D3695E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8744AA7D-7802-4064-9D68-35A846F343B5} = {8744AA7D-7802-4064-9D68-35A846F343B5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMyHome.Domain", "FindMyHome.Domain\FindMyHome.Domain.csproj", "{8744AA7D-7802-4064-9D68-35A846F343B5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindMyHome.Domain.Tests", "FindMyHome.Domain.Tests\FindMyHome.Domain.Tests.csproj", "{AE53AEE6-D011-45F8-847D-EBB40E00EC07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +31,6 @@ Global
 		{8744AA7D-7802-4064-9D68-35A846F343B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8744AA7D-7802-4064-9D68-35A846F343B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8744AA7D-7802-4064-9D68-35A846F343B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE53AEE6-D011-45F8-847D-EBB40E00EC07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE53AEE6-D011-45F8-847D-EBB40E00EC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE53AEE6-D011-45F8-847D-EBB40E00EC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE53AEE6-D011-45F8-847D-EBB40E00EC07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

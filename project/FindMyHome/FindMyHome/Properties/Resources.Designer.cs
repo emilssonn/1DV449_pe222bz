@@ -22,7 +22,7 @@ namespace FindMyHome.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FindMyHome.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FindMyHome.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace FindMyHome.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An internal server error occured..
         /// </summary>
-        internal static string InternalServerErrorEng {
+        public static string InternalServerErrorEng {
             get {
                 return ResourceManager.GetString("InternalServerErrorEng", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Ett internt serverfel uppstod..
         /// </summary>
-        internal static string InternalServerErrorSwe {
+        public static string InternalServerErrorSwe {
             get {
                 return ResourceManager.GetString("InternalServerErrorSwe", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Limit måste vara mellan 1 och 30..
         /// </summary>
-        internal static string LimitLengthSwe {
+        public static string LimitLengthSwe {
             get {
                 return ResourceManager.GetString("LimitLengthSwe", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Max pris måste vara mellan 0 och 2147483647..
         /// </summary>
-        internal static string MaxPriceSwe {
+        public static string MaxPriceSwe {
             get {
                 return ResourceManager.GetString("MaxPriceSwe", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Max hyra måsta vara mellan 0 och 2147483647..
         /// </summary>
-        internal static string MaxRentSwe {
+        public static string MaxRentSwe {
             get {
                 return ResourceManager.GetString("MaxRentSwe", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Objekttyperna måste vara mellan 2 och 70..
         /// </summary>
-        internal static string ObjectTypesLengthSwe {
+        public static string ObjectTypesLengthSwe {
             get {
                 return ResourceManager.GetString("ObjectTypesLengthSwe", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Objekttyperna måste innehålla godkända värden..
         /// </summary>
-        internal static string ObjectTypesValueSwe {
+        public static string ObjectTypesValueSwe {
             get {
                 return ResourceManager.GetString("ObjectTypesValueSwe", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Offset måste vara mellan 0 och 2147483647..
         /// </summary>
-        internal static string OffsetLengthSwe {
+        public static string OffsetLengthSwe {
             get {
                 return ResourceManager.GetString("OffsetLengthSwe", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The search term must be 1-100 characters..
         /// </summary>
-        internal static string SearchTermLengthEng {
+        public static string SearchTermLengthEng {
             get {
                 return ResourceManager.GetString("SearchTermLengthEng", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Söktermen måste vara mellan 1 och 100 tecken..
         /// </summary>
-        internal static string SearchTermLengthSwe {
+        public static string SearchTermLengthSwe {
             get {
                 return ResourceManager.GetString("SearchTermLengthSwe", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to A search term is required..
         /// </summary>
-        internal static string SearchTermRequiredEng {
+        public static string SearchTermRequiredEng {
             get {
                 return ResourceManager.GetString("SearchTermRequiredEng", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to En sökterm måste anges..
         /// </summary>
-        internal static string SearchTermRequiredSwe {
+        public static string SearchTermRequiredSwe {
             get {
                 return ResourceManager.GetString("SearchTermRequiredSwe", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Venues måste vara minst 2 tecken..
         /// </summary>
-        internal static string VenuesLengthSwe {
+        public static string VenuesLengthSwe {
             get {
                 return ResourceManager.GetString("VenuesLengthSwe", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Söktermen måste vara minst 2 tecken..
         /// </summary>
-        internal static string VenueTermLengthSwe {
+        public static string VenueTermLengthSwe {
             get {
                 return ResourceManager.GetString("VenueTermLengthSwe", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace FindMyHome.Properties {
         /// <summary>
         ///   Looks up a localized string similar to En sökterm måste anges..
         /// </summary>
-        internal static string VenueTermRequiredSwe {
+        public static string VenueTermRequiredSwe {
             get {
                 return ResourceManager.GetString("VenueTermRequiredSwe", resourceCulture);
             }

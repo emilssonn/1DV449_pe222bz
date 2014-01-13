@@ -11,8 +11,8 @@ using System.Web.Http;
 
 namespace FindMyHome.Controllers
 {
-	//[Authorize(Roles = "Administrators")]
-	//[ValidateHttpAntiForgeryTokenAttribute]
+	[Authorize(Roles = "Administrators")]
+	[ValidateHttpAntiForgeryTokenAttribute]
     public class CategoriesController : ApiController
     {
         private IFindMyHomeService _service;
@@ -49,16 +49,6 @@ namespace FindMyHome.Controllers
 				HttpError err = new HttpError(message);
 				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
 			}    
-        }
-
-        // PUT api/categories/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/categories/5
-        public void Delete(int id)
-        {
         }
 
         #region Dispose
