@@ -29,16 +29,24 @@ namespace FindMyHome.Controllers
             this._service = service;
         }
 
-        // GET api/search
+		/// <summary>
+		/// GET api/search
+		/// Searches for ads from booli and venues from foursquare
+		/// </summary>
+		/// <param name="viewModel"></param>
+		/// <param name="venue"></param>
+		/// <returns></returns>
         public SearchResult Get([FromUri]SearchViewModel viewModel, [FromUri]VenueSearchViewModel venue)
         {
             try
             {
                 var userId = 0;
+				//Check if user is logged in
                 if (User.Identity.IsAuthenticated)
                 {
                     userId = (int)Membership.GetUser().ProviderUserKey;
                 }
+				//The requests contains paging properties
                 if (viewModel.Paging)
                     viewModel.AdsContainer = this._service.SearchAds(viewModel.SearchTerms, viewModel.ObjectTypes, 
                                                                     viewModel.MaxRent, viewModel.MaxPrice, 
@@ -49,6 +57,7 @@ namespace FindMyHome.Controllers
                                                                     viewModel.MaxRent, viewModel.MaxPrice, 0, 0,
                                                                     userId: userId);
 
+				//If any ads was found, search for venues
                 if (viewModel.AdsContainer.Ads.Any() &&
 					venue.Venues != null &&
 					venue.Venues != string.Empty)
@@ -61,6 +70,7 @@ namespace FindMyHome.Controllers
             }
             catch (ExternalDataSourceException e)
             {
+				//A Api returned a error
 				HttpError err = new HttpError();
 				err.Add("Error", e.Message);
 				err.Add("DetailedError", e.DetailedMessage);
@@ -68,6 +78,7 @@ namespace FindMyHome.Controllers
             }
 			catch (BadRequestException e)
 			{
+				//Server or API returner badrequest
 				HttpError err = new HttpError();
 				err.Add("Error", e.Message);
 				err.Add("DetailedError", e.DetailedMessage);
@@ -75,6 +86,7 @@ namespace FindMyHome.Controllers
 			}
             catch (Exception e)
             {
+				//Something went wrong on the server
 				HttpError err = new HttpError();
 				err.Add("Error", Properties.Resources.InternalServerErrorSwe);
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));

@@ -4,24 +4,27 @@
 }
 
 <div ng-app="FindMyHome">
+
+    @if (Request.IsAuthenticated)
+    {    
+        <div class="col-lg-10" ng-view></div>
+        <div class="col-lg-2" ng-include="'app/views/lastSearches.html'"></div>
     
-    
-    @if (Request.IsAuthenticated) {
-        
-        <div class="row">
-            <div class="col-lg-10" ng-view></div>
-            <div class="col-lg-2" ng-include="'app/views/lastSearches.html'"></div>
-        </div>
-        
-        <script preload-Last-Searches="/cache/api/lastSearches" type="application/json"> 
-            @Html.Raw(Json.Encode(new {Searches = Model.LastSearches}))
+        @*
+            Preload the last 10 searched made by a user.
+        *@
+        <script preload-last-searches="/cache/api/lastSearches" type="application/json"> 
+            @Html.Raw(Json.Encode(new { Searches = Model.LastSearches }))
         </script>
-    } else {
-        <div class="row">
-            <div class="col-lg-12" ng-view></div>
-        </div>
     }
-    <script preload-Object-Types="/cache/api/adObjectTypes" type="application/json"> 
-        @Html.ObjectTypesJSON()
+    else
+    {
+        <div class="col-lg-12" ng-view></div>
+    }
+    @*
+        Preload the object types, they are always required anyway
+    *@
+    <script preload-object-types="/cache/api/adObjectTypes" type="application/json"> 
+        @Html.Raw(Json.Encode(new { ObjectTypes = Model.ObjectTypes }))
     </script>
 </div>

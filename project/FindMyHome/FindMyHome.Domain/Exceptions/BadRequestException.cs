@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace FindMyHome.Domain.Exceptions
 {
+	/// <summary>
+	/// If a API call returns a bad request http error or
+	/// if any other values given to a method in this project is not correct
+	/// this exception is thrown
+	/// </summary>
 	public class BadRequestException : Exception
 	{
 		public string DetailedMessage { get; set; }

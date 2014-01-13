@@ -10,6 +10,12 @@ namespace FindMyHome.Domain.Helpers
 {
 	public class EnumHelper
 	{
+		/// <summary>
+		/// Tries to get the description of enum.
+		/// If the description attribute is not there, get the value(string)
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static string GetDescriptionOrValue(Enum value)
 		{
 			FieldInfo field = value.GetType().GetField(value.ToString());
@@ -21,6 +27,14 @@ namespace FindMyHome.Domain.Helpers
 			return attribute == null ? value.ToString() : attribute.Description;
 		}
 
+		/// <summary>
+		/// Info: Har inte skrivit denna helt själv och har tappat bort källan.
+		/// Returns the enum value by mathcing the description attribute to the supplied string
+		/// Throws a ArgumentException if the enum with the supplied description is not found
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="description"></param>
+		/// <returns></returns>
 		public static T GetEnumValueFromDescription<T>(string description)
 		{
 			var type = typeof(T);

@@ -18,8 +18,14 @@ namespace FindMyHome.Domain.Entities.Foursquare
 
         public string EngName { get; set; }
 
+		/// <summary>
+		/// Swedish translation of the name returned from Foursquare
+		/// </summary>
         public string SweName { get; set; }
 
+		/// <summary>
+		/// Name to be displayed to the application
+		/// </summary>
 		public string DisplayName { get; set; }
 
         public string IconPrefix { get; set; }
@@ -50,8 +56,14 @@ namespace FindMyHome.Domain.Entities.Foursquare
             this.IconSuffix = (string)category["icon"]["suffix"];
         }
 
+		/// <summary>
+		/// Compare 2 categorys by the specific values
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
         public bool Equals(Category other)
         {
+			//Same instance of the object
 			if (Object.ReferenceEquals(this, other)) 
 				return true;
 

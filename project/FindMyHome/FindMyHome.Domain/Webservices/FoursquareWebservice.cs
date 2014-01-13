@@ -27,9 +27,18 @@ namespace FindMyHome.Domain.Webservices
 
 		#region Search
 
+		/// <summary>
+		/// Searches for venues located near the search term
+		/// Searches for venues connected to one or more of the supplied category ids.
+		/// </summary>
+		/// <param name="searchTerms">Location</param>
+		/// <param name="categories">Valid category Ids</param>
+		/// <returns></returns>
 		public List<Venue> Search(string searchTerms, string categories)
         {
 			var rawJson = string.Empty;
+
+			//Configurate the API call
 			var authString = String.Format("&client_id={0}&client_secret={1}&v={2}", this._foursquareClientId, this._foursquareClientSecret, this._apiVersionDate);
 			var requestUriString = String.Format("https://api.foursquare.com/v2/venues/search/?near={0}&categoryId={1}&intent=browse&limit=50{2}",
 				searchTerms, categories, authString);
@@ -39,6 +48,7 @@ namespace FindMyHome.Domain.Webservices
 
 			try
 			{
+				//Make the request
 				using (var response = request.GetResponse())
 				using (var reader = new StreamReader(response.GetResponseStream()))
 				{
@@ -46,10 +56,15 @@ namespace FindMyHome.Domain.Webservices
 				}
 				var jsonRes = JObject.Parse(rawJson);
 
+				//Get the returned venues as Venue objects
 				return jsonRes["response"]["venues"].Select(v => new Venue(v)).ToList();
 			}
 			catch (WebException e)
 			{
+				//If the webservice returns a Http error
+
+				//Check if the response is a badrequest error and
+				//that the errorType is failed_geocode, silently fail, return empty list
 				if (e.Status == WebExceptionStatus.ProtocolError &&
 					e.Response != null)
 				{
@@ -76,9 +91,14 @@ namespace FindMyHome.Domain.Webservices
 
 		#region Categories
 
+		/// <summary>
+		/// Fetches all venue categories from foursquare.
+		/// </summary>
+		/// <returns></returns>
 		public List<Category> GetCategories()
         {
             var rawJson = string.Empty;
+			//Configurate the API call
             var authString = String.Format("&client_id={0}&client_secret={1}&v={2}", this._foursquareClientId, this._foursquareClientSecret, this._apiVersionDate);
             var requestUriString = String.Format("https://api.foursquare.com/v2/venues/categories/?{0}", authString);
             var request = (HttpWebRequest)WebRequest.Create(requestUriString);
@@ -87,6 +107,7 @@ namespace FindMyHome.Domain.Webservices
 
             try
             {
+				//Make request
                 using (var response = request.GetResponse())
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
@@ -94,15 +115,23 @@ namespace FindMyHome.Domain.Webservices
                 }
                 var jsonRes = JObject.Parse(rawJson);
 
+				//Get the categories from the response
                 return this.ReadCategories(jsonRes["response"]["categories"]);
             }
             catch (WebException e)
             {
+				//If the call returns a http error
 				ExceptionHandler.WebException(e, Properties.Resources.FoursquareApiErrorSwe);
                 throw;
             }
         }
 
+		/// <summary>
+		/// Read the categories
+		/// Iterate over each category
+		/// </summary>
+		/// <param name="categoriesJToken"></param>
+		/// <returns></returns>
         private List<Category> ReadCategories(JToken categoriesJToken)
         {
             var categories = new List<Category>();
@@ -113,7 +142,13 @@ namespace FindMyHome.Domain.Webservices
             return categories;
         }
 
-        //Recursive
+        /// <summary>
+        /// A recursive method to add all subcategories to the parent category
+		/// The response from foursquare is a list with a few main categories with child categories.
+        /// </summary>
+        /// <param name="categoryJToken"></param>
+        /// <param name="parentCategory"></param>
+        /// <returns></returns>
         private Category ReadCategory(JToken categoryJToken, Category parentCategory = null)
         {
             //var cs = new List<Category>();

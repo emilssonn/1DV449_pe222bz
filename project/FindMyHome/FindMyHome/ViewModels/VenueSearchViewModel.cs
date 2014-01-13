@@ -10,6 +10,10 @@ namespace FindMyHome.ViewModels
     {
         #region From Url
 
+		/// <summary>
+		/// Search for venues aswell?
+		/// Used with SeachViewModel when doing a full search
+		/// </summary>
 		[MinLength(
 			2,
 			ErrorMessageResourceType = typeof(Properties.Resources),

@@ -10,6 +10,9 @@ namespace FindMyHome.ViewModels
 	{
 		#region From Url
 
+		/// <summary>
+		/// Term used to look for matches that contains it
+		/// </summary>
 		[Required(
 		   ErrorMessageResourceType = typeof(Properties.Resources),
 		   ErrorMessageResourceName = "VenueTermRequiredSwe")]

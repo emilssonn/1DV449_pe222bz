@@ -29,8 +29,10 @@ namespace FindMyHome.Domain
 
     public class RegisterExternalLoginModel
     {
-        [Required]
-        [Display(Name = "User name")]
+        [Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "UsernameInputSwe")]
         public string UserName { get; set; }
 
         public string ExternalLoginData { get; set; }
@@ -38,53 +40,75 @@ namespace FindMyHome.Domain
 
     public class LocalPasswordModel
     {
-        [Required]
+		[Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "CurrentPasswordInputSwe")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
+        [StringLength(100, 
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "PasswordToShortSwe",
+			MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+		[Display(ResourceType = typeof(Properties.Resources), Name="NewPasswordInputSwe")]
         public string NewPassword { get; set; }
-
+		
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(ResourceType = typeof(Properties.Resources), Name="ConfirmNewPasswordInputSwe")]
+        [Compare("NewPassword",
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "PasswordDontMatchSwe")]
         public string ConfirmPassword { get; set; }
     }
 
     public class LoginModel
     {
-        [Required]
-        [Display(Name = "User name")]
+		[Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "UsernameInputSwe")]
         public string UserName { get; set; }
-
-        [Required]
+		
+		[Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "PasswordInputSwe")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "RememberMeInputSwe")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterModel
     {
-        [Required]
-        [Display(Name = "User name")]
+		[Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "UsernameInputSwe")]
         public string UserName { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		
+		[Required(
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "RequiredInputSwe")]
+        [StringLength(100, 
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "InputLengthErrorSwe",
+			MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "PasswordInputSwe")]
         public string Password { get; set; }
-
+		
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		[Display(ResourceType = typeof(Properties.Resources), Name = "ConfirmPasswordInputSwe")]
+        [Compare("Password", 
+			ErrorMessageResourceType = typeof(Properties.Resources),
+			ErrorMessageResourceName = "PasswordsDontMatchSwe")]
         public string ConfirmPassword { get; set; }
     }
 

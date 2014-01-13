@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace FindMyHome.Domain.Entities
 {
+	/// <summary>
+	/// The combined result from a search
+	/// </summary>
 	public class SearchResult
 	{
 		public AdsContainer AdsContainer { get; set; }
@@ -16,6 +19,7 @@ namespace FindMyHome.Domain.Entities
 
 		public SearchResult(AdsContainer adsContainer, List<Venue> venues = null)
 		{
+			//ALways have a list of venues, even if its empty
 			this.AdsContainer = adsContainer;
 			if (venues != null)
 				this.Venues = venues;

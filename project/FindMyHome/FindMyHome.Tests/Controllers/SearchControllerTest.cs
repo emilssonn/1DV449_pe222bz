@@ -26,6 +26,7 @@ namespace FindMyHome.Tests.Controllers
 		[TestMethod]
 		public void Test_Search_Return_0_Ads()
 		{
+			//Arrange
 			var searchTerm = "Kalmar";
 			var mockService = new Mock<IFindMyHomeService>();
 			mockService.Setup(s => s.SearchAds(searchTerm, null, 0, 0, 0, 0, 0)).
@@ -38,6 +39,7 @@ namespace FindMyHome.Tests.Controllers
 			viewModel.SearchTerms = searchTerm;	
 			var venueViewModel = Mock.Of<VenueSearchViewModel>();
 
+			//Create a Principal to be able to get pass the check if the user is logged in
 			var identity = new GenericIdentity("Test");
 			var principal = new Mock<IPrincipal>();
 			principal.SetupGet(p => p.Identity).Returns(identity);
@@ -47,8 +49,10 @@ namespace FindMyHome.Tests.Controllers
 			
 			var controller = new SearchController(mockService.Object);
 
+			//Act
 			var result = controller.Get(viewModel, venueViewModel) as SearchResult;
 
+			//Assert
 			Assert.IsTrue(result.AdsContainer.Ads.Count == 0);
 			Assert.IsTrue(result.Venues.Count == 0);
 		}
@@ -56,6 +60,7 @@ namespace FindMyHome.Tests.Controllers
 		[TestMethod]
 		public void Test_Search_Return_Ads_No_Venues()
 		{
+			//Arrange
 			var searchTerm = "Kalmar";
 			var categories = "Food";
 			var mockService = new Mock<IFindMyHomeService>();
@@ -73,6 +78,7 @@ namespace FindMyHome.Tests.Controllers
 			var venueViewModel = Mock.Of<VenueSearchViewModel>();
 			venueViewModel.Venues = categories;
 
+			//Create a Principal to be able to get pass the check if the user is logged in
 			var identity = new GenericIdentity("Test");
 			var principal = new Mock<IPrincipal>();
 			principal.SetupGet(p => p.Identity).Returns(identity);
@@ -82,8 +88,10 @@ namespace FindMyHome.Tests.Controllers
 
 			var controller = new SearchController(mockService.Object);
 
+			//Act
 			var result = controller.Get(viewModel, venueViewModel) as SearchResult;
 
+			//Assert
 			Assert.IsTrue(result.AdsContainer.Ads.Count == 1);
 			Assert.IsTrue(result.Venues.Count == 0);
 		}

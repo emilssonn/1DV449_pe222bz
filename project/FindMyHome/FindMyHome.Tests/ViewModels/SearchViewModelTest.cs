@@ -15,6 +15,7 @@ namespace FindMyHome.Tests.ViewModels
 		[TestMethod]
 		public void Test_SearchTerm_Length_Is_Invalid()
 		{
+			//Arrange
 			var searchTerm = "m";
 
 			var viewModel = Mock.Of<SearchViewModel>();
@@ -22,8 +23,10 @@ namespace FindMyHome.Tests.ViewModels
 
 			var controller = new ViewModelValidationController();
 
+			//Act
 			var result = controller.TestTryValidateModel(viewModel);
 
+			//Assert
 			Assert.IsFalse(result);
 
 			var modelState = controller.ModelState;

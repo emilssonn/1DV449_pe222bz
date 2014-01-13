@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace FindMyHome.Domain.Entities.Booli
 {
-    //[Table("BooliCache")]
     public partial class AdsContainer
     {
         [JsonIgnore]

@@ -18,21 +18,22 @@ namespace FindMyHome.Tests.Controllers
 		[TestMethod]
 		public void Test_Get_Throw_500_Error()
 		{
+			//Arrange
 			var mockService = new Mock<IFindMyHomeService>();
 
 			mockService.Setup(c => c.RefreshCategories()).
 				Throws(new ApplicationException());
 
-
 			var controller = new CategoriesController(mockService.Object);
-
 			controller.Request = new HttpRequestMessage();
 			controller.Request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
 
+			//Act
 			try
 			{
 				var result = controller.Get() as List<Category>;
 
+				//Should not get here
 				Assert.Fail();
 			}
 			catch (HttpResponseException e)

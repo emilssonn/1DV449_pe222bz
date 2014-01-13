@@ -22,7 +22,7 @@ namespace FindMyHome.Domain.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FindMyHome.Domain.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FindMyHome.Domain.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace FindMyHome.Domain.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FindMyHome.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Booli API returned an error..
         /// </summary>
-        internal static string BooliApiErrorEng {
+        public static string BooliApiErrorEng {
             get {
                 return ResourceManager.GetString("BooliApiErrorEng", resourceCulture);
             }
@@ -72,16 +72,43 @@ namespace FindMyHome.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Det går i nuläget inte att hämta annonser från Booli..
         /// </summary>
-        internal static string BooliApiErrorSwe {
+        public static string BooliApiErrorSwe {
             get {
                 return ResourceManager.GetString("BooliApiErrorSwe", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bekräfta nytt lösenord.
+        /// </summary>
+        public static string ConfirmNewPasswordInputSwe {
+            get {
+                return ResourceManager.GetString("ConfirmNewPasswordInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bekräfta lösenord.
+        /// </summary>
+        public static string ConfirmPasswordInputSwe {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nuvarande lösenord.
+        /// </summary>
+        public static string CurrentPasswordInputSwe {
+            get {
+                return ResourceManager.GetString("CurrentPasswordInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Foursquare API returned an error..
         /// </summary>
-        internal static string FoursquareApiErrorEng {
+        public static string FoursquareApiErrorEng {
             get {
                 return ResourceManager.GetString("FoursquareApiErrorEng", resourceCulture);
             }
@@ -90,7 +117,7 @@ namespace FindMyHome.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Det går i nuläget inte att hämta platser från Foursquare..
         /// </summary>
-        internal static string FoursquareApiErrorSwe {
+        public static string FoursquareApiErrorSwe {
             get {
                 return ResourceManager.GetString("FoursquareApiErrorSwe", resourceCulture);
             }
@@ -99,16 +126,25 @@ namespace FindMyHome.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Något gick fel vid kommunikation med extern datakälla..
         /// </summary>
-        internal static string GenericApiBadReqSwe {
+        public static string GenericApiBadReqSwe {
             get {
                 return ResourceManager.GetString("GenericApiBadReqSwe", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ditt {0} måste vara minst {2} tecken långt..
+        /// </summary>
+        public static string InputLengthErrorSwe {
+            get {
+                return ResourceManager.GetString("InputLengthErrorSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ej giltiga platser angavs..
         /// </summary>
-        internal static string InvalidFoursquareCategoiresDescSwe {
+        public static string InvalidFoursquareCategoiresDescSwe {
             get {
                 return ResourceManager.GetString("InvalidFoursquareCategoiresDescSwe", resourceCulture);
             }
@@ -117,9 +153,81 @@ namespace FindMyHome.Domain.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Plats sök.
         /// </summary>
-        internal static string InvalidFoursquareCategoiresHeadSwe {
+        public static string InvalidFoursquareCategoiresHeadSwe {
             get {
                 return ResourceManager.GetString("InvalidFoursquareCategoiresHeadSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nytt lösenord.
+        /// </summary>
+        public static string NewPasswordInputSwe {
+            get {
+                return ResourceManager.GetString("NewPasswordInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det nya lösenordet och bekräftelsen matchar inte..
+        /// </summary>
+        public static string PasswordDontMatchSwe {
+            get {
+                return ResourceManager.GetString("PasswordDontMatchSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lösenord.
+        /// </summary>
+        public static string PasswordInputSwe {
+            get {
+                return ResourceManager.GetString("PasswordInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lösenorden matchar inte..
+        /// </summary>
+        public static string PasswordsDontMatchSwe {
+            get {
+                return ResourceManager.GetString("PasswordsDontMatchSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det nya lösenordet måste vara minst {2} tecken långt..
+        /// </summary>
+        public static string PasswordToShortSwe {
+            get {
+                return ResourceManager.GetString("PasswordToShortSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kom ihåg mig?.
+        /// </summary>
+        public static string RememberMeInputSwe {
+            get {
+                return ResourceManager.GetString("RememberMeInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} måste anges..
+        /// </summary>
+        public static string RequiredInputSwe {
+            get {
+                return ResourceManager.GetString("RequiredInputSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Användarnamn.
+        /// </summary>
+        public static string UsernameInputSwe {
+            get {
+                return ResourceManager.GetString("UsernameInputSwe", resourceCulture);
             }
         }
     }

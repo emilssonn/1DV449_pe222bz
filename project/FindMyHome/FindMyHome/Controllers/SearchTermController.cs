@@ -21,7 +21,12 @@ namespace FindMyHome.Controllers
             this._service = service;
         }
 
-        // GET api/searchterm
+		/// <summary>
+		/// GET api/searchterm
+		/// Return all previous searches made that contains the search term, return only the search terms
+		/// </summary>
+		/// <param name="terms"></param>
+		/// <returns></returns>
         public IEnumerable<string> Get([FromUri]SearchTermViewModel terms)
         {
             try
@@ -30,9 +35,10 @@ namespace FindMyHome.Controllers
             }
             catch (Exception e)
             {
-                var message = string.Format(Properties.Resources.InternalServerErrorSwe);
-                HttpError err = new HttpError(message);
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
+				//Something went wrong on the server
+				HttpError err = new HttpError();
+				err.Add("Error", Properties.Resources.InternalServerErrorSwe);
+				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
             }    
         }
 

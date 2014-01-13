@@ -1,13 +1,18 @@
-﻿
+﻿<div class="col-sm-12 col-lg-12" ng-repeat="venue in searchResult.Venues">
+    <div class="panel panel-default" style="padding: 10px;">
+        <div class="row">
+            <div class="col-xs-12">
+                <h4>{{venue.Name}}</h4>
 
-<div class="col-sm-12 col-lg-12" ng-repeat="venue in searchResult.Venues">
-    <div class="panel panel-default">
-        <h4>{{venue.Name}}</h4>
-        <a role="button" class="btn btn-info btn-xs" ng-href="https://foursquare.com/v/{{venue.Id}}"" target="_blank">
-            <span class="glyphicon glyphicon-new-window"></span> Mer Info
-        </a>
-        <div ng-repeat="cat in venue.Categories">
-            {{cat}}
+                <div class="tag label label-primary pull-left" ng-repeat="cat in venue.Categories">
+                    {{cat}}
+                </div>
+                <div>
+                    <a role="button" class="btn btn-info btn-xs pull-right" ng-href="https://foursquare.com/v/{{venue.Name}}/{{venue.Id}}?ref=2YW0XIWIGLRVG4PKEIPYK405T0P2CY0OAG4H335MJUK20XP5" target="_blank">
+                        <span class="glyphicon glyphicon-new-window"></span> Mer Info
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

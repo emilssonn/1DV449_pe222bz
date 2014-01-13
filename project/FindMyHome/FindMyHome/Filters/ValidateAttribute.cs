@@ -13,6 +13,11 @@ namespace FindMyHome.Filters
 {
     public class ValidateAttribute : ActionFilterAttribute
     {
+		/// <summary>
+		/// Validates the viewmodels before entering the controller
+		/// Returns the validation errors as Json and a http error
+		/// </summary>
+		/// <param name="actionContext"></param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             if (!actionContext.ModelState.IsValid)

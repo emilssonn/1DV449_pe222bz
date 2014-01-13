@@ -18,6 +18,7 @@ namespace FindMyHome.Tests.Controllers
 		[TestMethod]
 		public void Test_Search_Terms_Return_Are_2()
 		{
+			//Arrange
 			var searchTerm = "ma";
 			var mockService = new Mock<IFindMyHomeService>();
 			mockService.Setup(s => s.GetSearchTerms(searchTerm)).
@@ -32,21 +33,23 @@ namespace FindMyHome.Tests.Controllers
 
 			var controller = new SearchTermController(mockService.Object);
 
+			//Act
 			var result = controller.Get(viewModel) as List<string>;
 
+			//Assert
 			Assert.IsTrue(result.Count() == 2);
 		}
 
 		[TestMethod]
 		public void Test_Search_Terms_Return_Are_1()
 		{
+			//Arrange
 			var searchTerm = "Kalmar";
 			var mockService = new Mock<IFindMyHomeService>();
 			mockService.Setup(s => s.GetSearchTerms(searchTerm)).
 				Returns(new List<string>
 				{
-					"kAlMaR",
-					"Emmaboda"
+					"kAlMaR"
 				});
 
 			var viewModel = Mock.Of<SearchTermViewModel>();
@@ -54,9 +57,11 @@ namespace FindMyHome.Tests.Controllers
 
 			var controller = new SearchTermController(mockService.Object);
 
+			//Act
 			var result = controller.Get(viewModel) as List<string>;
 
-			Assert.IsTrue(result.Count() == 2);
+			//Assert
+			Assert.IsTrue(result.Count() == 1);
 		}
 	}
 }

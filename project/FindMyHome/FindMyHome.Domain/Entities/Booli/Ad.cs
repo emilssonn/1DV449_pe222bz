@@ -9,12 +9,17 @@ using System.Text;
 
 namespace FindMyHome.Domain.Entities.Booli
 {
-    //[Table("BooliAd", Schema="dbo")]
     public partial class Ad
     {
+		/// <summary>
+		/// Composite primary key
+		/// </summary>
         [Key, Column(Order = 2), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+		/// <summary>
+		/// Composite primary key
+		/// </summary>
         [Key, Column(Order = 1)]
         [ForeignKey("AdsContainer")]
         [JsonIgnore]
@@ -47,6 +52,11 @@ namespace FindMyHome.Domain.Entities.Booli
 
         public Ad() { }
 
+		/// <summary>
+		/// Get the values from the JToken
+		/// All values that can be null is parsed to get the value or set to null
+		/// </summary>
+		/// <param name="adToken"></param>
         public Ad(JToken adToken)
         {
             int t;

@@ -13,7 +13,10 @@ namespace FindMyHome.ViewModels
     {
 
         #region From Url
-
+		
+		/// <summary>
+		/// Required search term that is the location to search for ads in
+		/// </summary>
         [Required(
             ErrorMessageResourceType = typeof(Properties.Resources),
             ErrorMessageResourceName = "SearchTermRequiredSwe")]
@@ -27,16 +30,25 @@ namespace FindMyHome.ViewModels
             ErrorMessageResourceName = "SearchTermLengthSwe")]
         public string SearchTerms { get; set; }
 
+		/// <summary>
+		/// How many adds should be skipped when fetching the result
+		/// </summary>
         [Range(0, Int32.MaxValue,
 			ErrorMessageResourceType = typeof(Properties.Resources),
 			ErrorMessageResourceName = "OffsetLengthSwe")]
         public int? Offset { get; set; }
 
+		/// <summary>
+		/// How many ads should be fetched
+		/// </summary>
         [Range(1, 30,
 			ErrorMessageResourceType = typeof(Properties.Resources),
 			ErrorMessageResourceName = "LimitLengthSwe")]
         public int? Limit { get; set; }
 
+		/// <summary>
+		/// Limit the search to specific object types?
+		/// </summary>
         [MaxLength(70,
 			ErrorMessageResourceType = typeof(Properties.Resources),
 			ErrorMessageResourceName = "ObjectTypesLengthSwe")]
@@ -48,11 +60,17 @@ namespace FindMyHome.ViewModels
 			ErrorMessageResourceName = "ObjectTypesValueSwe")]
         public string ObjectTypes { get; set; }
 
+		/// <summary>
+		/// Limit the search to a max rent?
+		/// </summary>
         [Range(0, Int32.MaxValue,
 			ErrorMessageResourceType = typeof(Properties.Resources),
 			ErrorMessageResourceName = "MaxRentSwe")]
         public int MaxRent { get; set; }
 
+		/// <summary>
+		/// Limit the search to a max price?
+		/// </summary>
         [Range(0, Int32.MaxValue,
 			ErrorMessageResourceType = typeof(Properties.Resources),
 			ErrorMessageResourceName = "MaxPriceSwe")]
@@ -60,6 +78,9 @@ namespace FindMyHome.ViewModels
 
         #endregion
 
+		/// <summary>
+		/// Is the search made using paging?
+		/// </summary>
         public bool Paging
         {
             get

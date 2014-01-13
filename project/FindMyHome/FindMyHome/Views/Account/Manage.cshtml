@@ -3,30 +3,54 @@
     ViewBag.Title = "Hantera Konto";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title</h1>
-</hgroup>
+<div class="col-xs-12">
+    <section class="row">
 
-<p class="message-success">@ViewBag.StatusMessage</p>
+        <h1>@ViewBag.Title</h1>
 
-<p>Du är inloggad som <strong>@User.Identity.Name</strong>.</p>
+        @if (ViewBag.StatusMessage != string.Empty)
+        {
+            <p class="alert alert-success">@ViewBag.StatusMessage</p>
+        }
 
-@if (ViewBag.HasLocalPassword)
-{
-    @Html.Partial("_ChangePasswordPartial")
-}
-else
-{ 
-    @Html.Partial("_SetPasswordPartial")
-}
+        <p>Du är inloggad som <strong>@User.Identity.Name</strong>.</p>
 
-<section id="externalLogins">
-    @Html.Action("RemoveExternalLogins")
+        @if (ViewBag.HasLocalPassword)
+        {
+            @Html.Partial("_ChangePasswordPartial")
+        }
+        else
+        { 
+            @Html.Partial("_SetPasswordPartial")
+        }
 
-    <h3>Lägg till extern tjänst</h3>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
+    </section>
+
+    <section id="externalLogins" class="row">
+        @Html.Action("RemoveExternalLogins")
+
+        <h3>Lägg till extern tjänst</h3>
+        @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+    </section>
+
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        //Close alert after 5 seconds
+        $(function () {
+            if (!!$('.alert').length) {
+                window.setTimeout(function () {
+                    if (!!$('.alert').length) {
+                        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }
+                }, 5000);
+            }
+        });
+    </script>
 }
+
+

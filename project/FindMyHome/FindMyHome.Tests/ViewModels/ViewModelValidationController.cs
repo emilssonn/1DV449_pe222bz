@@ -15,6 +15,11 @@ namespace FindMyHome.Tests.ViewModels
 			ControllerContext = (new Mock<ControllerContext>()).Object;
         }
 
+		/// <summary>
+		/// Validates a model
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
         public bool TestTryValidateModel(object model)
         {
             return TryValidateModel(model);

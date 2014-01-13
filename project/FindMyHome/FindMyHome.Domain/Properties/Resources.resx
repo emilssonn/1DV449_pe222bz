@@ -123,6 +123,15 @@
   <data name="BooliApiErrorSwe" xml:space="preserve">
     <value>Det går i nuläget inte att hämta annonser från Booli.</value>
   </data>
+  <data name="ConfirmNewPasswordInputSwe" xml:space="preserve">
+    <value>Bekräfta nytt lösenord</value>
+  </data>
+  <data name="ConfirmPasswordInputSwe" xml:space="preserve">
+    <value>Bekräfta lösenord</value>
+  </data>
+  <data name="CurrentPasswordInputSwe" xml:space="preserve">
+    <value>Nuvarande lösenord</value>
+  </data>
   <data name="FoursquareApiErrorEng" xml:space="preserve">
     <value>The Foursquare API returned an error.</value>
   </data>
@@ -132,10 +141,40 @@
   <data name="GenericApiBadReqSwe" xml:space="preserve">
     <value>Något gick fel vid kommunikation med extern datakälla.</value>
   </data>
+  <data name="InputLengthErrorSwe" xml:space="preserve">
+    <value>Ditt {0} måste vara minst {2} tecken långt.</value>
+    <comment>{0}string, fieldname, {2}int, min length</comment>
+  </data>
   <data name="InvalidFoursquareCategoiresDescSwe" xml:space="preserve">
     <value>Ej giltiga platser angavs.</value>
   </data>
   <data name="InvalidFoursquareCategoiresHeadSwe" xml:space="preserve">
     <value>Plats sök</value>
+  </data>
+  <data name="NewPasswordInputSwe" xml:space="preserve">
+    <value>Nytt lösenord</value>
+  </data>
+  <data name="PasswordDontMatchSwe" xml:space="preserve">
+    <value>Det nya lösenordet och bekräftelsen matchar inte.</value>
+  </data>
+  <data name="PasswordInputSwe" xml:space="preserve">
+    <value>Lösenord</value>
+  </data>
+  <data name="PasswordsDontMatchSwe" xml:space="preserve">
+    <value>Lösenorden matchar inte.</value>
+  </data>
+  <data name="PasswordToShortSwe" xml:space="preserve">
+    <value>Det nya lösenordet måste vara minst {2} tecken långt.</value>
+    <comment>{2} int, min password length</comment>
+  </data>
+  <data name="RememberMeInputSwe" xml:space="preserve">
+    <value>Kom ihåg mig?</value>
+  </data>
+  <data name="RequiredInputSwe" xml:space="preserve">
+    <value>{0} måste anges.</value>
+    <comment>{0}string, fieldname</comment>
+  </data>
+  <data name="UsernameInputSwe" xml:space="preserve">
+    <value>Användarnamn</value>
   </data>
 </root>

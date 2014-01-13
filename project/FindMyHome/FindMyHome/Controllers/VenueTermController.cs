@@ -21,6 +21,12 @@ namespace FindMyHome.Controllers
 			this._service = service;
 		}
 
+		/// <summary>
+		/// GET api/veneuterm
+		/// Return all venue category names that contains the term
+		/// </summary>
+		/// <param name="term"></param>
+		/// <returns></returns>
 		public IEnumerable<string> Get([FromUri]VenueTermViewModel term)
 		{
 			try
@@ -29,8 +35,9 @@ namespace FindMyHome.Controllers
 			}
 			catch (Exception e)
 			{
-				var message = string.Format(Properties.Resources.InternalServerErrorSwe);
-				HttpError err = new HttpError(message);
+				//Something went wrong on the server
+				HttpError err = new HttpError();
+				err.Add("Error", Properties.Resources.InternalServerErrorSwe);
 				throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.InternalServerError, err));
 			}
 		}

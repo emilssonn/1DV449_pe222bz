@@ -8,6 +8,9 @@ namespace FindMyHome.ViewModels
 {
     public class SearchTermViewModel
     {
+		/// <summary>
+		/// Term used to look for matches that contains it
+		/// </summary>
 		[Required(
 			ErrorMessageResourceType = typeof(Properties.Resources),
 			ErrorMessageResourceName = "SearchTermRequiredSwe")]

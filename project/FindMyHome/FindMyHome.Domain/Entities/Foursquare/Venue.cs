@@ -11,7 +11,7 @@ namespace FindMyHome.Domain.Entities.Foursquare
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
-		public List<String> Categories { get; set; }
+		public List<string> Categories { get; set; }
 
 		public Venue(JToken token)
 		{

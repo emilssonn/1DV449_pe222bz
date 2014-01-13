@@ -20,9 +20,14 @@ namespace FindMyHome.Controllers
             this._service = service;
         }
 
+		/// <summary>
+		/// Default index view, will load the search application
+		/// </summary>
+		/// <returns></returns>
         public ActionResult Index()
         {
 			var viewModel = new IndexViewModel();
+			//If the user is logged in, get the last 10 searches
 			if (User.Identity.IsAuthenticated)
 			{
 				var userId = (int)Membership.GetUser().ProviderUserKey;
@@ -30,20 +35,6 @@ namespace FindMyHome.Controllers
 			}
 
             return View("Index", viewModel);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

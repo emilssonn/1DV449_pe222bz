@@ -1,8 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Login Failure";
+    ViewBag.Title = "Misslyckad inloggning";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Unsuccessful login with service.</h2>
-</hgroup>
+<div class="col-xs-12">
+    <h1>@ViewBag.Title</h1>
+    <h2>Misslyckad inloggning med extern tjänst.</h2>
+    <p>
+        Gå tillbaka till @Html.ActionLink("inloggings sidan", "Login", "Account").
+    </p>
+</div>
+
+
+
+

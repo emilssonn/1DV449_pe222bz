@@ -5,15 +5,15 @@
 
             <!-- Generic or invalid venues errors from server -->
             <div class="alert alert-danger" ng-show="serverError !== undefined">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="clearErrors()">&times;</button>
-              <strong>Fel</strong> {{ serverError }}
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="clearErrors()">&times;</button>
+                <strong>Fel</strong> {{ serverError }}
             </div>
 
             <div class="row">
                 <div class="form-group col-lg-4">
-                    <label for="SearchTerms">Plats</label>
+                    <label for="SearchTerms">Annonser från</label>
                     <input id="SearchTerms" type="text" name="SearchTerms" server-error autocomplete="off" ng-model="Search.searchTerms" required ng-minlength="2" ng-maxlength="100" maxlength="100"
-                        typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
+                        typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" placeholder="Gata, Ort, Kommun" />
                     <p class="help-block">Tex: Stockholm, nacka</p>
                     <div>
                         <div ng-show="searchForm.SearchTerms.$dirty && searchForm.SearchTerms.$invalid">
@@ -81,24 +81,31 @@
 </div>
 
 
-    <div class="row addMargin" ng-if="searchResult !== undefined">
-        <div class="col-lg-6 panel panel-default">
-            <h3>Annonser</h3>
+<div class="row addMargin" ng-if="searchResult !== undefined">
+    <div class="col-lg-6 panel panel-default">
+        <h3>Annonser <small>powered by <a href="http://www.booli.se/" target="_blank">Booli</a></small></h3>
 
-            <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
-                previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
+       
 
-            <div class="row" ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adList.html'"></div>
+        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
 
-            <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
-                previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
+        
+        <div class="row" ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adList.html'"></div>
 
+         <div class="row">
+            <a href="http://www.booli.se/" target="_blank"><img class="center-block" src="/Images/booli_logo.png" /></a>
         </div>
 
-        <div class="col-lg-6 panel panel-default" ng-if="searchResult.Venues.length > 0">
-            <h3>Platser</h3>
-            <div class="row" ng-include="'app/views/venueList.html'"></div>
-        </div>
+        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
+
     </div>
+
+    <div class="col-lg-6 panel panel-default" ng-if="searchResult.Venues.length > 0">
+        <h3>Platser</h3>
+        <div class="row" ng-include="'app/views/venueList.html'"></div>
+    </div>
+</div>
 
 

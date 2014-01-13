@@ -1,9 +1,16 @@
-﻿<a class="row" href="" ng-click="predicate = 'ListPrice'; reverse=!reverse">Pris</a>
+﻿<div class="col-lg-12">
 
+    <ul class="pagination row">
+
+        <li ng-click="predicate = 'ListPrice'; reverse=!reverse"><span><strong>Sortera:</strong></span></li>
+
+        <li ng-click="predicate = 'ListPrice'; reverse=!reverse"><span>Pris</span></li>
+    </ul>
+</div>
 <div class="col-sm-12 col-lg-12" ng-repeat="ad in searchResult.AdsContainer.Ads | orderBy:predicate:reverse">
     <div class="panel panel-default">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <img src="http://api.bcdn.se/cache/primary_{{ad.BooliId}}_140x94.jpg" />
                 <div ng-if="ad.Published !== null">Publicerad:{{ad.Published | date:'yyyy-MM-dd'}}</div>
             </div>
@@ -13,10 +20,10 @@
                 <span ng-if="ad.ListPrice !== null">Pris: {{ad.ListPrice}} kr</span>
                 <span ng-if="ad.Rent !== null">Hyra: {{ad.Rent}} kr</span>
                 <div>{{ad.ObjectType}}</div>
-                
+
                 <span ng-if="ad.LivingArea !== null">Yta: {{ad.LivingArea}} m<sup>2</sup></span>
                 <span ng-if="ad.Rooms !== null">Rum: {{ad.Rooms}}</span>
-                <a role="button" class="btn btn-info btn-xs" ng-href="{{ad.BooliUrl}}" target="_blank">
+                <a role="button" class="btn btn-info btn-xs pull-right" ng-href="{{ad.BooliUrl}}" target="_blank">
                     <span class="glyphicon glyphicon-new-window"></span> Mer Info
                 </a>
             </div>

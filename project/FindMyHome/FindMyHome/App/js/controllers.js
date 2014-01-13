@@ -49,6 +49,7 @@ angular.module('FindMyHome.controllers', [])
 
                 searchParams.Offset = 30 * (searchParams.page || 1) - 30;
                 searchParams.Limit = 30;
+                $scope.currentPage = searchParams.page || 1;
                 delete searchParams.page;
 
                 SearchFactory.get(searchParams, function (data) {
@@ -56,8 +57,6 @@ angular.module('FindMyHome.controllers', [])
                     $scope.itemsPerPage = adsPerPage;
                     $scope.totalItems = data.AdsContainer.TotalCount;
                     $scope.maxSize = 5;
-                    $scope.currentPage = searchParams.page || 1;
-
                 }, function (response) {
                     if (response.data.Error) {
                         $scope.serverError = response.data.Error;

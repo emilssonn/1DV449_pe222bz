@@ -2,8 +2,8 @@
 
 @if (Model.Count == 0)
 {
-    <div class="message-info">
-        Ej tillgängliga.
+    <div class="row">
+        <p>Ej tillgängliga</p>
     </div>
 }
 else
@@ -11,12 +11,12 @@ else
     using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
     {
     @Html.AntiForgeryToken()
-    <fieldset id="socialLoginList">
+    <fieldset>
         <legend>Välj tjänst</legend>
         <p>
         @foreach (AuthenticationClientData p in Model)
         { 
-            <button type="submit" name="provider" value="@p.AuthenticationClient.ProviderName" title="Logga in genom ditt @p.DisplayName konto">
+            <button type="submit" class="extLoginBtn" name="provider" value="@p.AuthenticationClient.ProviderName" title="Logga in med ditt @p.DisplayName konto">
                 <img src="@p.ExtraData["Icon"]" alt="Icon for @p.DisplayName" />
             </button>
         }

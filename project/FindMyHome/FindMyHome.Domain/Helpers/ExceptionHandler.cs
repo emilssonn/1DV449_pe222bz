@@ -10,6 +10,11 @@ namespace FindMyHome.Domain.Helpers
 {
 	internal static class ExceptionHandler
 	{
+		/// <summary>
+		/// Handles a webexception and throws a new exception with some added info
+		/// </summary>
+		/// <param name="e"></param>
+		/// <param name="message"></param>
 		public static void WebException(WebException e, string message)
 		{
 			if (e.Status == WebExceptionStatus.ProtocolError &&

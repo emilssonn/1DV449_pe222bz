@@ -17,6 +17,7 @@ namespace FindMyHome.Tests.Controllers
 		[TestMethod]
 		public void Test_Venue_Terms_Return_Are_2()
 		{
+			//Arrange
 			var term = "food";
 			var mockService = new Mock<IFindMyHomeService>();
 			mockService.Setup(s => s.GetVenueSearchTerms(term)).
@@ -31,8 +32,10 @@ namespace FindMyHome.Tests.Controllers
 
 			var controller = new VenueTermController(mockService.Object);
 
+			//Act
 			var result = controller.Get(viewModel) as List<string>;
 
+			//Assert
 			Assert.IsTrue(result.Count() == 2);
 		}
 	}

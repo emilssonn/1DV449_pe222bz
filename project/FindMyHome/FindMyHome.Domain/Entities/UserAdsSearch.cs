@@ -11,9 +11,15 @@ namespace FindMyHome.Domain.Entities
 {
     public class UserAdsSearch
     {
+		/// <summary>
+		/// Composite key
+		/// </summary>
         [Key,  Column(Order = 0)]
         public int UserId { get; set; }
 
+		/// <summary>
+		/// Composite key
+		/// </summary>
         [Key, Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime SearchTime { get; set; }

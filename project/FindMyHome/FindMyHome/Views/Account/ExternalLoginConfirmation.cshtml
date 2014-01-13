@@ -1,36 +1,39 @@
 ﻿@model FindMyHome.Domain.RegisterExternalLoginModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Registrera";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Associate your @ViewBag.ProviderDisplayName account.</h2>
-</hgroup>
+<div class="col-xs-12">
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    <h1>@ViewBag.Title</h1>
 
-    <fieldset>
-        <legend>Association Form</legend>
-        <p>
-            You've successfully authenticated with <strong>@ViewBag.ProviderDisplayName</strong>.
-            Please enter a user name for this site below and click the Confirm button to finish
-            logging in.
-        </p>
-        <ol>
-            <li class="name">
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-        </ol>
-        @Html.HiddenFor(m => m.ExternalLoginData)
-        <input type="submit" value="Register" />
-    </fieldset>
-}
+    @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        <fieldset>
+            <legend>Välj användarnamn</legend>
+            <p>
+                Din autentisering med <strong>@ViewBag.ProviderDisplayName</strong> lyckades.
+                    Vänligen ange ett användarnamn som komemr användas på denna sida och klicka på "Registrera" knappen nedan för att fullfölja registreringen.
+            </p>
+            <div class="row">
+                <div class="form-group col-sm-4 col-xs-12">
+                    @Html.LabelFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+            </div>
+
+            @Html.HiddenFor(m => m.ExternalLoginData)
+            <button type="submit" class="btn btn-success">Registrera</button>
+        </fieldset>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</div>
+

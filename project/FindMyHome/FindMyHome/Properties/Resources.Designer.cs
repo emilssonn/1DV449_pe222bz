@@ -61,6 +61,42 @@ namespace FindMyHome.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        /// </summary>
+        public static string AuthProviderErrorEng {
+            get {
+                return ResourceManager.GetString("AuthProviderErrorEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Autentiseringenstjänsten returnerade ett fel. Var vänligen och kontrollera fälten och försök igen. Om felet kvarstår, vänligen kontakta systemadministratören..
+        /// </summary>
+        public static string AuthProviderErrorSwe {
+            get {
+                return ResourceManager.GetString("AuthProviderErrorSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Den externa tjänsten har tagits bort..
+        /// </summary>
+        public static string ExternalProviderRemovedSuccessSwe {
+            get {
+                return ResourceManager.GetString("ExternalProviderRemovedSuccessSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det angivna användarnamnet och/eller lösenordet är fel..
+        /// </summary>
+        public static string IncorrectUserNameOrPasswordSwe {
+            get {
+                return ResourceManager.GetString("IncorrectUserNameOrPasswordSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An internal server error occured..
         /// </summary>
         public static string InternalServerErrorEng {
@@ -115,7 +151,7 @@ namespace FindMyHome.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Objekttyperna måste innehålla godkända värden..
+        ///   Looks up a localized string similar to Objekttyperna måste innehålla giltiga värden..
         /// </summary>
         public static string ObjectTypesValueSwe {
             get {
@@ -129,6 +165,51 @@ namespace FindMyHome.Properties {
         public static string OffsetLengthSwe {
             get {
                 return ResourceManager.GetString("OffsetLengthSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ditt lösenord har ändrats..
+        /// </summary>
+        public static string PasswordChangeSuccessSwe {
+            get {
+                return ResourceManager.GetString("PasswordChangeSuccessSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det nuvarande lösenordet är fel eller är det nya lösenordet inte giltigt..
+        /// </summary>
+        public static string PasswordFailureSwe {
+            get {
+                return ResourceManager.GetString("PasswordFailureSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password provided is invalid. Please enter a valid password value..
+        /// </summary>
+        public static string PasswordInvalidEng {
+            get {
+                return ResourceManager.GetString("PasswordInvalidEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det angivna lösenordet är inte giltig. Vänligen ange ett giltigt lösenord..
+        /// </summary>
+        public static string PasswordInvalidSwe {
+            get {
+                return ResourceManager.GetString("PasswordInvalidSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ditt lösenord är sparat..
+        /// </summary>
+        public static string PasswordSetSuccessSwe {
+            get {
+                return ResourceManager.GetString("PasswordSetSuccessSwe", resourceCulture);
             }
         }
         
@@ -165,6 +246,87 @@ namespace FindMyHome.Properties {
         public static string SearchTermRequiredSwe {
             get {
                 return ResourceManager.GetString("SearchTermRequiredSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        /// </summary>
+        public static string UnknownErrorEng {
+            get {
+                return ResourceManager.GetString("UnknownErrorEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to En oväntat fel uppstod. Var vänligen och kontrollera fälten och försök igen. Om felet kvarstår, vänligen kontakta systemadministratören..
+        /// </summary>
+        public static string UnknownErrorSwe {
+            get {
+                return ResourceManager.GetString("UnknownErrorSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator..
+        /// </summary>
+        public static string UserCreateReqErrorEng {
+            get {
+                return ResourceManager.GetString("UserCreateReqErrorEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skapandet av användare har avbrutits. Var vänligen och kontrollera fälten och försök igen. Om felet kvarstår, vänligen kontakta systemadministratören..
+        /// </summary>
+        public static string UserCreateReqErrorSwe {
+            get {
+                return ResourceManager.GetString("UserCreateReqErrorSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name already exists. Please enter a different user name..
+        /// </summary>
+        public static string UsernameAlreadyExistsEng {
+            get {
+                return ResourceManager.GetString("UsernameAlreadyExistsEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ett användarnamn med det namnet finns redan. Vänligen ange ett nytt användarnamn..
+        /// </summary>
+        public static string UsernameAlreadyExistsSwe {
+            get {
+                return ResourceManager.GetString("UsernameAlreadyExistsSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user name provided is invalid. Please check the value and try again..
+        /// </summary>
+        public static string UsernameInvalidEng {
+            get {
+                return ResourceManager.GetString("UsernameInvalidEng", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Det angivna användarnamnet är inte giltigt. Kontrollera värdet och försök igen..
+        /// </summary>
+        public static string UsernameInvalidSwe {
+            get {
+                return ResourceManager.GetString("UsernameInvalidSwe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Går inte att skapa ett lokalt konto. Ett konto med namnet \&quot;{0}\&quot; kanske redan finns..
+        /// </summary>
+        public static string UsernameMayAlreadyExistsSwe {
+            get {
+                return ResourceManager.GetString("UsernameMayAlreadyExistsSwe", resourceCulture);
             }
         }
         

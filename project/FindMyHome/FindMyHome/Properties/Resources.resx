@@ -136,7 +136,7 @@
     <value>Objekttyperna måste vara mellan 2 och 70.</value>
   </data>
   <data name="ObjectTypesValueSwe" xml:space="preserve">
-    <value>Objekttyperna måste innehålla godkända värden.</value>
+    <value>Objekttyperna måste innehålla giltiga värden.</value>
   </data>
   <data name="OffsetLengthSwe" xml:space="preserve">
     <value>Offset måste vara mellan 0 och 2147483647.</value>
@@ -161,5 +161,77 @@
   </data>
   <data name="VenueTermRequiredSwe" xml:space="preserve">
     <value>En sökterm måste anges.</value>
+  </data>
+  <data name="AuthProviderErrorEng" xml:space="preserve">
+    <value>The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="AuthProviderErrorSwe" xml:space="preserve">
+    <value>Autentiseringenstjänsten returnerade ett fel. Var vänligen och kontrollera fälten och försök igen. Om felet kvarstår, vänligen kontakta systemadministratören.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="ExternalProviderRemovedSuccessSwe" xml:space="preserve">
+    <value>Den externa tjänsten har tagits bort.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="IncorrectUserNameOrPasswordSwe" xml:space="preserve">
+    <value>Det angivna användarnamnet och/eller lösenordet är fel.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="PasswordChangeSuccessSwe" xml:space="preserve">
+    <value>Ditt lösenord har ändrats.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="PasswordFailureSwe" xml:space="preserve">
+    <value>Det nuvarande lösenordet är fel eller är det nya lösenordet inte giltigt.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="PasswordInvalidEng" xml:space="preserve">
+    <value>The password provided is invalid. Please enter a valid password value.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="PasswordInvalidSwe" xml:space="preserve">
+    <value>Det angivna lösenordet är inte giltig. Vänligen ange ett giltigt lösenord.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="PasswordSetSuccessSwe" xml:space="preserve">
+    <value>Ditt lösenord är sparat.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UnknownErrorEng" xml:space="preserve">
+    <value>An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UnknownErrorSwe" xml:space="preserve">
+    <value>En oväntat fel uppstod. Var vänligen och kontrollera fälten och försök igen. Om felet kvarstår, vänligen kontakta systemadministratören.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UserCreateReqErrorEng" xml:space="preserve">
+    <value>The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UserCreateReqErrorSwe" xml:space="preserve">
+    <value>Skapandet av användare har avbrutits. Var vänligen och kontrollera fälten och försök igen. Om felet kvarstår, vänligen kontakta systemadministratören.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UsernameAlreadyExistsEng" xml:space="preserve">
+    <value>User name already exists. Please enter a different user name.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UsernameAlreadyExistsSwe" xml:space="preserve">
+    <value>Ett användarnamn med det namnet finns redan. Vänligen ange ett nytt användarnamn.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UsernameInvalidEng" xml:space="preserve">
+    <value>The user name provided is invalid. Please check the value and try again.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UsernameInvalidSwe" xml:space="preserve">
+    <value>Det angivna användarnamnet är inte giltigt. Kontrollera värdet och försök igen.</value>
+    <comment>SimpleMembership</comment>
+  </data>
+  <data name="UsernameMayAlreadyExistsSwe" xml:space="preserve">
+    <value>Går inte att skapa ett lokalt konto. Ett konto med namnet \"{0}\" kanske redan finns.</value>
+    <comment>SimpleMembership</comment>
   </data>
 </root>

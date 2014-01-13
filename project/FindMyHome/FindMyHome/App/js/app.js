@@ -11,7 +11,9 @@ angular.module('FindMyHome', [
 ]).
 config(['$routeProvider', "$httpProvider", '$locationProvider', '$provide', function ($routeProvider, $httpProvider, $locationProvider, $provide) {
     'use strict';
+    //Bad, should only use dom functions in a directive
     $httpProvider.defaults.headers.common['RequestVerificationToken'] = $("#antiForgeryToken").val();
+    $("#antiForgeryToken").remove();
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
     ////Used when live on Lnu server, root is not root, hack, not good
