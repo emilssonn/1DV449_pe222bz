@@ -50,7 +50,7 @@
                         <span ng-show="Search.maxRent == 0 || Search.maxRent == undefined">-</span>
 
                         <span ng-show="searchForm.MaxRent.$error.server && searchForm.MaxRent.$invalid">{{ errors.MaxRent }}</span>
-                        <div ui-slider="" class="ui-slider-default" step="500" max="20000" min="0">
+                        <div ui-slider="" class="ui-slider-default" step="500" max="40000" min="0">
                             <div class="ui-slider-container">
                                 <div class="ui-slider-runnable-track">
                                     <div class="ui-slider-range"></div>
@@ -68,38 +68,40 @@
                     <label class="checkbox-inline" ng-repeat="obj in objectTypes">
                         <input type='checkbox' value="{{obj}}" check-list="Search.checkedObjectTypes" />
                         {{obj}} 
-                    </label>
+                    </label> 
                 </div>
             </div>
 
             <div class="row" ng-include="'app/views/venueSearch.html'"></div>
-
 
             <button type="button" class="btn btn-primary" ng-click="doSearch(Search)" ng-disabled="searchForm.$invalid || isUnchanged(Search)">Sök</button>
         </fieldset>
     </form>
 </div>
 
-
 <div class="row addMargin" ng-if="searchResult !== undefined">
     <div class="col-lg-6 panel panel-default">
         <h3>Annonser <small>powered by <a href="http://www.booli.se/" target="_blank">Booli</a></small></h3>
 
-       
+        <div ng-if="searchResult.AdsContainer.Ads.length > 0">
+            <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+                previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
 
-        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
-            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
 
-        
-        <div class="row" ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adList.html'"></div>
+            <div class="row" ng-if="searchResult.AdsContainer.Ads.length > 0" ng-include="'app/views/adList.html'"></div>
 
-         <div class="row">
-            <a href="http://www.booli.se/" target="_blank"><img class="center-block" src="/Images/booli_logo.png" /></a>
+            <div class="row">
+                <a href="http://www.booli.se/" target="_blank">
+                    <img class="center-block" src="Images/booli_logo.png" /></a>
+            </div>
+
+            <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
+                previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
         </div>
 
-        <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-sm" boundary-links="true"
-            previous-text="Föregående" next-text="Nästa" first-text="Första" last-text="Sista"></pagination>
-
+        <div ng-if="searchResult.AdsContainer.Ads.length == 0">
+            <p>Det gick inte att hitta några adresser för den angivna sökningen.</p>
+        </div>
     </div>
 
     <div class="col-lg-6 panel panel-default" ng-if="searchResult.Venues.length > 0">

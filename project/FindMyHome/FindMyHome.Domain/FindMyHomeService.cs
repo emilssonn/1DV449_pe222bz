@@ -131,7 +131,12 @@ namespace FindMyHome.Domain
                     var booliWebservice = new BooliWebservice();
                     var newAdsContainer = booliWebservice.Search(searchTerms, objectTypes, maxRent, maxPrice, offset, limit);
 
-					//Update the database
+					//Delete old adds
+					for (int i = adsContainer.Ads.Count - 1; i >= 0 ; i--)
+					{
+						this._unitOfWork.AdRepository.Delete(adsContainer.Ads[i]);
+					}
+	
 					adsContainer.Ads = newAdsContainer.Ads;
 					adsContainer.CurrentCount = newAdsContainer.CurrentCount;
 					adsContainer.TotalCount = newAdsContainer.TotalCount;
@@ -250,6 +255,7 @@ namespace FindMyHome.Domain
 
 		/// <summary>
 		/// Currently deletes all categories in database and inserts the new ones from the foursquare webservice
+		/// This method will take time, deleting around 500 entries seperatly and inserting around 500 new ones.
 		/// </summary>
 		/// <returns></returns>
         public override IEnumerable<Category> RefreshCategories()
@@ -258,49 +264,38 @@ namespace FindMyHome.Domain
 
             var newCategories = foursquareWebservice.GetCategories();
 
-			var oldCategories = this._unitOfWork.CategoryRepository.Get(c => c.ParentId == null);
+			var oldCategories = this._unitOfWork.CategoryRepository.Get(c => c.ParentId == null).ToList();
 
-			foreach (var oldCat in oldCategories)
-			{
-				this._unitOfWork.CategoryRepository.Delete(oldCat);
-			}
-
+			//Delete old categories
+			this.DeleteCategories(oldCategories);
+			
 			newCategories.ForEach(
                 c => this._unitOfWork.CategoryRepository.Insert(c));
 
 			this._unitOfWork.Save();
-			
 
-			//foreach (var item in newCategories)
-			//{
-               
-			//}
-			//var cToInsert = new List<Category>();
-			//var cToUpdate = new List<Category>();
-			//var cToDelete = new List<Category>();
-			
-            
-            //newCategories.ForEach(
-                //c => this._unitOfWork.CategoryRepository.Insert(c));
-
-            //this._unitOfWork.Save();
-
-			//this.SetParentCategory(newCategories);
-			//var oldCategories = this._unitOfWork.CategoryRepository.Get(c => c.ParentId == null);
-			//var test = newCategories.Except(oldCategories).ToList();
-
-			//var lol1 = this.GetBigList(oldCategories);
-			//var lol2 = this.GetBigList(newCategories);
-
-			//var test2 = lol2.Except(lol1).ToList();
-
-            return oldCategories;
+			return new List<Category>();
         }
 
-		//Get all categories as a long list to compare each one by it self
-		//Not working
+		/// <summary>
+		/// Recursivly delete all categories
+		/// Self refrencing table, must delete childs first
+		/// Bad performance? Better to move this logic to database?
+		/// </summary>
+		/// <param name="categories"></param>
+		private void DeleteCategories(List<Category> categories)
+		{
+			for (int i = categories.Count - 1; i >= 0; i--)
+			{
+				if (categories[i].SubCategories != null && categories[i].SubCategories.Count > 0)
+					this.DeleteCategories(categories[i].SubCategories);
+				this._unitOfWork.CategoryRepository.Delete(categories[i]);
+			}
+		}
 
-        private List<Category> CompareCategories(Category nC, List<Category> oldCs)
+		#region Work in progress/didnt have time
+
+		private List<Category> CompareCategories(Category nC, List<Category> oldCs)
         {
 			var categories = new List<Category>();
 			var check = false;
@@ -314,6 +309,9 @@ namespace FindMyHome.Domain
 				categories.Add(nC);
 			return categories;
         }
+
+		//Get all categories as a long list to compare each one by it self
+		//Not working
 
 		private IEnumerable<Category> GetBigList(IEnumerable<Category> categories)
 		{
@@ -336,6 +334,8 @@ namespace FindMyHome.Domain
 				this.SetParentCategory(c.SubCategories, c);
 			}
 		}
+
+		#endregion
 
 		#endregion
 

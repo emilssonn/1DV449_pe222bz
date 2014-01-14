@@ -1,11 +1,9 @@
 ﻿<div class="row col-xs-12" ng-controller="LastSearchesCtrl">
     <div>
         <h4 ng-if="searches.length > 0">Sökningar</h4>
-        <ul class="list-unstyled">
+        <ul>
             <li ng-repeat="search in searches">
-
                 <a ng-href="#{{search}}">{{search}}</a>
-                
             </li>
         </ul>
     </div>

@@ -30,6 +30,8 @@ namespace FindMyHome.Domain.Webservices
 		/// <summary>
 		/// Searches for venues located near the search term
 		/// Searches for venues connected to one or more of the supplied category ids.
+		/// Geocode will fail for streets and some other types
+		/// Info: Hade inte tid att fixa detta på ett bra sätt. "Hade inte tid" är ett genomgående problem i projektet
 		/// </summary>
 		/// <param name="searchTerms">Location</param>
 		/// <param name="categories">Valid category Ids</param>

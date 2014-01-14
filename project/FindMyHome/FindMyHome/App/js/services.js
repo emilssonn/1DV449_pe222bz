@@ -2,18 +2,14 @@
 /* Services */
 
 angular.module('FindMyHome.services', ['ngResource']).
+    //Do a full search, look for cached search
     factory('SearchFactory', ['$resource', 'SearchFactoryCache', function ($resource, SearchFactoryCache) {
         'use strict';
         return $resource("/api/search/?searchTerms=:searchTerms", {}, {
             get: { method: 'GET', params: { searchTerms: '@searchTerms' }, cache: SearchFactoryCache }
         });
     }]).
-    factory("VenueSearchFactory", ['$resource', function ($resource) {
-        'use strict';
-        return $resource("/api/tagSearch/?categories=:searchTerms", {}, {
-            get: { method: 'GET', params: { searchTerms: '@searchTerms' } }
-        });
-    }]).
+    //Search term autocomplete, not cached
     factory("SeachTermAutoCompleteFactory", ['$resource', '$http', function ($resource, $http) {
         'use strict';
         return {
@@ -30,6 +26,7 @@ angular.module('FindMyHome.services', ['ngResource']).
             }
         };
     }]).
+    //Venue search autocomplete
     factory("VenueAutoCompleteFactory", ['$resource', '$http', function ($resource, $http) {
         'use strict';
         return {
@@ -46,26 +43,37 @@ angular.module('FindMyHome.services', ['ngResource']).
             }
         };
     }]).
+    //Cache for preloaded objecttypes, cached in memory
     factory("ObjectTypesCache", ['$cacheFactory', function ($cacheFactory) {
         'use strict';
         return $cacheFactory("ObjectTypesCache");
     }]).
+    //Get the preloaded object types, will not cause a HTTP call
     factory("ObjectTypesFactory", ['$resource', 'ObjectTypesCache', function ($resource, ObjectTypesCache) {
         'use strict';
         return $resource("/cache/api/adObjectTypes", {}, {
             get: { method: 'GET', cache: ObjectTypesCache }
         });
     }]).
+    //Cache for preloaded last searches, cached in memory
     factory("LastSearchesCache", ['$cacheFactory', function ($cacheFactory) {
         'use strict';
         return $cacheFactory("LastSearchesCache");
     }]).
+    //Get the preloaded last searches, will not cause a HTTP call
     factory("LastSearchesFactory", ['$resource', 'LastSearchesCache', function ($resource, LastSearchesCache) {
         'use strict';
         return $resource("/cache/api/lastSearches", {}, {
             get: { method: 'GET', cache: LastSearchesCache }
         });
     }]).
+    //Cache for searches
+    //This cache uses localstorage to store the data returned from the server
+    //Data is stored with the url as key
+    //All searches made will first look here and see if the search is already cached
+    //Will only save successfull calls
+    //Each time a search is found in cache it will be checked so that its valid.
+    //Valid = the NextUpdate time has not passed
     factory("SearchFactoryCache", ['$cacheFactory', '$window', function ($cacheFactory, $window) {
         'use strict';
         var cacheFactory = $cacheFactory("SearchFactoryCache");
@@ -75,7 +83,7 @@ angular.module('FindMyHome.services', ['ngResource']).
 
         cacheFactory.put = function (key, value) {
             //Only store successfull calls
-            if (value && value[0] == 200) {
+            if (value && value[0] === 200) {
                 if (value !== null && typeof value === "object") {
                     value = JSON.stringify(value);
                 }
@@ -123,10 +131,13 @@ angular.module('FindMyHome.services', ['ngResource']).
             } catch (e) {
                 return false;
             }
-        };
+        }
 
         return cacheFactory;
     }]).
+    //Store the last searches made by a logged in user.
+    //No duplicates are allowed
+    //Makes the last searches available to all parts of the application to watch for changes
     factory('SearchesFactory', function () {
         'use strict';
 
@@ -136,9 +147,11 @@ angular.module('FindMyHome.services', ['ngResource']).
             var index = searches.indexOf(decodeURI(value));
             if (index > -1) {
                 searches.splice(index, 1);
+            } else if (searches.length == 10) {
+                searches.shift();
             }
             searches.push(decodeURI(value));
-        }
+        };
 
         return {
             searches: searches,

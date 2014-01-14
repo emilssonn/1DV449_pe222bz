@@ -12,7 +12,7 @@ using System.Web.Http;
 namespace FindMyHome.Controllers
 {
 	[Authorize(Roles = "Administrators")]
-	[ValidateHttpAntiForgeryTokenAttribute]
+	//[ValidateHttpAntiForgeryTokenAttribute]
     public class CategoriesController : ApiController
     {
         private IFindMyHomeService _service;

@@ -6,6 +6,9 @@
             typeahead-editable="false" typeahead-wait-ms="300" typeahead-min-length="2" typeahead="s for s in getList($viewValue) | filter:$viewValue" class="form-control" />
         <p class="help-block">Tex: Airport, Food, Art Museum</p>
         <div>
+            <div ng-show="searchForm.SearchVenues.$dirty && searchForm.SearchVenues.$invalid">
+                <span ng-show="searchForm.SearchVenues.$error.editable">Endast platser från listan får väljas.</span>
+            </div>
             <span ng-show="searchForm.SearchVenues.$error.server">{{ errors.SearchVenues }}</span>
         </div>
     </div>
@@ -19,7 +22,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 

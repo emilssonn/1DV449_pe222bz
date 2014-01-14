@@ -151,7 +151,7 @@ namespace FindMyHome.Domain.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plats sök.
+        ///   Looks up a localized string similar to Ej giltiga platser angavs..
         /// </summary>
         public static string InvalidFoursquareCategoiresHeadSwe {
             get {

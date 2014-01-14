@@ -4,6 +4,7 @@
 angular.module('FindMyHome.directives', []).
     directive('serverError', function () {
         'use strict';
+        //Remove the server error when the field is changed
         return {
             restrict: 'A',
             require: '?ngModel',
@@ -11,12 +12,6 @@ angular.module('FindMyHome.directives', []).
                 scope.$watch(attrs.ngModel, function (value) {
                     ctrl.$setValidity('server', true);
                 });
-                /*
-                return element.on('change keyup paste', function () {
-                    return scope.$apply(function () {
-                        return ctrl.$setValidity('server', true);
-                    });
-                });*/
             }
         };
     }).
@@ -49,6 +44,7 @@ angular.module('FindMyHome.directives', []).
     directive("preloadObjectTypes", ["ObjectTypesCache",
         function (objectTypesCache) {
             'use strict';
+            //Preload the object types
             return {
                 link: function (scope, element, attrs) {
                     objectTypesCache.put(attrs.preloadObjectTypes, element.html());
@@ -60,6 +56,7 @@ angular.module('FindMyHome.directives', []).
     directive("preloadLastSearches", ["LastSearchesCache",
         function (LastSearchesCache) {
             'use strict';
+            //Preload the last searches made by a user
             return {
                 link: function (scope, element, attrs) {
                     LastSearchesCache.put(attrs.preloadLastSearches, element.html());
@@ -70,6 +67,8 @@ angular.module('FindMyHome.directives', []).
     ]).
     directive('checkList', function () {
         'use strict';
+        //Onload, check the object types found in url
+        //When a checkbox changes, add/remove from list
         return {
             scope: {
                 list: '=checkList',
@@ -93,18 +92,22 @@ angular.module('FindMyHome.directives', []).
                     }
                 };
 
-                var setupHandler = handler.bind(null, true);
-                var changeHandler = handler.bind(null, false);
-
+                //Listen for changes
                 elem.on('change', function () {
-                    scope.$apply(changeHandler);
+                    scope.$apply(handler(false));
                 });
-                scope.$watch('list', setupHandler, true);
+                scope.$watch(
+                    'list',
+                    function () {
+                        handler(true);
+                    },
+                    true);
             }
         };
     }).
     directive('venueCategoriesTags', function () {
         'use strict';
+        //Add a venue category on keypress enter
         return {
             restrict: 'A',
             scope: {
