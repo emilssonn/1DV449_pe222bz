@@ -20,10 +20,10 @@ config(['$routeProvider', "$httpProvider", '$locationProvider', '$provide', func
     //$provide.factory('HttpInterceptorLnu', ['$q', function ($q) {
     //    return {
     //        request: function (config) {
-    //            if (config.url.contains('api') && !config.url.contains('cache')) {
+    //            if (config.url.indexOf('api') !== -1 && config.url.indexOf('cache') === -1) {
     //                config.url = "/1dv409/pe222bz" + config.url;
     //            }
-    //            if (config.url.contains('app')) {
+    //            if (config.url.indexOf('app') !== -1) {
     //                config.url = "/1dv409/pe222bz/" + config.url;
     //            }
     //            return config || $q.when(config);
