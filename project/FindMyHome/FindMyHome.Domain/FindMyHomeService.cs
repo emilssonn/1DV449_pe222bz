@@ -266,6 +266,7 @@ namespace FindMyHome.Domain
 
 			var oldCategories = this._unitOfWork.CategoryRepository.Get(c => c.ParentId == null).ToList();
 
+
 			//Delete old categories
 			this.DeleteCategories(oldCategories);
 			
@@ -319,7 +320,6 @@ namespace FindMyHome.Domain
 			foreach (var c in categories)
 			{
 				cs.AddRange(this.GetBigList(c.SubCategories));
-				c.SubCategories.Clear();
 			}
 			cs.AddRange(categories);
 			return cs;
