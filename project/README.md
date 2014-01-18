@@ -3,7 +3,9 @@
 
 * Presentation url: http://peteremilsson.se/course/1dv449/project/presentation.mp4
 
-* För att ta bort en extern inloggning genom facebook måste kontont ha ett lokalt lösenord OCH man måste vara inloggad genom facebook.
+* Url till applikation: http://172.16.214.1/1dv409/pe222bz
+
+* För att ta bort en extern inloggning genom facebook måste kontot ha ett lokalt lösenord OCH man måste vara inloggad genom facebook.
 
 #### Admin konto
 
